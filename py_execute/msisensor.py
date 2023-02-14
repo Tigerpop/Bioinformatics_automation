@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
 extract_mode = config['extract_mode']['choose']
@@ -17,15 +15,14 @@ elif extract_mode == 'fastp_mode':
     dedup_or_markdup = 'markdup'
 
 
-os.chdir(generate_location+"/"+parent_name+"/"+sample)
+os.chdir(generate_location+"/"+sample_path)
 if not os.path.exists("msisensor_generate"):
     os.mkdir("msisensor_generate")
-# os.chdir(generate_location+"/"+parent_name+"/"+sample+"/"+"msisensor_generate")
 
 msisensor_tool = config['msisensor']['tools']
 msisensor_pool = config['msisensor']['msisensor_pool']
-input_bam = generate_location+"/"+parent_name+"/"+sample +"/"+sample+f".{dedup_or_markdup}.bam"
-out_msi = generate_location+"/"+parent_name+"/"+sample+"/"+"msisensor_generate"+"/"+sample+"msi"
+input_bam = generate_location+"/"+sample_path +"/"+sample+f".{dedup_or_markdup}.bam"
+out_msi = generate_location+"/"+sample_path+"/"+"msisensor_generate"+"/"+sample+"msi"
 
 cmd1 = f"samtools index -@ 8 {sample}.{dedup_or_markdup}.bam {sample}.{dedup_or_markdup}.bam.bai"
 cmd2 = f"{msisensor_tool} \

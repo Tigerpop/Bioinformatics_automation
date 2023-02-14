@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
+import quality_control as qc
 config = configparser.ConfigParser()
 config.read('config.ini')
 generate_location = config['generate']['location']    # /working_tmp  
@@ -41,3 +42,14 @@ p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit(4)
+
+# 质量控制。
+mapped = qc.process_bam(sample_path) 
+if float(mapped.split("%")[0]) < 2000:                                                          
+    with open('./quality_control/Quality_Control.txt','a+')as f0:                      # 不符合条件，就停止后续流程。
+        f0.write('dedup_markdup 的bam 结果质控不合格！！'+"\n")
+        f0.write('mapped: '+str(mapped)+'\n')
+    exit(4)
+with open('./quality_control/Quality_Control.txt','a+')as f0:
+    f0.write('dedup_markdup 的bam 结果质控合格！！'+"\n")
+    f0.write('mapped: '+str(mapped)+'\n')

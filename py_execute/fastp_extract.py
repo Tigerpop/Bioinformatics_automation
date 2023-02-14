@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
+import quality_control as qc
 config = configparser.ConfigParser()
 config.read('config.ini')
 generate_location = config['generate']['location']    # /working_tmp  
@@ -37,5 +38,20 @@ cmd = f'fastp -i {fa_gz_1} \
       -l 30  > fastp.log 2>&1' 
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
+
+base_quality,inser_size_peak,duplication_rate = qc.process_fastp_log(sample_path)     # 质量控制。
+if int(inser_size_peak) < 2:                                                          
+    with open('./quality_control/Quality_Control.txt','w')as f0:                      # 不符合条件，就停止后续流程。
+        f0.write('fastp 结果质控不合格！！'+"\n")
+        f0.write('base_quality: '+str(base_quality)+'\n')
+        f0.write('inser_size_peak: '+str(inser_size_peak)+'\n')
+        f0.write('duplication_rate: '+str(duplication_rate)+'\n')
+    exit(4)
+with open('./quality_control/Quality_Control.txt','w')as f0:
+    f0.write('fastp 结果质控合格！！'+"\n")
+    f0.write('base_quality: '+str(base_quality)+'\n')
+    f0.write('inser_size_peak: '+str(inser_size_peak)+'\n')
+    f0.write('duplication_rate: '+str(duplication_rate)+'\n')
+    
 if p.returncode != 0:
-    exit('fastp is false !!!')
+    exit(3)

@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
 
-os.chdir(generate_location+"/"+parent_name+"/"+sample)
+os.chdir(generate_location+"/"+sample_path)
 if not os.path.exists("optitype_generate"):
     os.mkdir("optitype_generate")
-os.chdir(generate_location+"/"+parent_name+"/"+sample+"/"+"optitype_generate")
+os.chdir(generate_location+"/"+sample_path+"/"+"optitype_generate")
 
 
 extract_mode = config['extract_mode']['choose']
@@ -28,10 +26,10 @@ razers3_pool = config['razers3']['razers3_pool']
 razers3_reffa = config['razers3']['reffa']
 optitype_tool = config['optitype']['tools']
 optitype_pool = config['optitype']['optitype_pool']
-input_fq1 = generate_location+"/"+parent_name+"/"+sample +"/"+sample+extracted1
-input_fq2 = generate_location+"/"+parent_name+"/"+sample +"/"+sample+extracted2
-out_razers3_1 = "-o "+generate_location+"/"+parent_name+"/"+sample +"/"+ "optitype_generate"+"/"+"fished_1.bam"
-out_razers3_2 = "-o "+generate_location+"/"+parent_name+"/"+sample +"/"+ "optitype_generate"+"/"+"fished_2.bam"
+input_fq1 = generate_location+"/"+sample_path +"/"+sample+extracted1
+input_fq2 = generate_location+"/"+sample_path +"/"+sample+extracted2
+out_razers3_1 = "-o "+generate_location+"/"+sample_path +"/"+ "optitype_generate"+"/"+"fished_1.bam"
+out_razers3_2 = "-o "+generate_location+"/"+sample_path +"/"+ "optitype_generate"+"/"+"fished_2.bam"
 
 
 cmd1 = "{razers3_pool} \

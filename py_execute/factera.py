@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
-sample_dir = generate_location+"/"+parent_name+"/"+sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
+
+sample_dir = generate_location+"/"+sample_path
 
 
 if not os.path.exists(f'{generate_location}/{hg_19_or_38}.2bit'):
     print('f{hg_19_or_38}.2bit文件不存在，现在生成。')
     fatotwobit = config['faToTwoBit']['fatotwobit']
     parameters_pool = config['faToTwoBit']['parameters_pool']
-    cmd = "{fatotwobit} \
+    cmd = f"{fatotwobit} \
     {parameters_pool}"
-    cmd=cmd.format(fatotwobit=fatotwobit,parameters_pool=parameters_pool)
     p = subprocess.Popen(cmd,shell=True)
     p.communicate()
     if p.returncode != 0:

@@ -4,7 +4,9 @@ config = configparser.ConfigParser()
 
 # sample_dir = '/home/chenyushao/cumulative_download/datelog'
 sample_dir = '/fastq_data'
-sample_list = str(['2022WSSW003294-T','2022WSSW003295-T','2022WSSW003297-T'])  # 为多线程准备。
+sample_list = str(['2022WSSW003295-T','2022WSSW003294-T','2022WSSW003292-T'])
+# sample_list = str(['2022WSSW002177-T','2022WSSW000970-T','2022WSSW002883-T','2022WSSW000328-T'])  # 为多线程准备。,'2022WSSW000970-T'
+# sample_list = str(['2022WSSW003295-T'])
 
 hg_19_or_38 = "hg19"   # 这里选择 hg19版本 还是 hg38版本 作为基准参照,直接在config文件中修改不起作用。
 if hg_19_or_38 == "hg19":
@@ -25,7 +27,7 @@ config['Mutation_detection'] = {
     'cnv': "cnvnator",
     'hla': "optitype",
     'msi': "msisensor",
-    'choose': "snv_indel"   # 这里选择
+    'choose': "cnv"   # 这里选择
 }
 
 # extract 模式选择
@@ -102,14 +104,14 @@ config['factera'] = {
 config['cnvnator'] = {
     'parameters_pool1': "cnvnator -root file.root -genome {hg_19_or_38} -tree ".format(hg_19_or_38=hg_19_or_38),
     'parameters_pool2': "cnvnator -root file.root -genome {hg_19_or_38} -his 1000 -d ".format(hg_19_or_38=hg_19_or_38),
-    'parameters_pool3': "cnvnator -root file.root -genome {hg_19_or_38} -stat 1000".format(hg_19_or_38=hg_19_or_38),
-    'parameters_pool4': "cnvnator -root file.root -genome {hg_19_or_38} -partition 1000".format(hg_19_or_38=hg_19_or_38),
+    'parameters_pool3': "cnvnator -root file.root -genome {hg_19_or_38} -stat 1000 ".format(hg_19_or_38=hg_19_or_38),
+    'parameters_pool4': "cnvnator -root file.root -genome {hg_19_or_38} -partition 1000 ".format(hg_19_or_38=hg_19_or_38),
     'parameters_pool5': "cnvnator -root file.root -genome {hg_19_or_38} -call 1000  > cnv.call.txt".format(hg_19_or_38=hg_19_or_38),
     'parameters_pool6': "/opt/CNVnator_v0.4.1/src/cnvnator2VCF.pl cnv.call.txt >cnv.vcf"
 }
 config['razers3'] = {
     'razers3_pool': "razers3 -i 95 -m 1 -dr 0 ",
-    'reffa': "/refhub/{hg_19_or_38}/toolbox_and_RefFile/hla_reference_dna.fasta"
+    'reffa': f"/refhub/{hg_19_or_38}/toolbox_and_RefFile/hla_reference_dna.fasta"
 }
 config['optitype'] = {
     'tools': "/opt/OptiType-master/OptiTypePipeline.py",
