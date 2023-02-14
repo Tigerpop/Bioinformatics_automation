@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 fasta = config['reference_document']['fasta']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
 extract_mode = config['extract_mode']['choose']
@@ -20,7 +18,7 @@ elif extract_mode == 'fastp_mode':
     
 
 # 以下为切分染色体call突变的部分
-file_path = generate_location+"/"+parent_name+"/"+sample
+file_path = generate_location+"/"+sample_path
 bam_path = file_path + "/" + "chr_split"
 output_path = file_path + "/" + "split_vcf"
 os.chdir(file_path)

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg19_fasta = config['reference_document']['fasta']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
 extract_mode = config['extract_mode']['choose']
@@ -18,8 +16,8 @@ elif extract_mode == 'fastp_mode':
     dedup_or_markdup = 'markdup'
     
 
-split_vcf_path = generate_location+"/"+parent_name+"/"+sample+"/"+"split_vcf"
-output_dir = generate_location+"/"+parent_name+"/"+sample
+split_vcf_path = generate_location+"/"+sample_path+"/"+"split_vcf"
+output_dir = generate_location+"/"+sample_path
 
 def shell_func(i,sample=sample):
     cmd1 = f"bgzip -c {sample}.{dedup_or_markdup}.REF_chr{i}.vcf > {sample}.{dedup_or_markdup}.REF_chr{i}.vcf.gz"

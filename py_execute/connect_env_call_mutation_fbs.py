@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import subprocess
-cmds = ["split_add_index_chr.py",\
-        "call_mutation_fbs.py",\
-        "merge_and_filter_vcf.py",\
-        "annovar_vcf.py",\
-        "anno_filter.py",\
-        "process_anno_filter.py"]
+import subprocess,sys
+sample_path = sys.argv[1]
+cmds = [f"split_add_index_chr.py {sample_path}",\
+        f"call_mutation_fbs.py {sample_path}",\
+        f"merge_and_filter_vcf.py {sample_path}",\
+        f"annovar_vcf.py {sample_path}",\
+        f"anno_filter.py {sample_path}",\
+        f"process_anno_filter.py {sample_path}"]
 
 for cmd in cmds:
     print(cmd," start! ")

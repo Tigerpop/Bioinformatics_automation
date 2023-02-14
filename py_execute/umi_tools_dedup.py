@@ -2,18 +2,15 @@
 import configparser,subprocess,re,os
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
-
-input = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".bwa_mem.bam"
-inputbai = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".bwa_mem.bam.bai"
-input1 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".dedup.bam"
-inputbai1 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".dedup.bam.bai"
-output = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".dedup.bam"
+input = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam"
+inputbai = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam.bai"
+input1 = generate_location+"/"+sample_path+"/"+sample+".dedup.bam"
+inputbai1 = generate_location+"/"+sample_path+"/"+sample+".dedup.bam.bai"
+output = generate_location+"/"+sample_path+"/"+sample+".dedup.bam"
 
 cmd = "samtools index -@ 16 \
 	{input} \
@@ -30,13 +27,16 @@ p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit(4)
-    
+
 cmd = f"samtools index -@ 16 \
 	{input1} \
 	{inputbai1} "
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 print("okokokok")
+
+
+
 
 # ####################################
 # input=/home/chenyushao/sh_temp生成文件汇总/${sample_parent}/${sample}/${sample}.bwa_mem.bam

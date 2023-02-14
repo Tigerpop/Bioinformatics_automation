@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 import pandas as pd
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
-os.chdir(generate_location+"/"+parent_name+"/"+sample)
+os.chdir(generate_location+"/"+sample_path)
 # pd.set_option('display.max_columns', None)  # 免缩略。
 # 19个字段。
 retain_list = ['Chr','Start','End','Ref','Alt',\

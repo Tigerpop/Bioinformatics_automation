@@ -6,11 +6,7 @@
 # 我们实际上是在python总脚本中 ，用subprocess紫禁城中运行了source activate_env_call_mutation_fbs.sh。
 
 conda env list
-
-# import configparser,subprocess,re,os
-# config = configparser.ConfigParser()
-# config.read('config.ini')
-# Mutation_detection_choose = config['Mutation_detection']['choose']
+sample_path=$1
 
 # shell 读取config.ini 文件稍微有点麻烦。
 config_ini="/home/chenyushao/py_execute/config.ini"
@@ -20,7 +16,7 @@ if [ $Mutation_detection_choose = "snv_indel" ];then
   source activate call_mutation_fbs
   python -V
   echo "fbs is start!"
-  python connect_env_call_mutation_fbs.py
+  python connect_env_call_mutation_fbs.py $sample_path
   returncode=$?
   if [[ $returncode -ne 0 ]];then
     conda deactivate 
@@ -31,7 +27,7 @@ elif [ $Mutation_detection_choose = "sv" ];then
   source activate cnv_factera_delly 
   python -V
   echo "factera is start!"
-  python factera.py
+  python factera.py $sample_path
   returncode=$?
   if [[ $returncode -ne 0 ]];then
     conda deactivate 
@@ -43,7 +39,7 @@ elif [ $Mutation_detection_choose = "hla" ];then
   source activate optitype
   python -V
   echo "optitype is start!"
-  python optitype.py
+  python optitype.py $sample_path
   returncode=$?
   if [[ $returncode -ne 0 ]];then
     conda deactivate 
@@ -54,7 +50,7 @@ elif [ $Mutation_detection_choose = "msi" ];then
   source activate call_mutation_fbs
   python -V
   echo "msisensor is start!"
-  python msisensor.py
+  python msisensor.py $sample_path
   returncode=$?
   if [[ $returncode -ne 0 ]];then
     conda deactivate 
@@ -66,7 +62,7 @@ elif [ $Mutation_detection_choose = "cnv" ];then
   source activate cnv_factera_delly
   python -V
   echo "cnvnator is start!"
-  python cnvnator.py
+  python cnvnator.py $sample_path
   returncode=$?
   if [[ $returncode -ne 0 ]];then
     conda deactivate 

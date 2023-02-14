@@ -1,18 +1,15 @@
 #coding=utf8
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
-
-input_file = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".anno.{hg_19_or_38}_multianno.txt".format(hg_19_or_38=hg_19_or_38)
-out_file = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".filter.{hg_19_or_38}_multianno.txt".format(hg_19_or_38=hg_19_or_38)
+input_file = generate_location+"/"+sample_path+"/"+sample+".anno.{hg_19_or_38}_multianno.txt".format(hg_19_or_38=hg_19_or_38)
+out_file = generate_location+"/"+sample_path+"/"+sample+".filter.{hg_19_or_38}_multianno.txt".format(hg_19_or_38=hg_19_or_38)
 
 useful_17_gene = ['AKT1','ALK','BCL2L11','BRAF',\
                'EGFR','ERBB2','KRAS','MAP2K1',\

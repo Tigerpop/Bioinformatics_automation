@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import subprocess
-cmds = ["pre_treatment.py",\
-        "umitools_extract.py",\
-        "bwa_mem.py",\
-        "umi_tools_dedup.py"]
+import subprocess,sys
+sample_path = sys.argv[1]
+cmds = [f"umitools_extract.py {sample_path}",\
+        f"bwa_mem.py {sample_path}",\
+        f"umi_tools_dedup.py {sample_path}"]
 for cmd in cmds:
     print(cmd," start! ")
     p = subprocess.Popen("python %s"%cmd,shell=True, close_fds=True, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)

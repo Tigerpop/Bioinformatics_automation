@@ -1,24 +1,31 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']    # /working_tmp  
 human_genome_index = config['reference_document']['human_genome_index']
-parent_name = sample_parent.split('fastq_data/')[1]   # 
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_dir = config['sample']['sample_dir'] 
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
+print(sample_dir+"/"+sample_path)
 
-fastq_dir = sample_parent+'/'+sample
-tmp_dir = generate_location + '/'+parent_name+'/'+sample
-fa_gz_1 = fastq_dir+'/'+sample+'_1.fq.gz'
-fa_gz_2 = fastq_dir+'/'+sample+'_2.fq.gz'
+# 给原始文件改名E150000469_L01_2022WSSW003294-T_2.fq.gz -> 2022WSSW003294-T_2.fq.gz
+os.chdir(sample_dir+'/'+sample_path)
+name_list = os.listdir('./')
+if name_list[0][0]=='E':
+    for name in name_list:
+        newname = "_".join(name.split("_")[-2:])
+        os.rename(name,newname)
+
+tmp_dir = generate_location + '/'+sample_path
+fa_gz_1 = sample_dir+'/'+sample_path+"/"+sample+'_1.fq.gz'
+fa_gz_2 = sample_dir+'/'+sample_path+'/'+sample+'_2.fq.gz'
 out_extract_1 = tmp_dir+'/'+sample+'_1.extract.fq.gz'
 out_extract_2 = tmp_dir+'/'+sample+'_2.extract.fq.gz'
-# print(fa_gz_1,'\n',fa_gz_2,'\n',out_extract_1,'\n',out_extract_2)
+print(fa_gz_1,fa_gz_2)
 
-os.system("mkdir -p {gl}/{pn}/{s}".format(gl=generate_location,pn=parent_name,s=sample))
+os.system(f"mkdir -p {generate_location}/{sample_path}")
 os.chdir(tmp_dir)
 
 

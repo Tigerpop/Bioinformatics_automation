@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 ##################################
 # # 以下为全流程后的注释部分。
-filter_merge_vcf = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".merge.vcf"
-out = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".anno"
+filter_merge_vcf = generate_location+"/"+sample_path+"/"+sample+".merge.vcf"
+out = generate_location+"/"+sample_path+"/"+sample+".anno"
 # [annovar]
 annovar_path = config['annovar']['annovar_path']
 tool = config['annovar']['tool']

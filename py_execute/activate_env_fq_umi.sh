@@ -1,12 +1,14 @@
 #!/bin/bash
 source activate fq_umi
 python -V
+sample_path=$1
+
 # 只要 在终端 source activate_env_fq_umi.sh 
 # 就能把脚本外的终端变成 这个虚拟环境。
 # 我们实际上是在python总脚本中 ，用subprocess紫禁城中运行了source activate_env_fq_umi.sh 。
 conda env list
 
-python connect_env_fq_umi.py
+python connect_env_fq_umi.py $sample_path
 returncode=$?  # 获取上面运行后的返回值。
 
 conda deactivate 

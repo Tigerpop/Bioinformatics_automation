@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 extract_mode = config['extract_mode']['choose']
 if extract_mode == 'umi_mode':
@@ -15,7 +13,7 @@ elif extract_mode == 'fastp_mode':
     dedup_or_markdup = 'markdup'
 
 
-file_path = generate_location+"/"+parent_name+"/"+sample
+file_path = generate_location+"/"+sample_path
 chr_split = file_path+"/"+"chr_split"
 
 os.chdir(file_path)

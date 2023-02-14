@@ -4,19 +4,14 @@ config = configparser.ConfigParser()
 
 # sample_dir = '/home/chenyushao/cumulative_download/datelog'
 sample_dir = '/fastq_data'
-parent = '2022WSSW003292-T'
+sample_list = str(['2022WSSW003294-T','2022WSSW003295-T','2022WSSW003297-T'])  # 为多线程准备。
+
 hg_19_or_38 = "hg19"   # 这里选择 hg19版本 还是 hg38版本 作为基准参照,直接在config文件中修改不起作用。
 if hg_19_or_38 == "hg19":
     toolbox_and_RefFile = '/refhub/hg19/toolbox_and_RefFile'
 elif hg_19_or_38 == "hg38":
     toolbox_and_RefFile = '/refhub/hg38/toolbox_and_RefFile'
 # 注意这里 改了以后，文件最好要删除了重新运行一边，不然可能是hg19生成的dedup.bam 配hg38的后续处理，不匹配。
-
-# parent = '2022WSSW002883-T'
-pre_dir = parent.replace("-T","")
-pre_dir = pre_dir.replace("-N","")
-# print(pre_dir,sample_parent)
-# print(sample_dir +"/" + pre_dir +"/" + parent)
 
 # hg选择
 config['hg_19_or_38'] = {
@@ -30,7 +25,7 @@ config['Mutation_detection'] = {
     'cnv': "cnvnator",
     'hla': "optitype",
     'msi': "msisensor",
-    'choose': "cnv"   # 这里选择
+    'choose': "snv_indel"   # 这里选择
 }
 
 # extract 模式选择
@@ -42,7 +37,8 @@ config['extract_mode'] = {
 
 # 样本位置
 config['sample'] = {
-    'sample_parent': sample_dir +"/" + pre_dir +"/" + parent
+    'sample_dir': sample_dir,
+    'sample_list': sample_list
 }
 
 # 生成文件位置.    /home/chenyushao/py_generate

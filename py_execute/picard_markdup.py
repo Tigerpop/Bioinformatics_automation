@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']    # /working_tmp  
 human_genome_index = config['reference_document']['human_genome_index']
-parent_name = sample_parent.split('fastq_data/')[1]   # 
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 
-tmp_dir = generate_location + '/'+parent_name+'/'+sample
-input = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".bwa_mem.bam"
-inputbai = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".bwa_mem.bam.bai"
-input1 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".markdup.bam"
-inputbai1 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".markdup.bam.bai"
-output = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".markdup.bam"
+tmp_dir = generate_location + '/'+sample_path
+input = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam"
+inputbai = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam.bai"
+input1 = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
+inputbai1 = generate_location+"/"+sample_path+"/"+sample+".markdup.bam.bai"
+output = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
 
 os.chdir(tmp_dir)
 

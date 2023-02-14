@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os
+import configparser,subprocess,re,os,sys
 config = configparser.ConfigParser()
 config.read('config.ini')
-sample_parent = config['sample']['sample_parent']
 generate_location = config['generate']['location']
 human_genome_index = config['reference_document']['human_genome_index']
-parent_name = sample_parent.split('fastq_data/')[1]
-# sample = "E100063570_L01_2021WSSW001567-T" # 之后总的流程汇总改就改这里。
-from samples import sample
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
 extract_mode = config['extract_mode']['choose']
 if extract_mode == 'umi_mode':
@@ -15,19 +13,19 @@ if extract_mode == 'umi_mode':
 elif extract_mode == 'fastp_mode':
     extracted1,extracted2 = "_1.extract.fq.gz","_2.extract.fq.gz"
 
-extract_fq_1 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+extracted1
-extract_fq_2 = generate_location+"/"+parent_name+"/"+sample+"/"+sample+extracted2
-unsort_bam = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".unsort.bam"
-output = generate_location+"/"+parent_name+"/"+sample+"/"+sample+".bwa_mem.bam"
+extract_fq_1 = generate_location+"/"+sample_path+"/"+sample+extracted1
+extract_fq_2 = generate_location+"/"+sample_path+"/"+sample+extracted2
+unsort_bam = generate_location+"/"+sample_path+"/"+sample+".unsort.bam"
+output = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam"
 
 
-cmd = "bwa mem -t 16 \
+cmd = f"bwa mem -t 16 \
   -Y \
   {human_genome_index}  \
   {extract_fq_1}  \
   {extract_fq_2}  \
   -o {unsort_bam}"
-p = subprocess.Popen(cmd.format(human_genome_index=human_genome_index,extract_fq_1=extract_fq_1,extract_fq_2=extract_fq_2,unsort_bam=unsort_bam),stdout=subprocess.PIPE,shell=True)
+p = subprocess.Popen(cmd,stdout=subprocess.PIPE,shell=True)
 p.communicate() # 一定要有这个等待第一个紫禁城完结，再进行下一个紫禁城。
 if p.returncode != 0:
     exit(3)
