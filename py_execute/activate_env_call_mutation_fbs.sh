@@ -57,6 +57,17 @@ elif [ $Mutation_detection_choose = "msi" ];then
     conda env list
     exit $returncode
   fi
+elif [ $Mutation_detection_choose = "decon" ];then
+  source activate call_mutation_fbs
+  python -V
+  echo "decon is start!"
+  python decon_map_bam.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate 
+    conda env list
+    exit $returncode
+  fi
 elif [ $Mutation_detection_choose = "cnv" ];then
   # 激活cnv需要的环境。
   source activate cnv_factera_delly

@@ -28,7 +28,8 @@ config['Mutation_detection'] = {
     'cnv': "cnvnator",
     'hla': "optitype",
     'msi': "msisensor",
-    'choose': "snv_indel"   # 这里选择
+    'decon': "decon",
+    'choose': "decon"   # 这里选择
 }
 
 # extract 模式选择

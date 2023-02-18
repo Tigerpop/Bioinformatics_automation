@@ -9,8 +9,8 @@ sample = sample_path.split("/")[-1]
 
 ##################################
 # # 以下为全流程后的注释部分。
-filter_merge_vcf = generate_location+"/"+sample_path+"/"+sample+".merge.vcf"
-# filter_merge_vcf = generate_location+"/"+sample_path+"/"+sample+".pollpass.vcf"
+# filter_merge_vcf = generate_location+"/"+sample_path+"/"+sample+".merge.vcf"
+filter_merge_vcf = generate_location+"/"+sample_path+"/"+sample+".pollpass.vcf"
 out = generate_location+"/"+sample_path+"/"+sample+".anno"
 # [annovar]
 annovar_path = config['annovar']['annovar_path']

@@ -4,6 +4,7 @@ sample_path = sys.argv[1]  # f"poll_pass.py {sample_path}",\ 加在annovar 前�
 cmds = [f"split_add_index_chr.py {sample_path}",\
         f"call_mutation_fbs.py {sample_path}",\
         f"merge_and_filter_vcf.py {sample_path}",\
+        f"poll_pass.py {sample_path}",\
         f"annovar_vcf.py {sample_path}",\
         f"anno_filter.py {sample_path}",\
         f"process_anno_filter.py {sample_path}"]
