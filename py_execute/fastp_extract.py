@@ -18,6 +18,8 @@ if name_list[0][0]=='E':
     for name in name_list:
         newname = "_".join(name.split("_")[-2:])
         os.rename(name,newname)
+        
+# a = bcx 抛出异常的测试。
 
 tmp_dir = generate_location + '/'+sample_path
 fa_gz_1 = sample_dir+'/'+sample_path+"/"+sample+'_1.fq.gz'
@@ -26,7 +28,8 @@ out_extract_1 = tmp_dir+'/'+sample+'_1.extract.fq.gz'
 out_extract_2 = tmp_dir+'/'+sample+'_2.extract.fq.gz'
 print(fa_gz_1,fa_gz_2)
 
-os.system(f"mkdir -p {generate_location}/{sample_path}")
+if not os.path.exists(f"{generate_location}/{sample_path}"):
+    os.system(f"mkdir -p {generate_location}/{sample_path}")
 os.chdir(tmp_dir)
 
 
@@ -39,8 +42,8 @@ cmd = f'fastp -i {fa_gz_1} \
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 
-base_quality,inser_size_peak,duplication_rate = qc.process_fastp_log(sample_path)     # 质量控制。
-if int(inser_size_peak) < 2:                                                          
+base_quality,inser_size_peak,duplication_rate = qc.process_fastp_log(sample_path,generate_location)     # 质量控制。
+if int(inser_size_peak) < 2:
     with open('./quality_control/Quality_Control.txt','w')as f0:                      # 不符合条件，就停止后续流程。
         f0.write('fastp 结果质控不合格！！'+"\n")
         f0.write('base_quality: '+str(base_quality)+'\n')

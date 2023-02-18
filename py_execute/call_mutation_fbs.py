@@ -6,6 +6,7 @@ config.read('config.ini')
 generate_location = config['generate']['location']
 fasta = config['reference_document']['fasta']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
+bed = config['reference_document']['bed']
 sample_path = sys.argv[1]
 sample = sample_path.split("/")[-1]
 

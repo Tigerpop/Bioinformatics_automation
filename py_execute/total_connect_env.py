@@ -14,7 +14,7 @@ def work(sample_path):
         sample = sample_path.split("/")[-1]
         if not os.path.exists(sample_dir+"/"+sample_path) or len(os.listdir(sample_dir+"/"+sample_path))!=2:
             with open('/working_tmp/need_manual_processing.txt','a+')as f:
-                f.write(sample_dir+"/"+sample_path+"\n")
+                f.write('输入文件为不合法情况，请手工处理: '+sample_dir+"/"+sample_path+"\n")
             return sample_path,'为不合法情况，请手工处理。'
         if extract_mode == 'umi_mode':
             cmds = [f"bash activate_env_fq_umi.sh {sample_path}",\
@@ -48,9 +48,11 @@ def work(sample_path):
                 print('look here!!! ',cmd+"  failed!")
                 subprocess.call("pause",shell=True)  # 暂停
                 exit(100)
-    except :
+    except:
+        with open('/working_tmp/need_manual_processing.txt','a+')as log:
+            log.write('执行出错，需要手工调整: '+sample_path+"\n")        
         print("运行：",cmd,"出现问题。")
-        
+
         
 if __name__=="__main__":
     py_execute_dir = "/home/chenyushao/py_execute/"
@@ -66,7 +68,7 @@ if __name__=="__main__":
         sample_path = pre_sample+"/"+sample   # 2022WSSW003294/2022WSSW003294-T
         jobs.append(sample_path)
     # print(jobs)
-    pool = Pool(processes=4)
+    pool = Pool(processes=5)                   # 进程池中进程是5个。不影响池子中进程再开子进程。
     for ele in jobs:
         result = pool.apply_async(work,(ele,))
         # output = result.get()                 # 获取每个子进程返回值 ,但是一旦加了get异步就会失效！！！

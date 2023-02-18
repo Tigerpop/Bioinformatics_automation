@@ -77,6 +77,11 @@ if __name__=="__main__":
     p.communicate()
     if p.returncode != 0:
         exit(3)
+        
+        
+        
+        
+        
     # filter 
     # os.chdir(output_dir)
     # cmd = "bcftools filter -e 'FORMAT/DP>99' {output_dir}/{sample}.merge.vcf > {output_dir}/{sample}.filter_merge.vcf" 

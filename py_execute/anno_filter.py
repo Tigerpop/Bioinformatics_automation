@@ -29,10 +29,14 @@ try:
             lines = lines_str.strip("\n").split("\t")
             for i in range(len(lines)):
                 filed_dict[fileds[i]] = lines[i]
-            if filed_dict['Gene.smallrefGene'] in useful_17_gene:
-                if filed_dict['AAChange.smallrefGene'] != ".":
-                    if filed_dict['ExonicFunc.smallrefGene'] != "synonymous SNV":
-                        f2.write(lines_str)
+            # if filed_dict['Gene.smallrefGene'] in useful_17_gene:       # 这是不再过滤17基因的模式。
+            if filed_dict['AAChange.smallrefGene'] != ".":
+                if filed_dict['ExonicFunc.smallrefGene'] != "synonymous SNV":
+                    f2.write(lines_str)
+            # if filed_dict['Gene.smallrefGene'] in useful_17_gene:       # 这是过滤17基因的模式。
+            #     if filed_dict['AAChange.smallrefGene'] != ".":
+            #         if filed_dict['ExonicFunc.smallrefGene'] != "synonymous SNV":
+            #             f2.write(lines_str)
 except:
     print("anno_filter 过滤脚本出现异常。")
     exit(5) # 装配的第五个脚本。

@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
-config = configparser.ConfigParser()
-config.read('config.ini')
-generate_location = config['generate']['location']
-hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-sample_path = sys.argv[1]
-sample = sample_path.split("/")[-1]
+# config = configparser.ConfigParser()
+# config.read('config.ini')
+# generate_location = config['generate']['location']
+# hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
+# sample_path = sys.argv[1]
+# sample = sample_path.split("/")[-1]
 
 
-def process_fastp_log(sample_path):    
+def process_fastp_log(sample_path,generate_location): 
+    sample = sample_path.split("/")[-1]
     os.chdir(generate_location+"/"+sample_path)
     quality_dir = generate_location+"/"+sample_path+"/"+"quality_control"
     if not os.path.exists("quality_control"):
         os.mkdir("quality_control")
-    with open('fastp.log','r') as f0:
+    with open('./fastp.log','r') as f0:
         i = 0 
         for lines in f0:
             if len(lines.split(' ')) >= 3:
@@ -30,12 +31,13 @@ def process_fastp_log(sample_path):
                 print('duplication_rate: ',duplication_rate)
     return base_quality,inser_size_peak,duplication_rate
 
-def process_bam(sample_path):
-    os.chdir(generate_location+"/"+sample_path)
+def process_bam(sample_path,generate_location,extract_mode):
+    sample = sample_path.split("/")[-1]
+    os.chdir(generate_location+"/"+sample_path)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     quality_dir = generate_location+"/"+sample_path+"/"+"quality_control"
     if not os.path.exists("quality_control"):
         os.mkdir("quality_control")
-    extract_mode = config['extract_mode']['choose']
+    # extract_mode = config['extract_mode']['choose']
     if extract_mode == 'umi_mode':
         dedup_or_markdup = 'dedup'
     elif extract_mode == 'fastp_mode':
@@ -72,11 +74,11 @@ def concat_fastp_and_bam(sample_path):
         f0.write('duplication_rate: '+str(duplication_rate)+'\n')
   
 
-if __name__=="__main__":
-    process_fastp_log(sample_path)
-    process_bam(sample_path)
-    concat_fastp_and_bam(sample_path)
-    
+# if __name__=="__main__":
+#     process_fastp_log(sample_path)
+#     process_bam(sample_path)
+#     concat_fastp_and_bam(sample_path)
+#     
     
         
     

@@ -4,9 +4,10 @@ config = configparser.ConfigParser()
 
 # sample_dir = '/home/chenyushao/cumulative_download/datelog'
 sample_dir = '/fastq_data'
-sample_list = str(['2022WSSW003295-T','2022WSSW003294-T','2022WSSW003292-T'])
+# sample_list = str(['2021WSSW001597-T','2021WSSW003765-T','2022WSSW003292-T','2022WSSW003294-T','2022WSSW003295-T'])
+# sample_list = str(['2021WSSW001537-T','2021WSSW001567-T','2021WSSW001568-T','2021WSSW001596-T','2021WSSW001597-T'])
 # sample_list = str(['2022WSSW002177-T','2022WSSW000970-T','2022WSSW002883-T','2022WSSW000328-T'])  # 为多线程准备。,'2022WSSW000970-T'
-# sample_list = str(['2022WSSW003295-T'])
+sample_list = str(['2022WSSW002883-T','2022WSSW002177-T','2022WSSW060033-T','2022WSSW003300-T','2022WSSW003299-T'])
 
 hg_19_or_38 = "hg19"   # 这里选择 hg19版本 还是 hg38版本 作为基准参照,直接在config文件中修改不起作用。
 if hg_19_or_38 == "hg19":
@@ -27,7 +28,7 @@ config['Mutation_detection'] = {
     'cnv': "cnvnator",
     'hla': "optitype",
     'msi': "msisensor",
-    'choose': "cnv"   # 这里选择
+    'choose': "snv_indel"   # 这里选择
 }
 
 # extract 模式选择
@@ -60,11 +61,13 @@ config['archive'] = {
 if hg_19_or_38 == "hg19":
     fasta = "/refhub/hg19/fa/ucsc.hg19.fasta"
     bed = '/home/chenyushao/doctor_assign_tasks/hg19_bed/four_field.bed'  #filter_just_save_17_GTF.bed'   # "/refhub/kitbed/BC17.expand1.hg19.bed"
+    # bed = '/refhub/hg19/target/Q80.raw.hg19.bed'
     config['reference_document'] = {
         'human_genome_index': "/refhub/hg19/human_genome_index/gatk_hg19",
         'fasta': "/refhub/hg19/fa/ucsc.hg19.fasta",
         'fasta_dir': "/refhub/hg19/fa/fa",
-        'bed': "/home/chenyushao/doctor_assign_tasks/hg19_bed/four_field.bed"}                    # 'bed': "/refhub/kitbed/BC17.expand1.hg19.bed"
+        'bed': bed,
+        'toolbox_and_RefFile': toolbox_and_RefFile}                                                         # 'bed': "/refhub/kitbed/BC17.expand1.hg19.bed"
 elif hg_19_or_38 == "hg38":
     fasta = "/refhub/hg38/fa/Homo_sapiens_assembly38.fasta"
     bed = "/refhub/hg38/target/BC17.expand1.hg38.bed"
@@ -72,7 +75,8 @@ elif hg_19_or_38 == "hg38":
         'human_genome_index': "/refhub/hg38/human_genome_index/gatk_hg38",
         'fasta': "/refhub/hg38/fa/Homo_sapiens_assembly38.fasta",
         'fasta_dir': "/refhub/hg38/fa",
-        'bed': "/refhub/hg38/target/BC17.expand1.hg38.bed"}
+        'bed': "/refhub/hg38/target/BC17.expand1.hg38.bed",
+        'toolbox_and_RefFile': toolbox_and_RefFile}
 
 
 
