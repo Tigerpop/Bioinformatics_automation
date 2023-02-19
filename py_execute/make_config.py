@@ -29,7 +29,8 @@ config['Mutation_detection'] = {
     'hla': "optitype",
     'msi': "msisensor",
     'decon': "decon",
-    'choose': "decon"   # 这里选择
+    'chemo': "chemo",
+    'choose': "chemo"   # 这里选择
 }
 
 # extract 模式选择

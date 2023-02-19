@@ -1,30 +1,43 @@
-#coding=utf8
+# -*- coding: utf-8 -*-
+import configparser,subprocess,re,os,sys
 import pandas as pd 
-import subprocess
+config = configparser.ConfigParser()
+config.read('config.ini')
+generate_location = config['generate']['location']
+sample_path = sys.argv[1]
+sample = sample_path.split("/")[-1]
 
-# just_rs.txt 从报告中来的。
-def make_rs_address():
-    raw_df = pd.read_csv('just_rs.txt',header=None,sep=' ',names=['rs'])
-    for i in range(len(raw_df['rs'])):
-        rs = raw_df['rs'].iloc[i]
-        cmd = "cat /opt/annovar/humandb/hg19_avsnp150.txt | grep {rs}$ >> /home/chenyushao/chemo/rs/rs_address.txt".format(rs=rs)
-        p = subprocess.Popen(cmd,shell=True)
-        p.communicate()
 
-def drop_duplicate():
-    raw_df = pd.read_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',\
-    names=['chr','start','end','variant1','variant2','rs'])
-    raw_df.drop_duplicates(subset=['start'],keep='first',inplace=True)
-    raw_df.to_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',index=None)
+extract_mode = config['extract_mode']['choose']
+if extract_mode == 'umi_mode':
+    dedup_or_markdup = 'dedup'
+elif extract_mode == 'fastp_mode':
+    dedup_or_markdup = 'markdup'
+
+
+# # just_rs.txt 从报告中来的。
+# def make_rs_address():
+#     raw_df = pd.read_csv('just_rs.txt',header=None,sep=' ',names=['rs'])
+#     for i in range(len(raw_df['rs'])):
+#         rs = raw_df['rs'].iloc[i]
+#         cmd = "cat /opt/annovar/humandb/hg19_avsnp150.txt | grep {rs}$ >> /home/chenyushao/chemo/rs/rs_address.txt".format(rs=rs)
+#         p = subprocess.Popen(cmd,shell=True)
+#         p.communicate()
+# 
+# def drop_duplicate():
+#     raw_df = pd.read_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',\
+#     names=['chr','start','end','variant1','variant2','rs'])
+#     raw_df.drop_duplicates(subset=['start'],keep='first',inplace=True)
+#     raw_df.to_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',index=None)
 
 def output_base_num():         
-    raw_df = pd.read_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',\
+    raw_df = pd.read_csv('/refhub/hg19/target/chemo.rs.hg19.bed',header=None,sep='\t',\
     names=['chr','start','end','variant1','variant2','rs'])
     #  记得切换进 call 突变的环境。start和end在1177位置，输出的位置就在1176.
     for i in range(len(raw_df['rs'])):
         chr,start,end,rs = raw_df['chr'].iloc[i], raw_df['start'].iloc[i],raw_df['end'].iloc[i],raw_df['rs'].iloc[i]
-        bam = '~/py_generate/2022WSSW000970/2022WSSW000970-T/E100065602_L01_2022WSSW000970-T/E100065602_L01_2022WSSW000970-T.dedup.bam'
-        out = '~/chemo/rs'
+        bam = f"{generate_location}/{sample_path}/"+sample+f".{dedup_or_markdup}.bam"
+        out = f"{generate_location}/{sample_path}/"+"chemo_generate"
         if i==0:
             cmd = "sambamba depth base -F '' -L chr{chr}:{start}-{end} {bam} >> {out}/Check_for_specified_mutations.txt"\
             .format(chr=chr,start=start,end=end,bam=bam,out=out)
@@ -35,9 +48,10 @@ def output_base_num():
         p.communicate()
 
 def process_output_base_num():
-    address_df = pd.read_csv('/home/chenyushao/chemo/rs/rs_address.txt',header=None,sep='\t',\
+    os.chdir(f"{generate_location}/{sample_path}/"+"chemo_generate")
+    address_df = pd.read_csv('/refhub/hg19/target/chemo.rs.hg19.bed',header=None,sep='\t',\
               names=['chr','start','end','variant1','variant2','rs'])
-    call_mutation_df = pd.read_csv('Check_for_specified_mutations.txt',sep='\t')
+    call_mutation_df = pd.read_csv('./Check_for_specified_mutations.txt',sep='\t')
     call_mutation_df['rs'] = address_df['rs']
     new_call_mutation_df = call_mutation_df[['rs','REF','POS','COV','A','C','G','T']]
     new_call_mutation_df['A_percent']\
@@ -84,10 +98,12 @@ def process_output_base_num():
         df_result1 = pd.concat([df_result1,df_resultY])
     df_result1 = df_result1.drop(columns=['chr_num'])
     print(df_result1)
-    df_result1.to_csv('/home/chenyushao/chemo/rs/process_output_base_num.txt',sep='\t',index=None)
+    df_result1.to_csv('./process_output_base_num.txt',sep='\t',index=None)
     
 if __name__=="__main__":
+    if not os.path.exists(f"{generate_location}/{sample_path}/"+"chemo_generate"):
+        os.mkdir(f"{generate_location}/{sample_path}/"+"chemo_generate")
     # make_rs_address()                # 生成以后我手动删除了两行。
     # drop_duplicate()
-    # output_base_num()
+    output_base_num()
     process_output_base_num()
