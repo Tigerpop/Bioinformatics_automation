@@ -4,10 +4,18 @@ from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
 generate_location = config['generate']['location']
-bed = config['reference_document']['bed']
 fasta = config['reference_document']['fasta']
 sample_path = sys.argv[1]
 sample = sample_path.split("/")[-1]
+
+
+# sample_list = config['sample']['sample_list']
+# bed_list = config['bed']['bed_list']
+# sample_list = re.findall( r"\'(.*?)\'",sample_list)
+# bed_list = re.findall( r"\'(.*?)\'",bed_list)
+# bed = bed_list[sample_list.index(sample)].split(":")[1]
+bed = '/home/chenyushao/doctor_assign_tasks/hg19_bed/four_field.bed'  # decon 用的bed 一定要是exon处理后的bed。
+
 
 def build_bam_file():
     tmp_dir = f"{generate_location}/{sample_path}/"+"decon_generate"
@@ -45,7 +53,7 @@ def run_DeCoN():
     os.chdir(tmp_dir)
     cmd_0 = f"Rscript /opt/DECoN/ReadInBams.R \
             --bams ./bam_file.txt \
-            --bed  {bed} \
+            --bed {bed} \
             --fasta {fasta} \
             --out {tmp_dir}/DECoNtest > ReadInBams.log 2>&1"
     cmd_1 = f"Rscript /opt/DECoN/IdentifyFailures.R  \

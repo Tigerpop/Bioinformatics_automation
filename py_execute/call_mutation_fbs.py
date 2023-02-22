@@ -6,7 +6,6 @@ config.read('config.ini')
 generate_location = config['generate']['location']
 fasta = config['reference_document']['fasta']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-bed = config['reference_document']['bed']
 sample_path = sys.argv[1]
 sample = sample_path.split("/")[-1]
 
@@ -45,7 +44,7 @@ def shell_func(i,fasta=fasta,bam_path=bam_path,sample=sample,output_path=output_
 if __name__=="__main__":
     test_list = [i for i in range(1,23)]
     test_list.extend(["X","Y"])
-    pool = Pool(processes=12)
+    pool = Pool(processes=10)
     # result = []
     for i in test_list:
         # result.append(pool.apply_async(shell_func,(i,)) )

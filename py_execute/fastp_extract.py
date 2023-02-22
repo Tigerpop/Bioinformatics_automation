@@ -9,6 +9,16 @@ sample_dir = config['sample']['sample_dir']
 sample_path = sys.argv[1]
 sample = sample_path.split("/")[-1]
 
+sample_list = config['sample']['sample_list']
+bed_list = config['bed']['bed_list']
+sample_list = re.findall( r"\'(.*?)\'",sample_list)
+bed_list = re.findall( r"\'(.*?)\'",bed_list)
+bed = bed_list[sample_list.index(sample)].split(":")[1]
+
+print('bed is :'+bed)
+
+
+
 print(sample_dir+"/"+sample_path)
 
 # 给原始文件改名E150000469_L01_2022WSSW003294-T_2.fq.gz -> 2022WSSW003294-T_2.fq.gz
@@ -18,7 +28,7 @@ if name_list[0][0]=='E':
     for name in name_list:
         newname = "_".join(name.split("_")[-2:])
         os.rename(name,newname)
-        
+
 # a = bcx 抛出异常的测试。
 
 tmp_dir = generate_location + '/'+sample_path
@@ -38,23 +48,23 @@ cmd = f'fastp -i {fa_gz_1} \
       -o {out_extract_1} \
       -O {out_extract_2} \
       -w 8 \
-      -l 30  > fastp.log 2>&1' 
+      -l 30  > fastp.log 2>&1'
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 
 base_quality,inser_size_peak,duplication_rate = qc.process_fastp_log(sample_path,generate_location)     # 质量控制。
 if int(inser_size_peak) < 2:
-    with open('./quality_control/Quality_Control.txt','w')as f0:                      # 不符合条件，就停止后续流程。
+    with open(f'{tmp_dir}/quality_control/Quality_Control.txt','w')as f0:                      # 不符合条件，就停止后续流程。
         f0.write('fastp 结果质控不合格！！'+"\n")
         f0.write('base_quality: '+str(base_quality)+'\n')
         f0.write('inser_size_peak: '+str(inser_size_peak)+'\n')
         f0.write('duplication_rate: '+str(duplication_rate)+'\n')
     exit(4)
-with open('./quality_control/Quality_Control.txt','w')as f0:
+with open(f'{tmp_dir}/quality_control/Quality_Control.txt','w')as f0:
     f0.write('fastp 结果质控合格！！'+"\n")
     f0.write('base_quality: '+str(base_quality)+'\n')
     f0.write('inser_size_peak: '+str(inser_size_peak)+'\n')
     f0.write('duplication_rate: '+str(duplication_rate)+'\n')
-    
+
 if p.returncode != 0:
     exit(3)

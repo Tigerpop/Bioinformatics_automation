@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
-# config = configparser.ConfigParser()
-# config.read('config.ini')
-# generate_location = config['generate']['location']
-# hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
-# sample_path = sys.argv[1]
-# sample = sample_path.split("/")[-1]
+
+
 
 
 def process_fastp_log(sample_path,generate_location): 
@@ -14,7 +10,7 @@ def process_fastp_log(sample_path,generate_location):
     quality_dir = generate_location+"/"+sample_path+"/"+"quality_control"
     if not os.path.exists("quality_control"):
         os.mkdir("quality_control")
-    with open('./fastp.log','r') as f0:
+    with open(generate_location+"/"+sample_path+"/"+'fastp.log','r') as f0:
         i = 0 
         for lines in f0:
             if len(lines.split(' ')) >= 3:
@@ -31,8 +27,10 @@ def process_fastp_log(sample_path,generate_location):
                 print('duplication_rate: ',duplication_rate)
     return base_quality,inser_size_peak,duplication_rate
 
-def process_bam(sample_path,generate_location,extract_mode):
+def process_bam(sample_path,generate_location,extract_mode,sample_list,bed_list):
     sample = sample_path.split("/")[-1]
+    bed = bed_list[sample_list.index(sample)].split(":")[1]
+    
     os.chdir(generate_location+"/"+sample_path)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     quality_dir = generate_location+"/"+sample_path+"/"+"quality_control"
     if not os.path.exists("quality_control"):
@@ -47,7 +45,7 @@ def process_bam(sample_path,generate_location,extract_mode):
     cmd = f'samtools flagstat {bam_file} > {quality_dir}/output.flagstat'
     p = subprocess.Popen(cmd,shell=True)
     p.communicate()
-    cmd = f'/opt/bamdst/bamdst -p /refhub/hg19/target/BC17.raw.hg19.bed -o {quality_dir}/ {bam_file}'
+    cmd = f'/opt/bamdst/bamdst -p {bed} -o {quality_dir}/ {bam_file}'
     p = subprocess.Popen(cmd,shell=True)
     p.communicate()
     

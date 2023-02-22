@@ -7,6 +7,8 @@ human_genome_index = config['reference_document']['human_genome_index']
 sample_path = sys.argv[1]
 sample = sample_path.split("/")[-1]
 
+
+
 extract_mode = config['extract_mode']['choose']
 if extract_mode == 'umi_mode':
     extracted1,extracted2 = "_extracted.1.fq.gz","_extracted.2.fq.gz"
@@ -29,7 +31,7 @@ p = subprocess.Popen(cmd,stdout=subprocess.PIPE,shell=True)
 p.communicate() # 一定要有这个等待第一个紫禁城完结，再进行下一个紫禁城。
 if p.returncode != 0:
     exit(3)
-cmd2 = "samtools sort -@ 16 -o {output} {unsort_bam}".format(output=output,unsort_bam=unsort_bam)
+cmd2 = "samtools sort -@ 10 -o {output} {unsort_bam}".format(output=output,unsort_bam=unsort_bam)
 p2 = subprocess.Popen(cmd2,shell=True)
 p2.communicate()
 if p2.returncode != 0:

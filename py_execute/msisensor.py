@@ -24,7 +24,7 @@ msisensor_pool = config['msisensor']['msisensor_pool']
 input_bam = generate_location+"/"+sample_path +"/"+sample+f".{dedup_or_markdup}.bam"
 out_msi = generate_location+"/"+sample_path+"/"+"msisensor_generate"+"/"+sample+"msi"
 
-cmd1 = f"samtools index -@ 8 {sample}.{dedup_or_markdup}.bam {sample}.{dedup_or_markdup}.bam.bai"
+cmd1 = f"samtools index -@ 10 {sample}.{dedup_or_markdup}.bam {sample}.{dedup_or_markdup}.bam.bai"
 cmd2 = f"{msisensor_tool} \
         {msisensor_pool} \
         -t {input_bam} \

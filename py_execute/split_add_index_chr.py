@@ -26,18 +26,18 @@ p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit(1)
-cmd = f"samtools index -@ 2 {chr_split}/{sample}.{dedup_or_markdup}.REF_chrX.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chrX.bam.bai"
+cmd = f"samtools index -@ 10 {chr_split}/{sample}.{dedup_or_markdup}.REF_chrX.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chrX.bam.bai"
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit(1)
-cmd = f"samtools index -@ 2 {chr_split}/{sample}.{dedup_or_markdup}.REF_chrY.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chrY.bam.bai"
+cmd = f"samtools index -@ 10 {chr_split}/{sample}.{dedup_or_markdup}.REF_chrY.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chrY.bam.bai"
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit(1)
 for i in range(1,23):
-    cmd = f"samtools index -@ 2 {chr_split}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam.bai"
+    cmd = f"samtools index -@ 10 {chr_split}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam {chr_split}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam.bai"
     p = subprocess.Popen(cmd,shell=True)
     p.communicate()
     if p.returncode != 0:
