@@ -3,8 +3,8 @@
 
 read -p "请输入oss地址" oss
 # read -p "新建一个要存放的位置" path
-path=/home/chenyushao/cumulative_download/datelog
-# path=/fastq_data
+# path=/home/chenyushao/cumulative_download/datelog
+path=/fastq_data
 
 # 其实只要让 md5中的唯一标识符放在名字前，就能让名字变成唯一标识符。
 # 再把整理脚本中，有精简文件夹就不移动的逻辑改一下，改成精简文件夹中唯一标识符已经存在，就不移动。

@@ -112,7 +112,7 @@ config['factera'] = {
     'factera_path': "/opt/factera",
     'tool': "factera.pl",
     'parameters_pool': f"/refhub/{hg_19_or_38}/target/factera_special_bed/{hg_19_or_38}.exons.bed \ \n\
-{generate_dir}/{hg_19_or_38}.2bit "   
+    {generate_dir}/{hg_19_or_38}.2bit"
 }
 config['cnvnator'] = {
     'parameters_pool1': "cnvnator -root file.root -genome {hg_19_or_38} -tree ".format(hg_19_or_38=hg_19_or_38),

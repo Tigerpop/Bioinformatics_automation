@@ -1,6 +1,6 @@
 #!/bin/bash
-repository=/home/chenyushao/cumulative_download/datelog
-# repository=/fastq_data
+# repository=/home/chenyushao/cumulative_download/datelog
+repository=/fastq_data
 
 process_fq_gz() {
   if [[ `ls $repository/*.fq.gz|wc -l` == 0 ]];then

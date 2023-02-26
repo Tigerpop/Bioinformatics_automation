@@ -77,7 +77,7 @@ class data():
             s = pd.Series([],dtype='object')                    # 先建立一个空的Series,新版本的series建立默认要求元素是 object类型。
             for num in self.num_list:
                 s = pd.concat([ s, pd.Series({
-                    f'CLNSIG_{num}': re.sub(r'nan','',''.join(map(str, df[f'CLNSIG_{num}'])))  # 这里一定要小心 把 NaN str 成 nan ，后续会影响。
+                    f'CLNSIG_{num}': re.sub(r'nan','',''.join(map(str, df[f'CLNSIG_{num}'])))  # 这里一定要小心 把 NaN str 成 nan ，后续会影响,后面记得把‘’ 换成np.nan。
                 })])
                 s = pd.concat([ s,pd.Series({
                     f'VAF_{num}': re.sub(r'nan','',''.join(map(str, df[f'VAF_{num}'])))

@@ -37,6 +37,11 @@ p2.communicate()
 if p2.returncode != 0:
     exit(3)
 
+cmd = f'rm -rf {unsort_bam}' 
+p = subprocess.Popen(cmd,shell=True)
+p.communicate()
+
+
 # ###########################################
 # export LC_ALL=C
 # human_genome_index=/home/chenyushao/wes_cancer/data/hg19/gatk_hg19

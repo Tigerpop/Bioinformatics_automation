@@ -70,7 +70,7 @@ if __name__=="__main__":
         sample_path = pre_sample+"/"+sample   # 2022WSSW003294/2022WSSW003294-T
         jobs.append(sample_path)
     # print(jobs)
-    pool = Pool(processes=5)                   # 进程池中进程是 x 个。不影响池子中进程再开子进程。
+    pool = Pool(processes=6)                   # 进程池中进程是 x 个。不影响池子中进程再开子进程。
     for i in range(len(jobs)):
         result = pool.apply_async(work,(jobs[i],bed_list[i].split(":")[0],))
         # output = result.get()                 # 获取每个子进程返回值 ,但是一旦加了get异步就会失效！！！

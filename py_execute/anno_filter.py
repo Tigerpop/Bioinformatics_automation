@@ -2,7 +2,7 @@
 import configparser,subprocess,re,os,sys
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('/home/chenyushao/py_execute/config.ini')
 generate_location = config['generate']['location']
 hg_19_or_38 = config['hg_19_or_38']['hg_19_or_38']
 sample_path = sys.argv[1]

@@ -50,8 +50,10 @@ p.communicate()
 if p.returncode != 0:
     exit(4)
 
+os.mkdir(f'{tmp_dir}/markdup_have_build')
 # 质量控制。
-mapped = qc.process_bam(sample_path,generate_location,extract_mode,sample_list,bed_list) 
+QC = qc.tool()
+mapped = QC.process_bam(sample_path,generate_location,extract_mode,sample_list,bed_list) 
 if float(mapped.split("%")[0]) < 0:                                                          
     with open('./quality_control/Quality_Control.txt','a+')as f0:                      # 不符合条件，就停止后续流程。
         f0.write('dedup_markdup 的bam 结果质控不合格！！'+"\n")

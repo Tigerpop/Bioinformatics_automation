@@ -52,7 +52,8 @@ cmd = f'fastp -i {fa_gz_1} \
 p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 
-base_quality,inser_size_peak,duplication_rate = qc.process_fastp_log(sample_path,generate_location)     # 质量控制。
+QC = qc.tool()
+base_quality,inser_size_peak,duplication_rate = QC.process_fastp_log(sample,sample_path,generate_location)     # 质量控制。
 if int(inser_size_peak) < 2:
     with open(f'{tmp_dir}/quality_control/Quality_Control.txt','w')as f0:                      # 不符合条件，就停止后续流程。
         f0.write('fastp 结果质控不合格！！'+"\n")
