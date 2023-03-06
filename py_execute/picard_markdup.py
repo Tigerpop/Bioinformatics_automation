@@ -22,6 +22,7 @@ inputbai = generate_location+"/"+sample_path+"/"+sample+".bwa_mem.bam.bai"
 input1 = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
 inputbai1 = generate_location+"/"+sample_path+"/"+sample+".markdup.bam.bai"
 output = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
+# output_sorted = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
 
 os.chdir(tmp_dir)
 
@@ -41,7 +42,11 @@ p = subprocess.Popen(cmd,shell=True)
 p.communicate()
 if p.returncode != 0:
     exit('picard_markdup is false !!!')
-    
+
+# cmd = f"samtools sort -o {output_sorted} {output}"
+# p = subprocess.Popen(cmd,shell=True)
+# p.communicate()
+
 cmd = f"samtools index -@ 10 \
 	{input1} \
 	{inputbai1} "

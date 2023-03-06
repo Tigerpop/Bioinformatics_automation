@@ -2,6 +2,7 @@
 import configparser
 import pandas as pd 
 import add_bed_list_in_config_ini as abl
+import divide_samples_by_bed_in_ini as ds
 config = configparser.ConfigParser()
 
 # sample_dir = '/home/chenyushao/cumulative_download/datelog'
@@ -29,6 +30,7 @@ config['hg_19_or_38'] = {
 
 bed_list = abl.build_bed_list(sample_list)  # 按照sample_list 位置 生成对应的探针list。
 print(bed_list)
+ds.divide_sample(bed_list)                  # 按照bed分别记录下 sample 信息。 
 config['bed'] = {
     'bed_list': str(bed_list)     # 长这样： ['BC17:/refhub/hg19/target/BC17/BC17.raw.hg19.bed', 'Q120:/refhub/hg19/target/Q120/Q120.raw.hg19.bed', 'Q120:/refhub/hg19/target/Q120/Q120.raw.hg19.bed']
 }
@@ -127,7 +129,7 @@ config['razers3'] = {
     'reffa': f"/refhub/{hg_19_or_38}/toolbox_and_RefFile/hla_reference_dna.fasta"
 }
 config['optitype'] = {
-    'tools': "/opt/OptiType-master/OptiTypePipeline.py",
+    'tools': "/opt/optitype/OptiTypePipeline.py",
     'optitype_pool': "--dna \ \n \
              -v \ \n \
              -p fished "

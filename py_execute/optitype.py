@@ -30,7 +30,7 @@ input_fq1 = generate_location+"/"+sample_path +"/"+sample+extracted1
 input_fq2 = generate_location+"/"+sample_path +"/"+sample+extracted2
 out_razers3_1 = "-o "+generate_location+"/"+sample_path +"/"+ "optitype_generate"+"/"+"fished_1.bam"
 out_razers3_2 = "-o "+generate_location+"/"+sample_path +"/"+ "optitype_generate"+"/"+"fished_2.bam"
-
+print(input_fq1,out_razers3_1)
 
 cmd1 = "{razers3_pool} \
       {out_razers3_1} \

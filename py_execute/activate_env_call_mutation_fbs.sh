@@ -55,7 +55,7 @@ if [[ $bed_key = "BC17" ]];then
   conda deactivate
   
   
-elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]] || [[ $bed_key = "NBC650" ]] || [[ $bed_key = "BCP650" ]];then
+elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]];then
   source activate call_mutation_fbs
   echo "fbs is start!"
   python connect_env_call_mutation_fbs.py $sample_path
@@ -120,6 +120,86 @@ elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]] || [[ $bed_key = "NBC65
     exit $returncode
   fi
   conda deactivate
+
+elif [[ $bed_key = "NBC650" ]] || [[ $bed_key = "BCP650" ]];then
+  source activate call_mutation_fbs
+  echo "fbs is start!"
+  python connect_env_call_mutation_fbs.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  conda deactivate
+  source activate cnv_factera_delly
+  python -V
+  echo "factera is start!"
+  python factera.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    echo 'factera have some problem.'
+    exit $returncode
+  fi
+  conda deactivate
+  python -V
+  echo "decon is start!"
+  python decon_map_bam.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  source activate cnv_factera_delly
+  python -V
+  echo "cnvnator is start!"
+  python cnvnator.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  conda deactivate
+  source activate call_mutation_fbs
+  python -V
+  echo "chemo is start!"
+  python chemo.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  conda deactivate
+  source activate call_mutation_fbs
+  python -V
+  echo "msisensor is start!"
+  python msisensor.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  conda deactivate
+  source activate optitype
+  python -V
+  echo "optitype is start!"
+  python optitype.py $sample_path
+  returncode=$?
+  if [[ $returncode -ne 0 ]];then
+    conda deactivate
+    conda env list
+    exit $returncode
+  fi
+  conda deactivate
+  python antigen_vcf.py $sample_path
+  python neoantigen.py $sample_path
+
 
 elif [[ $bed_key = "NBC650-T" ]] || [[ $bed_key = "BCP650-T" ]];then
   source activate cnv_factera_delly

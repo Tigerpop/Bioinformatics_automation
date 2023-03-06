@@ -26,9 +26,10 @@ elif extract_mode == 'fastp_mode':
 bam = generate_location +"/" + sample_path + "/" + sample + f".{dedup_or_markdup}.bam"
 tmp_dir = generate_location +"/" + sample_path
 os.chdir(tmp_dir)
-if bed_key[-1] == 'N': 
+if bed_key[-1] == 'N':
     if not os.path.exists(generate_location +"/" + sample_path + "/" + sample + ".normal.pileup"):
         cmd = f"samtools mpileup \
+              -B \
               -q 1 \
               -f {hg19_fasta} \
               {bam} \
@@ -38,40 +39,41 @@ if bed_key[-1] == 'N':
     if not os.path.exists(f'{tmp_dir}/normal.pileup_have_build'):
         os.mkdir(f'{tmp_dir}/normal.pileup_have_build')
 elif bed_key[-1] == 'T':
-    if not os.path.exists(generate_location +"/" + sample_path + "/" + sample + ".tumor.pileup"):
-        cmd = f"samtools mpileup \
-              -q 1 \
-              -f {hg19_fasta} \
-              {bam} \
-              --output {tmp_dir}/{sample}.tumor.pileup"
-        p = subprocess.Popen(cmd,shell=True)
-        p.communicate()
-    
-    # 等待-N 产生了pileup 之后的文件，代表-N 的pileup文件已经彻底生成。
-    # 轮询等待。
-    sample_path_N,sample_N =  sample_path.replace('-T','-N'),sample.replace('-T','-N')
-    normal_pileup = generate_location +"/" + sample_path_N + "/" + sample_N + ".normal.pileup"
-    tumor_pileup = generate_location +"/" + sample_path + "/" + sample + ".tumor.pileup"
-    normal_pileup_have_build = generate_location +"/" + sample_path_N + "/"+ 'normal.pileup_have_build'
-    start_time = datetime.datetime.now()
-    while not os.path.exists(normal_pileup_have_build):
-        print("等待文件生成...")
-        time.sleep(1)
-    end_time = datetime.datetime.now()
-    time_diff = end_time - start_time
-    print(f"对应文件 normal_pileup 已生成，等待 {time_diff} 秒后退出程序...")
-
-    if not os.path.exists(f"{tmp_dir}/{sample}.varscan.somatic.indel.vcf") \
-        or not os.path.exists(f"{tmp_dir}/{sample}.varscan.somatic.snp.vcf"):
-        cmd = f"varscan somatic \
-                {normal_pileup} \
-                {tumor_pileup} \
-                {tmp_dir}/{sample}.varscan.somatic  \
-                --output-vcf 1"
-        p = subprocess.Popen(cmd,shell=True)
-        p.communicate()
-        if p.returncode != 0:
-            exit(4)
+#     if not os.path.exists(generate_location +"/" + sample_path + "/" + sample + ".tumor.pileup"):
+#         cmd = f"samtools mpileup \
+#               -B \
+#               -q 1 \
+#               -f {hg19_fasta} \
+#               {bam} \
+#               --output {tmp_dir}/{sample}.tumor.pileup"
+#         p = subprocess.Popen(cmd,shell=True)
+#         p.communicate()
+#     
+#     # 等待-N 产生了pileup 之后的文件，代表-N 的pileup文件已经彻底生成。
+#     # 轮询等待。
+#     sample_path_N,sample_N =  sample_path.replace('-T','-N'),sample.replace('-T','-N')
+#     normal_pileup = generate_location +"/" + sample_path_N + "/" + sample_N + ".normal.pileup"
+#     tumor_pileup = generate_location +"/" + sample_path + "/" + sample + ".tumor.pileup"
+#     normal_pileup_have_build = generate_location +"/" + sample_path_N + "/"+ 'normal.pileup_have_build'
+#     start_time = datetime.datetime.now()
+#     while not os.path.exists(normal_pileup_have_build):
+#         print("等待文件生成...")
+#         time.sleep(1)
+#     end_time = datetime.datetime.now()
+#     time_diff = end_time - start_time
+#     print(f"对应文件 normal_pileup 已生成，等待 {time_diff} 秒后退出程序...")
+# 
+#     if not os.path.exists(f"{tmp_dir}/{sample}.varscan.somatic.indel.vcf") \
+#         or not os.path.exists(f"{tmp_dir}/{sample}.varscan.somatic.snp.vcf"):
+#         cmd = f"varscan somatic \
+#                 {normal_pileup} \
+#                 {tumor_pileup} \
+#                 {tmp_dir}/{sample}.varscan.somatic  \
+#                 --output-vcf 1"
+#         p = subprocess.Popen(cmd,shell=True)
+#         p.communicate()
+#         if p.returncode != 0:
+#             exit(4)
     
     # cp varscan 结果 改名 注意，其实这里是没有进行污染库过滤的。
     indel = f'cp {tmp_dir}/{sample}.varscan.somatic.indel.vcf  {tmp_dir}/{sample}.pollpass.vcf'
@@ -98,6 +100,9 @@ elif bed_key[-1] == 'T':
 
         indel_snp = re.findall(r'somatic.(.*?).vcf',ccc)[0]
         cmd = f'mv  {tmp_dir}/{sample}.filter.{hg_19_or_38}_multianno.txt  {tmp_dir}/{sample}.filter.{hg_19_or_38}_{indel_snp}.txt'
+        p = subprocess.Popen(cmd,shell=True)
+        p.communicate()
+        cmd = f'mv  {tmp_dir}/{sample}.anno.{hg_19_or_38}_multianno.txt  {tmp_dir}/{sample}.anno.{hg_19_or_38}_{indel_snp}.txt'
         p = subprocess.Popen(cmd,shell=True)
         p.communicate()
 
