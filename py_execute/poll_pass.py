@@ -20,6 +20,12 @@ bed_key = bed_list[sample_list.index(sample)].split(":")[0]
 bed_key = bed_key.replace('-T','').replace('-N','')
 
 def pollution_filter():
+    # 如果暂时还没有建立好污染库，先让程序先运行，等以后补充上污染库。
+    if not os.path.exists(toolbox_and_RefFile + "/" + f'{bed_key}_pollution_storehouse.txt'):
+        merge_vcf = generate_location + "/" + sample_path + "/" + sample + ".merge.vcf"
+        poll_pass_vcf = generate_location + "/" + sample_path + "/" + sample + ".pollpass.vcf"
+        os.rename(merge_vcf,poll_pass_vcf)
+        return f'暂时还没有建立好 {bed_key}探针 污染库'
     df = pd.read_csv(toolbox_and_RefFile + "/" + f'{bed_key}_pollution_storehouse.txt', sep='\t')
     # df = pd.read_csv(toolbox_and_RefFile + "/" + 'pollution_storehouse.txt', sep='\t')
     # num_list = ['1537', '1567', '1568', '1596', '1597', '3292', '3294', '3295', '4409']

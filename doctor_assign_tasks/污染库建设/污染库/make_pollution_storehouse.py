@@ -11,6 +11,9 @@ class data():
         # num_list = ['0610T', '0610N', '2329T', '2329N', '2338T', '2338N', '4374T', '4374N','4679T','4679N','5234T','5234N','5242T','5242N','5524T','5524N'] # BCP650
         num_list = ['0330T', '0966T', '3990T', '3981T', '4333T', '5200T']  # SD160
         self.df_list = []
+        # 在使用exec()函数动态创建变量时，这些变量将存在于执行exec()函数的作用域中，而不是函数a()的作用域中。
+        # 因此，在a()函数的作用域中无法直接引用这些变量。
+        # 解决这个问题的方法是将动态创建的变量存储在一个可访问的数据结构中，例如字典或列表，以便在需要时进行引用。
         for num in num_list:
             exec(f"df_{num} = pd.read_csv('{num}.txt', sep='\t')")
             exec(f"df_{num}[['Chr','Start','CLNSIG_{num}','VAF_{num}']]=df_{num}[['Chr','Start','CLNSIG','VAF']]")

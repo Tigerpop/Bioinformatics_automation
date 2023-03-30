@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import configparser,subprocess,re,os,sys
+import configparser,subprocess,re,os,sys,shutil
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -28,22 +28,40 @@ os.chdir("chr_split")
 
 # --min-coverage 20 \
 # --min-alternate-count=5 or 2
+# --min-alternate-fraction=0.001  \
 # -t /home/chenyushao/py_generate/rs1695.bed
 def shell_func(i,fasta=fasta,bam_path=bam_path,sample=sample,output_path=output_path):
-    cmd = f"freebayes -f {fasta} --min-alternate-count=5 \
-    --min-alternate-fraction=0.01  \
-    --min-coverage 20 \
-    {bam_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam > {output_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.vcf "
-    # cmd = cmd.format(fasta=fasta,bam_path=bam_path,sample=sample,output_path=output_path,i=i)
-    # subprocess.call(cmd,shell=True)
-    p = subprocess.Popen(cmd,shell=True)
-    p.communicate()
-    if p.returncode != 0:
-        exit(2)
+    if i == "7_replenish":     # 对于补充处理的关键区域单独call,并且缩小颗粒度。
+        cmd = f"freebayes -f {fasta} --min-alternate-count=5 \
+        --min-alternate-fraction=0.001  \
+        --min-coverage 20 \
+        --region chr7:55241614-55259567 \
+        {bam_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam > {output_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.vcf "
+        # cmd = cmd.format(fasta=fasta,bam_path=bam_path,sample=sample,output_path=output_path,i=i)
+        # subprocess.call(cmd,shell=True)
+        p = subprocess.Popen(cmd,shell=True)
+        p.communicate()
+        if p.returncode != 0:
+            exit(2)        
+    else:
+        cmd = f"freebayes -f {fasta} --min-alternate-count=5 \
+        --min-alternate-fraction=0.01  \
+        --min-coverage 20 \
+        {bam_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.bam > {output_path}/{sample}.{dedup_or_markdup}.REF_chr{i}.vcf "
+        # cmd = cmd.format(fasta=fasta,bam_path=bam_path,sample=sample,output_path=output_path,i=i)
+        # subprocess.call(cmd,shell=True)
+        p = subprocess.Popen(cmd,shell=True)
+        p.communicate()
+        if p.returncode != 0:
+            exit(2)
 
 if __name__=="__main__":
+    # 先把 切分好的 bam 文件中要补充 处理的bam文件复制一份，并重命名为 chr*_replenish
+    shutil.copyfile(f'{bam_path}/{sample}.{dedup_or_markdup}.REF_chr7.bam', f'{bam_path}/{sample}.{dedup_or_markdup}.REF_chr7_replenish.bam')
+    shutil.copyfile(f'{bam_path}/{sample}.{dedup_or_markdup}.REF_chr7.bam.bai', f'{bam_path}/{sample}.{dedup_or_markdup}.REF_chr7_replenish.bam.bai')
+    
     test_list = [i for i in range(1,23)]
-    test_list.extend(["X","Y"])
+    test_list.extend(["X","Y","7_replenish"])
     pool = Pool(processes=10)
     # result = []
     for i in test_list:

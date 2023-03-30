@@ -42,18 +42,18 @@ if [[ $bed_key = "BC17" ]];then
     conda env list
     exit $returncode
   fi
-  source activate cnv_factera_delly
-  python -V
-  echo "cnvnator is start!"
-  python cnvnator.py $sample_path
-  returncode=$?
-  if [[ $returncode -ne 0 ]];then
-    conda deactivate
-    conda env list
-    exit $returncode
-  fi
-  conda deactivate
-  
+  # source activate cnv_factera_delly
+  # python -V
+  # echo "cnvnator is start!"
+  # python cnvnator.py $sample_path
+  # returncode=$?
+  # if [[ $returncode -ne 0 ]];then
+  #   conda deactivate
+  #   conda env list
+  #   exit $returncode
+  # fi
+  # conda deactivate
+  python collect.py $sample_path
   
 elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]];then
   source activate call_mutation_fbs
@@ -87,17 +87,17 @@ elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]];then
     conda env list
     exit $returncode
   fi
-  source activate cnv_factera_delly
-  python -V
-  echo "cnvnator is start!"
-  python cnvnator.py $sample_path
-  returncode=$?
-  if [[ $returncode -ne 0 ]];then
-    conda deactivate
-    conda env list
-    exit $returncode
-  fi
-  conda deactivate
+  # source activate cnv_factera_delly
+  # python -V
+  # echo "cnvnator is start!"
+  # python cnvnator.py $sample_path
+  # returncode=$?
+  # if [[ $returncode -ne 0 ]];then
+  #   conda deactivate
+  #   conda env list
+  #   exit $returncode
+  # fi
+  # conda deactivate
   source activate call_mutation_fbs
   python -V
   echo "chemo is start!"
@@ -120,6 +120,7 @@ elif [[ $bed_key = "Q120" ]] || [[ $bed_key = "SD160" ]];then
     exit $returncode
   fi
   conda deactivate
+  python collect.py $sample_path
 
 elif [[ $bed_key = "NBC650" ]] || [[ $bed_key = "BCP650" ]];then
   source activate call_mutation_fbs
@@ -153,17 +154,17 @@ elif [[ $bed_key = "NBC650" ]] || [[ $bed_key = "BCP650" ]];then
     conda env list
     exit $returncode
   fi
-  source activate cnv_factera_delly
-  python -V
-  echo "cnvnator is start!"
-  python cnvnator.py $sample_path
-  returncode=$?
-  if [[ $returncode -ne 0 ]];then
-    conda deactivate
-    conda env list
-    exit $returncode
-  fi
-  conda deactivate
+  # source activate cnv_factera_delly
+  # python -V
+  # echo "cnvnator is start!"
+  # python cnvnator.py $sample_path
+  # returncode=$?
+  # if [[ $returncode -ne 0 ]];then
+  #   conda deactivate
+  #   conda env list
+  #   exit $returncode
+  # fi
+  # conda deactivate
   source activate call_mutation_fbs
   python -V
   echo "chemo is start!"
@@ -199,7 +200,7 @@ elif [[ $bed_key = "NBC650" ]] || [[ $bed_key = "BCP650" ]];then
   conda deactivate
   python antigen_vcf.py $sample_path
   python neoantigen.py $sample_path
-
+  python collect.py $sample_path
 
 elif [[ $bed_key = "NBC650-T" ]] || [[ $bed_key = "BCP650-T" ]];then
   source activate cnv_factera_delly
@@ -266,6 +267,7 @@ elif [[ $bed_key = "NBC650-T" ]] || [[ $bed_key = "BCP650-T" ]];then
     exit $returncode
   fi
   conda deactivate
+  python collect.py $sample_path
   
 elif [[ $bed_key = "NBC650-N" ]] || [[ $bed_key = "BCP650-N" ]];then
   source activate cnv_factera_delly
@@ -278,7 +280,7 @@ elif [[ $bed_key = "NBC650-N" ]] || [[ $bed_key = "BCP650-N" ]];then
     exit $returncode
   fi
   conda deactivate
-
+  python collect.py $sample_path
   
 fi
 

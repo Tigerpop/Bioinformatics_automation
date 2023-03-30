@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
+import shutil
 from multiprocessing import Process,Pool
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -35,7 +36,7 @@ def shell_func(i,sample=sample):
 if __name__=="__main__":
     os.chdir(split_vcf_path)
     test_list = [i for i in range(1,23)]
-    test_list.extend(["X","Y"])
+    test_list.extend(["X","Y","7_replenish"])
     pool = Pool(processes=12)
     for i in test_list:
         pool.apply_async(shell_func,(i,))
@@ -67,6 +68,7 @@ if __name__=="__main__":
     {sample}.{dedup_or_markdup}.REF_chr22.vcf.gz \
     {sample}.{dedup_or_markdup}.REF_chrX.vcf.gz \
     {sample}.{dedup_or_markdup}.REF_chrY.vcf.gz \
+    {sample}.{dedup_or_markdup}.REF_chr7_replenish.vcf.gz \
     > {sample}.merge.vcf"
     p = subprocess.Popen(cmd,shell=True)
     p.communicate()

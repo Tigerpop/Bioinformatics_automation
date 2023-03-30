@@ -24,8 +24,9 @@ def divide_sample(bed_list):
     bc17 = df_received[df_received['探针*']=='BC17']
     bc17.fillna('',inplace=True)
     bc17_list = bc17.values.tolist()                                            # 每一行 做成list。
+    # print(bc17_list)
     row_list = []
-    [ row_list.append('\t'.join(l)) for l in bc17_list ]
+    [ row_list.append('\t'.join(list(map(str,l)) )) for l in bc17_list ]
     # print(row_list)
     
     for bed_key in temp:
@@ -33,7 +34,7 @@ def divide_sample(bed_list):
             df = df_received[df_received['探针*']==f'{bed_key}']
             df.fillna('',inplace=True)
             row_list = []
-            [ row_list.append('\t'.join(l)) for l in df.values.tolist() ]
+            [ row_list.append('\t'.join(list(map(str,l)) )) for l in df.values.tolist() ]
             for row in row_list:
                 f.write(row+'\n')
                 

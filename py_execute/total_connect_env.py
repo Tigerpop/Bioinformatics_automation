@@ -11,9 +11,9 @@ extract_mode = config['extract_mode']['choose']
 
 def work(sample_path,bed):
     try:
-        print(sample_path,len(os.listdir(sample_dir+"/"+sample_path)))  
+        # print(sample_path,len(os.listdir(sample_dir+"/"+sample_path)))  
         sample = sample_path.split("/")[-1]
-        if not os.path.exists(sample_dir+"/"+sample_path) or len(os.listdir(sample_dir+"/"+sample_path))!=2:
+        if (not os.path.exists(sample_dir+"/"+sample_path)) or len(os.listdir(sample_dir+"/"+sample_path))!=2:
             with open('/working_tmp/need_manual_processing.txt','a+')as f:
                 f.write('输入文件为不合法情况，请手工处理: '+sample_dir+"/"+sample_path+"\n")
             return sample_path,'为不合法情况，请手工处理。'
@@ -47,7 +47,7 @@ def work(sample_path,bed):
                 print( cmd+"  successed!" )
             else:
                 print('look here!!! ',cmd+"  failed!")
-                subprocess.call("pause",shell=True)  # 暂停
+                # subprocess.call("pause",shell=True)  # 暂停
                 exit(100)
     except:
         with open('/working_tmp/need_manual_processing.txt','a+')as log:

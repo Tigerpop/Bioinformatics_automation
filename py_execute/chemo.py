@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import configparser,subprocess,re,os,sys
 import pandas as pd 
+import shutil
 config = configparser.ConfigParser()
 config.read('config.ini')
 generate_location = config['generate']['location']
@@ -101,8 +102,9 @@ def process_output_base_num():
     df_result1.to_csv('./process_output_base_num.txt',sep='\t',index=None)
     
 if __name__=="__main__":
-    if not os.path.exists(f"{generate_location}/{sample_path}/"+"chemo_generate"):
-        os.mkdir(f"{generate_location}/{sample_path}/"+"chemo_generate")
+    if os.path.exists(f"{generate_location}/{sample_path}/"+"chemo_generate"):
+        shutil.rmtree(f"{generate_location}/{sample_path}/"+"chemo_generate")    #递归删除文件夹，即：删除非空文件夹    
+    os.mkdir(f"{generate_location}/{sample_path}/"+"chemo_generate")
     # make_rs_address()                # 生成以后我手动删除了两行。
     # drop_duplicate()
     output_base_num()
