@@ -696,7 +696,7 @@ class BC17():
                     fill_in_0 = self.table_analysis.cell(address[1], 0).paragraphs[0].text + " " + self.table_analysis.cell(address[1], 3).paragraphs[0].text
                     fill_in_1 = self.table_analysis.cell(address[1], 5).paragraphs[0].text
                     fill_in_2 = self.table_analysis.cell(address[1], 0).paragraphs[0].text
-                    fill_in_3 = self.table_analysis.cell(address[1], 4).paragraphs[0].text[4:]
+                    fill_in_3 = self.table_analysis.cell(address[1], 4).paragraphs[0].text
                     fill_in_4 = self.table_analysis.cell(address[1], 3).paragraphs[0].text
                     fill_in_5 = self.table_analysis.cell(address[1], 6).paragraphs[0].text
                     if fill_in_4!='/':

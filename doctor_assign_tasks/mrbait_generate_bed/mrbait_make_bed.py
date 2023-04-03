@@ -10,7 +10,7 @@ df_snp_bed['E'] = df_snp_bed['E'] + 100
 df_snp_bed = df_snp_bed[df_snp_bed['Target-name'].str.match('^rs')]
 df_snp_bed.to_csv('SNP-BED.bed',sep='\t',header=None,index=None)
 
-# cmd = 'bedtools getfasta -fi ucsc.hg19.fasta -bed SNP-BED.bed > SNP-BED.fasta'
+# cmd = 'bedtools getfasta -fi ucsc.hg19.fasta -bed SNP-BED.bed > SNP-BED.fasta' # 这一步还有 25444条。
 # p = subprocess.Popen(cmd,shell=True)
 # p.communicate()
 
@@ -115,5 +115,48 @@ def add_lable():
 # df_add_two_lable_bed = df_add_lable_bed
 # print(df_add_two_lable_bed)
 # sort_chr_start(df_add_two_lable_bed,output='add_two_lable_sorted_SNP-BED_rs_build.bed') 
+# 加个header。
 df_add_two_lable_bed = pd.read_csv('add_two_lable_sorted_SNP-BED_rs_build.bed',sep='\t',header=None,names=['chr','S','E','rs','bait','distance','unique'])
-df_add_two_lable_bed.to_csv('add_two_lable_sorted_SNP-BED_rs_build.bed',sep='\t',index=False)
+# df_add_two_lable_bed.to_csv('add_two_lable_sorted_SNP-BED_rs_build.bed',sep='\t',index=False)
+# df_add_two_lable_bed['sequence'] = None
+# with open('./rename_baits.fasta','r')as f:
+#     pre = f.readline()
+#     for line in f: #从第二行 开始读。
+#         if re.match('^>rs',pre)!=None:
+#             rs_target_bait = pre.split('\t')[0].split('_')
+#             rs,bait = rs_target_bait[0].replace('>',''),rs_target_bait[2].strip('\n')
+#             df_add_two_lable_bed.loc[(df_add_two_lable_bed['rs']==rs)&(df_add_two_lable_bed['bait']==bait),'sequence'] = line.strip('\n')
+#             # print(rs,[bait])
+#             # print(df_add_two_lable_bed[df_add_two_lable_bed['rs']==rs])
+#             # print(df_add_two_lable_bed.loc[(df_add_two_lable_bed['rs']==rs) & (df_add_two_lable_bed['bait']==bait)])
+#         pre = line
+# df_add_three_lable_bed = df_add_two_lable_bed
+# sort_chr_start(df_add_three_lable_bed,output='add_three_lable_sorted_SNP-BED_rs_build.bed')
+
+# 精简 优先取 Nearest      Y，求其次取 -  Y 。精简步骤有问题。
+df_add_three_lable_bed = pd.read_csv('add_three_lable_sorted_SNP-BED_rs_build.bed',sep='\t',header=None,names=['chr','S','E','rs','bait','distance','unique','sequence'])
+# print(df_add_three_lable_bed[df_add_three_lable_bed['rs']=='rs5945413'])
+grouped = df_add_three_lable_bed.groupby('rs')
+temp_list = []
+for x in grouped.groups: # get_group(x) 结果是df
+    df_temp = grouped.get_group(x) 
+    if not df_temp[(df_temp['distance']=='Nearest')&(df_temp['unique']=='Y')].empty:
+        df = df_temp[(df_temp['distance']=='Nearest')&(df_temp['unique']=='Y')].iloc[[0]]
+        if df_temp['rs'].iloc[0]=='rs5945413':
+            print(df_temp['rs'],'进入第一 Nearest Y')
+            print(df)
+    elif not df_temp[(df_temp['distance']=='-')&(df_temp['unique']=='Y')].empty:
+        df = df_temp[(df_temp['distance']=='-')&(df_temp['unique']=='Y')].iloc[[0]]
+        if df_temp['rs'].iloc[0]=='rs5945413':
+            print(df_temp['rs'],'进入第二 - Y')
+            print(df)
+    else:    # 如果没有 符合条件的就直接跳过。
+        continue
+    temp_list.append(df)
+df_cut_add_three_lable_bed = pd.concat(temp_list)
+print(df_cut_add_three_lable_bed[df_cut_add_three_lable_bed['rs']=='rs5945413']) # 为什么在精简以后出现一对重复的？加入上面的else continue 就好了。
+sort_chr_start(df_cut_add_three_lable_bed,output='cut_add_three_lable_sorted_SNP-BED_rs_build.bed')
+
+
+
+

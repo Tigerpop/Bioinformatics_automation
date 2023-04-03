@@ -27,9 +27,9 @@ def work(sample_path,bed):
             print(sample,cmd,'look here !')
             bam_file1 = generate_location+"/"+sample_path+"/"+sample+".dedup.bam"
             bam_file2 = generate_location+"/"+sample_path+"/"+sample+".markdup.bam"
-            if (os.path.exists(bam_file1) or os.path.exists(bam_file2)) and cmd==cmds[0]:
-                print(sample,' 有 dudep或者markdup文件,跳过第一个环节，直接进入第二环节。')
-                continue
+            # if (os.path.exists(bam_file1) or os.path.exists(bam_file2)) and cmd==cmds[0]:  # 这一步在实际运行中可能会让更新的fq文件被跳过，所以还是关闭，仅仅是在调试的时候解约时间用。
+            #     print(sample,' 有 dudep或者markdup文件,跳过第一个环节，直接进入第二环节。')
+            #     continue
             print(cmd," start! ")
             p = subprocess.Popen(cmd,shell=True, close_fds=True, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
             # 一下方式是实时查看紫禁城subprocess中输出，自己选择看不看。
