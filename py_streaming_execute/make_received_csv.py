@@ -28,6 +28,7 @@ def fill_received():
         df_raw = pd.read_csv('/received/received.csv',sep=',',header=1)
         df_last = df_raw[df_raw['is_new'] == False]
         df = df_raw[df_raw['is_new'] != False]
+        # print(df)
         Project_2,Project_3,Project_4 = '/received/2023项目表2月.csv','/received/2023项目表3月.csv','/received/2023项目表4月.csv'
         df_ref = pd.concat([pd.read_csv(Project_2,sep=','),pd.read_csv(Project_3,sep=','),pd.read_csv(Project_4,sep=',')])
         # print(df['样本编号*'])
@@ -79,7 +80,7 @@ if __name__=='__main__':
     make_received(sample_list)
     
     df_result = fill_received()
-    print(df_result[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']])
+    # print(df_result[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']])
     with open('/received/received.csv','w')as f:
         f.write(',,患者信息,,,,,,检测项目,,,,肿瘤样本,,,,,,,,,,对照样本,,,,'+'\n')
     df_result.to_csv('/received/received.csv',sep=',',header=1,mode='a',index=False)

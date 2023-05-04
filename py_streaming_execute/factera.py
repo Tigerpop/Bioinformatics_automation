@@ -56,3 +56,13 @@ def run_fectera():
 if __name__=='__main__':
     make_2bit_file()
     run_fectera()
+    # fectera 人工解读的逻辑是：看看 Break_support1 Break_support2 都要>50;
+    # 报告中，用 max(Break_support1,Break_support2 )/Total_depth ,百分数保留两位小数作为 丰度值写入word报告，
+    # 所以 BC17_word.py 中还需要改一点内容。
+    
+    
+    # snpdelins call 突变 需要打一个补丁 ，用于方便人工标注时减少工作量.
+    # 1、CLNSIG 临床重要性 有标注的 跳过；
+    # 2、主要针对 CLNSIG 临床重要性 为 . 的部分，VAF list中的max值 > 3% ，且  CLNSIG 为 pathogenic/likey pathogenic。
+    # 3、主要针对 CLNSIG 临床重要性 为 . 的部分，AAchange 字段中出现了 del 或者 ins ，AO 的list 只有唯一一个元素，且AO>50，DP>500 ，就都标记S1.
+    

@@ -2,7 +2,7 @@
 
 # 把上面代码新建 multiprocessing.Queue() 加入参数，完成子进程内容向父进程的自定义代码回馈。
 # 在报错表中方便检查问题。
-import multiprocessing, subprocess,sys,os
+import multiprocessing, subprocess,sys,os,re,time
 
 class MyException(Exception):
     pass
@@ -61,15 +61,15 @@ if __name__ == '__main__':
     # sample = '2022WSSW005607-T'
     sample_monitor = '/fastq_data'
     sample = sys.argv[1]  # '2022WSSW005608-T'
-    sample_path = sample.replace('-T','').replace('-N','')+'/'+sample  # 2022WSSW005608/2022WSSW005608-T
+    sample_path = sample # sample.replace('-T','').replace('-N','')+'/'+sample  # 2022WSSW005608/2022WSSW005608-T
     generate_location = '/home/chenyushao/py_streaming_generate'
     log_path = f"{generate_location}/{sample_path}/log" # 'py_streaming_execute/log'
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
     bed = '/refhub/hg19/target/BC17/BC17.expand1.hg19.bed'
     bed_key = 'BC17'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
-    fa_gz_1 = f'/fastq_data/{sample_path}/{sample}_1.fq.gz'
-    fa_gz_2 = f'/fastq_data/{sample_path}/{sample}_2.fq.gz'
+    fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
+    fa_gz_2 = str(f'/fastq_data/{sample_path}/{sample}_2.fq.gz')
     out_extract_1 = f"{generate_location}/{sample_path}/{sample}_1.extract.fq.gz"
     out_extract_2 = f"{generate_location}/{sample_path}/{sample}_2.extract.fq.gz"
     unsort_bam = f'{generate_location}/{sample_path}/{sample}.unsort.bam'
@@ -86,14 +86,41 @@ if __name__ == '__main__':
     # 主动抛出错误测试。
     # aaa
     
-    # 给原始文件改名E150000469_L01_2022WSSW003294-T_2.fq.gz -> 2022WSSW003294-T_2.fq.gz
+    # 这里有问题。os 是典型的非阻塞模块，可能导致 主进程后面都开始运行了，这里的os方法还运行打一半。
+    # 给原始文件改名E150000469_L01_2022WSSW003294-T_2.fq.gz -> 2022WSSW003294-T_2.fq.gz,睿明的样本把 _raw 去掉。
+    # 要保证 下面运行完毕以后，再运行主进程的后续内容。
     name_list = os.listdir(f'{sample_monitor}/{sample_path}/')
-    if name_list[0][0]=='E':
-        for name in name_list:
+    for name in name_list:
+        if name[0] == 'E':
             newname = "_".join(name.split("_")[-2:])
             os.rename(f'{sample_monitor}/{sample_path}/{name}',f'{sample_monitor}/{sample_path}/{newname}')
+        if re.findall('_raw_',name)!=[]:
+            newname = name.replace('_raw_1','_1').replace('_raw_2','_2')
+            os.rename(f'{sample_monitor}/{sample_path}/{name}',f'{sample_monitor}/{sample_path}/{newname}')
+
     if not os.path.exists(log_path):
         os.makedirs(log_path)
+    # cmd = 'name_list=$(ls ${sample_monitor}/${sample_path}/)\
+    #         for name in $name_list\
+    #         do\
+    #             if [ ${name:0:1} == "E" ]\
+    #             then\
+    #                 newname=$(echo $name | awk -F "_" '{print "_"$(NF-1)"_"$NF}')\
+    #                 mv ${sample_monitor}/${sample_path}/${name} ${sample_monitor}/${sample_path}/${newname}\
+    #             fi\
+    #         done\
+    #         for name in $name_list\
+    #         do\
+    #             newname=$(echo $name | sed 's/_raw_1/_1/g' | sed 's/_raw_2/_2/g')\
+    #             mv ${sample_monitor}/${sample_path}/${name} ${sample_monitor}/${sample_path}/${newname}\
+    #         done\
+    #         if [ ! -d "$log_path" ]\
+    #         then\
+    #             mkdir -p "$log_path"\
+    #         fi'
+    # process = subprocess.Popen(command[command_key], shell=True, executable='/bin/bash')
+    # process.communicate() 
+    
     # 注意： 
     # 其实fastp.log 内是 错误才会输入进去，但是我们需要这个fastp.log 文件，就没有把它当错误处理。
     # 也就是说在shell命令中如果重定向 > 进了一个文件夹，进程通信就不能再得到正确或者错误的返回值了。
@@ -104,6 +131,7 @@ if __name__ == '__main__':
     # 解决方法:
     # （生信工具编写者总是喜欢把 “调试内容”写进“标准错误输出err”中）
     # 用 process.returncode 来判断是不是真的正确输出，调试信息存起来就行。
+    # time.sleep(60)
     command = {}  
     command['fastp_extract'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
@@ -172,7 +200,7 @@ if __name__ == '__main__':
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
     # 流程list
-    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','decon_map_bam','factera','collect']
+    execution_order_list = ['process_anno_filter','decon_map_bam','factera','collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','decon_map_bam','factera','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

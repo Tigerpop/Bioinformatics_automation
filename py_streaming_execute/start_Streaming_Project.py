@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 import time,os,random,subprocess
-import queue
+import queue,chardet
+import pandas as pd 
 from multiprocessing import Pool
 from datetime import date
 
-def worker(sample):
+
+def worker(sample,panel):
     # print(f"start {sample},process is {os.getpid()}")
     # time.sleep(random.randint(2,100))
     # print(f"end {sample},process is {os.getpid()}")
     try:
-        cmd = f'python BC17.py {sample}'
+        print('运行的启动时间是： ',time.time())
+        if panel == 'BC17':
+            cmd = f'python BC17.py {sample}'
+        else:
+            cmd = 'echo not_BC17'
         p = subprocess.Popen(cmd,shell=True, close_fds=True, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         # # 一下方式是实时查看紫禁城subprocess中输出，自己选择看不看。
         # while p.poll() is None:
@@ -41,27 +47,57 @@ def Output_New_File_and_push_to_pool(path_to_watch,pool): # path_to_watch 是被
     # path_to_watch = "/Users/chenyushao/Desktop/python_draft/biotools_draft/Scan_folder"
     before = dict([(f, None) for f in os.listdir(path_to_watch)])
     while True:
+        start_time = time.time()
         time.sleep(5)
         
         # 加载（移动）文件进文件夹，写在这。读未读。
-        time.sleep(5)
-        
-        after = dict([(f, None) for f in os.listdir(path_to_watch)])  # 列表推导的方式 对 dict 赋值。f 是文件名,也可能是文件夹名.
-        added = [f for f in after if not f in before]  # [2088,2883,2458] 带 T N 的是它的子元素。
-        if added:   
-            # print(added)
-            added_sub = []
-            [ added_sub.extend(os.listdir(f"{path_to_watch}/{f}")) for f in added]
-            added_sub_str = ",".join(added_sub)
-            # print(added_sub_str)
-            cmd = f'python make_received_csv.py {added_sub_str} > /home/chenyushao/py_streaming_generate/log/make_received.log 2>&1'
+        # time.sleep(5)
+        if os.path.exists(f'/received/received_new.csv') or os.path.exists(f'/received/received_vip.csv'):
+            cmd = f'python download_data.py '
             p = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
             p.communicate()
-            
+            returncode = p.returncode
+            print('读文件下载的完成时间是： ',time.time())
+            if returncode !=0:
+                os.rename(f'/received/received_new.csv',f'/received/received_new_err.csv')
+                print('请检查输入的received_new received_VIP 表。')
+                # exit(100)
+                
+        after = dict([(f, None) for f in os.listdir(path_to_watch)])  # 列表推导的方式 对 dict 赋值。f 是文件名,也可能是文件夹名.
+        added = [f for f in after if not f in before]  # [2088-T,2883-T,2458-T] 。
+        # 为应对 同名元素传入，我们会在 mv 文件进被监控文件夹时，把旧的加上 _before 。
+        # 首先要从added中排除有‘_before’词缀的
+        # 再从after中找 _before 词缀前的 原版元素。
+        # 判断 _before 词缀前的 原版元素文件创建时间 是否离当前时刻在一个扫描周期内。
+        # 如果在一个周期内，就把 _before 词缀前的 原版元素 添加进added，否则视为旧有元素。
+        added = [x for x in added if '_before' not in x]
+        have_before_pre = list(set([x.split('_before')[0] for x in after if '_before' in x]))
+        new_time = time.time()
+        have_before_pre_newAdd = \
+                [x for x in  have_before_pre if (new_time-os.path.getctime(f'{path_to_watch}/{x}'))<new_time-start_time ]
+        added.extend(have_before_pre_newAdd)
+        # print('added: ',added)
+        # print('have_before_pre_newAdd: ',have_before_pre_newAdd)
+        if added:   
+            # print(added)
+            added_str = ",".join(added)
+            # print(added_sub_str)
+            # 这一步，要按照 老板意思来，老板并不能很好的理解流程规则，但是老板的意思从根本上来说就是更喜欢读写received表，而不是“项目表”，
+            # 那就让老板读写 另外一个长得和 received 表格式一样的表即可。流程可以不变。如果真的后台在写表，手工又写表，可能会带来额外锁的问题，没必要弄复杂。
+            # 下面在 python make_received_csv.py 之前，需要补充一个 填充项目表的 类似 received 格式的表格，完成对其它家数据的补充。
+            # cmd = f'python make_received_csv.py {added_sub_str} > /home/chenyushao/py_streaming_generate/log/make_received.log 2>&1'
+            # p = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
+            # p.communicate()
 
-            print("Added: ", added_sub_str)
-            for f in added_sub:             #  都去 pool前面排队。因为没有 pool.close() 告诉进程池不再接收新任务，所以队列越排越长。但是进程池不会出现空闲。
-                pool.apply_async(worker, args=(f,)) 
+            print("Added: ", added_str)
+            for f in added:             #  都去 pool前面排队。因为没有 pool.close() 告诉进程池不再接收新任务，所以队列越排越长。但是进程池不会出现空闲。
+                # 后续这一步中识别panel. 备加入。
+                with open('/received/main/received.csv', 'rb') as f0: # 确认编码类型。
+                    encoding_stype = chardet.detect(f0.read())
+                df = pd.read_csv('/received/main/received.csv',sep=',',header=1,encoding=encoding_stype['encoding'])
+                # print(df[df['样本编号*']==f])
+                panel = df[df['样本编号*']==f]['探针*'].iloc[0]
+                pool.apply_async(worker, args=(f,panel,)) 
         before = after
 
 

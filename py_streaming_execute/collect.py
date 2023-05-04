@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re,os,sys,shutil
+import re,os,sys,shutil,chardet
 import pandas as pd
 from pandas import DataFrame
 from datetime import date
@@ -17,12 +17,15 @@ def generate_summary():
     with pd.ExcelWriter(f'{generate_location}/{sample_path}/{sample}.summary.xlsx') as writer:
         try:
             # mate
-            df_receive = pd.read_csv(f'/received/received.csv',sep=',',header=1)
+            with open('/received/main/received.csv', 'rb') as f0: # 确认编码类型。
+                encoding_stype = chardet.detect(f0.read())
+            df_receive = pd.read_csv(f'/received/main/received.csv',sep=',',header=1,encoding=encoding_stype['encoding'])
             df_mate = df_receive[df_receive['样本编号*']==sample]
             df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
             = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
             df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
             # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
+            df_mate = df_mate.tail(1)
             DataFrame(df_mate).to_excel(writer,sheet_name='meta',index=False,header=True)
             
             # snpindel 

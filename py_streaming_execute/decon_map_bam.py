@@ -44,3 +44,7 @@ def run_DeCoN():
 if __name__=='__main__':
     build_bam_file()
     run_DeCoN()
+    # cnv 的人工处理规则是：Read_ratio > 2 也就是 cnv_number >4 ,
+    # 同时，只报 duplicate 内容，
+    # cnv_number 四舍五入取整数部分 作为 word 报告中的丰度值，
+    # 这个BC17_word.py 中需要 小幅度改动一下。

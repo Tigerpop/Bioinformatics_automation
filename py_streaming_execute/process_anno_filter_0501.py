@@ -62,21 +62,17 @@ def process_anno_filter():
     df_retain['EXON'] = df_retain['AAChange.smallrefGene'].str.split(':', expand=True)[2]
     df_retain['NCchange'] = df_retain['AAChange.smallrefGene'].str.split(':', expand=True)[3]
     df_retain['AAchange'] = df_retain['AAChange.smallrefGene'].str.split(':', expand=True)[4]
-    for element_list in df_retain['Otherinfo11'].str.split(';', expand=False):
+    for element_list in df_retain['Otherinfo11'].str.split(';',expand=False):
         for element in element_list:
             if element.split('=')[0] == 'AO':
                 # print(element)
-                df_retain['AO'].iloc[i] = max(list(map(int,element.split('=')[1].split(',')))) # 这里其实是有多个值的 AO，我们取了最大值。
+                df_retain['AO'].iloc[i] = element.split('=')[1]
             if element.split('=')[0] == 'DP':
                 # print(element)
                 df_retain['DP'].iloc[i] = element.split('=')[1]
         vaf_list = []
-        # for ii in range(len(df_retain['AO'].iloc[i].split(','))):  # 这里其实是有多个值的 AO，我们全取就这样写。
-        #     vaf_list.append(
-        #         "%.2f%%" % (int(df_retain['AO'].iloc[i].split(',')[ii]) * 100 / int(df_retain['DP'].iloc[i])))
-        ii = df_retain['AO'].iloc[i]
-        vaf_list.append(
-            "%.2f%%" % (ii * 100 / int(df_retain['DP'].iloc[i])))
+        for ii in range(len(df_retain['AO'].iloc[i].split(','))):
+            vaf_list.append("%.2f%%"%(int(df_retain['AO'].iloc[i].split(',')[ii])*100/int(df_retain['DP'].iloc[i])))
         df_retain['VAF'].iloc[i] = ','.join(vaf_list)
         i += 1
     # 删除 'Otherinfo11'等字段，用完了就删掉，并调整字段顺序。
