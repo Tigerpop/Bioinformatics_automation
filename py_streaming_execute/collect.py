@@ -33,6 +33,13 @@ def generate_summary():
             df_snpindel = pd.read_csv(file,sep='\t')
             df_snpindel['review'] = None
             DataFrame(df_snpindel).to_excel(writer,sheet_name='snpindel',index=False,header=True)
+
+            # snpindel_germline 
+            file = f'{generate_location}/{sample_path}/{sample}.germline.hg19_multigermline.txt'
+            df_germline = pd.read_csv(file,sep='\t')
+            df_germline['review'] = None
+            DataFrame(df_germline).to_excel(writer,sheet_name='germline',index=False,header=True)
+            
             
             # fusion
             file = f"{generate_location}/{sample_path}/factera_generate/{sample}.bwa_mem.factera.fusions.txt"
