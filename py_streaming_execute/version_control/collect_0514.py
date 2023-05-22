@@ -69,24 +69,25 @@ def generate_summary():
                 df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int)*2/df_cnv['medRC.norm'].astype(int)).astype(int)
                 df_cnv['review'] = None
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
-            
+            '''
             # msi 和 chemo
-            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B']: 
-                file1 = f"{generate_location}/{sample_path}/msi_generate/msi_result"
-                file2 = f"{generate_location}/{sample_path}/msi_generate/msi_result_unstable"
-                file = f"{generate_location}/{sample_path}/msi_generate/to_summery_smi"
+            if bed_key in ['Q120','SD160','NBC650','BCP650']: 
+                file1 = f"{generate_location}/{sample_path}/msisensor_generate/{sample}msi"
+                file2 = f"{generate_location}/{sample_path}/msisensor_generate/{sample}msi_somatic"
+                file = f"{generate_location}/{sample_path}/temp_smi"
                 with open(file1,'r')as f0,open(file2,'r')as f1,open(file,'w')as f2:
                     for line in f0:
                         f2.write(line)
                     for line in f1:
                         f2.write(line)
-                df_msi = pd.read_csv(file,sep='\t',header=None,names=[1,2,3,4,5,6,7,8,9,10])
+                df_msi = pd.read_csv(file,sep='\t',header=None,names=[1,2,3,4,5,6,7])
                 DataFrame(df_msi).to_excel(writer,sheet_name='msi',index=False,header=False)
+                
                 file = f"{generate_location}/{sample_path}/chemo_generate/process_output_base_num.txt"
                 df_chemo = pd.read_csv(file,sep='\t')
                 df_chemo['review'] = None
                 DataFrame(df_chemo).to_excel(writer,sheet_name='chemo',index=False,header=True)
-            '''
+            
             # hla 和 neoantigen
             if bed_key in ['NBC650','BCP650']: 
                 file = f'{generate_location}/{sample_path}/optitype_generate/fished_result.tsv'
@@ -155,12 +156,11 @@ def send_summary_to_archive(): # 和之前批处理不一样，这里只需要�
 #     workbook.remove(temp_sheet)
 #     workbook.save(output)# ('add_color.xlsx')
 
-    # with pd.ExcelWriter(output,mode='a') as writer:
-    #     df_appended.to_excel(writer,sheet_name=sheet,index=False,header=True)
+    with pd.ExcelWriter(output,mode='a') as writer:
+        df_appended.to_excel(writer,sheet_name=sheet,index=False,header=True)
         
 
 ##########################################################################################
-# 以下为加颜色部分；
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Color, colors
 import re
@@ -251,9 +251,9 @@ def add_color(input,output,sheet='snpindel'):
     temp_sheet.append([cell.value for cell in workbook[sheet][1]]) # 第一行写入
     for row in none_rows:
         temp_sheet.append([cell.value for cell in row])
-    workbook.save(f'{generate_location}/{sample_path}/add_color.xlsx')
+    workbook.save('add_color.xlsx')
 
-    df = pd.read_excel(f'{generate_location}/{sample_path}/add_color.xlsx', sheet_name=None)
+    df = pd.read_excel('add_color.xlsx', sheet_name=None)
     df0 = df[sheet]
     df1 = df['temp_sheet']
     df1['vaf_temp'] = df1['VAF'].str.replace('%', '').astype(float)
@@ -355,46 +355,7 @@ def order_and_rename(input):
         workbook.move_sheet(sheet, idx + 1)
     workbook.save(input)
 
-def add_color0(input='./BCX-YCH0784-17T-1G0507.summary.xlsx',sheet='cnv'):
-    df = pd.read_excel(input, sheet_name=None)
-    df = df[sheet]
-    # print(df['CN'])
-    # 筛选出CN列等于"CN4"的行中 gene 出现的行。
-    cn4_rows = df[df['CN'] == 'CN4']
-    cn4_rows_gene = cn4_rows['Gene'].tolist()
-    cn4_rows_gene_list = list(set(cn4_rows_gene))
-    cn4_rows = df[df['Gene'].isin(cn4_rows_gene_list)]
-    cn4_rows = cn4_rows.sort_values(by=['Gene'])
-    # print(cn4_rows)
-    # print(cn4_rows_gene_list)
-    # 将这些行移到表的最上方
-    df = pd.concat([cn4_rows, df.drop(cn4_rows.index)])
-
-    workbook = load_workbook(input) # ('./BCX-YCH0784-17T-1G0507.summary.xlsx')
-    worksheet = workbook[sheet]
-    workbook.remove(worksheet)
-    workbook.save(input)# ('add_color.xlsx')
-
-    with pd.ExcelWriter(input,mode='a') as writer:
-        df.to_excel(writer,sheet_name=sheet,index=False,header=True)
-
-    # 设置字体为红色
-    workbook = load_workbook(input) # ('./BCX-YCH0784-17T-1G0507.summary.xlsx')
-    worksheet = workbook[sheet]
-    header = []
-    for cell_ in next(worksheet.iter_rows()):
-        header.append(cell_.value)
-    for row in worksheet.iter_rows(min_row=2, min_col=1):
-        for i,cell_ in enumerate(row):
-            if header[i] == 'Gene':
-                if cell_.value in cn4_rows_gene_list:
-                    for cell in row:
-                        cell.font = Font(color='DF0F18' )
-    # 保存文件
-    workbook.save(input)# ('add_color.xlsx')
-
 def add_color_rename_resort(input_path=f'{generate_location}/{sample_path}/{sample}.summary.xlsx'):
-    add_color0(input=input_path)
     add_color(input=input_path, output=input_path,sheet='snpindel')
     add_color1(input=input_path, output=input_path,sheet='snpindel')
     add_color(input=input_path, output=input_path,sheet='germline')

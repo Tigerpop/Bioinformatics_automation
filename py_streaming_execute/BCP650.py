@@ -65,8 +65,8 @@ if __name__ == '__main__':
     generate_location = '/home/chenyushao/py_streaming_generate'
     log_path = f"{generate_location}/{sample_path}/log" # 'py_streaming_execute/log'
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
-    bed = '/refhub/hg19/target/BC17T/BC17.expand1.hg19.bed'
-    bed_key = 'BC17T'
+    bed = '/refhub/hg19/target/BCP650/BCP650.raw.hg19.bed'
+    bed_key = 'BCP650'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
     fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
     fa_gz_2 = str(f'/fastq_data/{sample_path}/{sample}_2.fq.gz')
@@ -190,19 +190,29 @@ if __name__ == '__main__':
                   	-polish"
     command['process_anno_filter'] = \
               f"python process_anno_filter.py {sample} {sample_path} {generate_location} {annover_txt}"
-    command['decon_map_bam'] = \
-              f"python decon_map_bam.py {sample} {sample_path} {generate_location} {bed_key} {ref_fasta} "
     command['panelcn_map_bam'] = \
               f"/usr/bin/Rscript panelcn.R {sample} {sample_path} {generate_location} {bed_key} "
+    command['decon_map_bam'] = \
+              f"python decon_map_bam.py {sample} {sample_path} {generate_location} {bed_key} {ref_fasta} "
     command['factera'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
               conda activate cnv_factera_delly  && \
               python factera.py {sample} {sample_path} {generate_location} {ref_fasta} && \
               conda deactivate"
+    command['chemo'] = \
+              f"python chemo.py {sample} {sample_path} {generate_location}"
+    command['msi'] = \
+              f'folder="{generate_location}/{sample_path}/msi_generate" \n \
+              if [ ! -d "$folder" ]; then \n \
+              mkdir "$folder" \n \
+              fi && \
+              python msi_detect.py --tool msisensor-pro --gene {bed_key} \
+              {generate_location}/{sample_path}/{sample}.markdup.bam \
+              {generate_location}/{sample_path}/msi_generate/msi_result'
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
     # 流程list
-    execution_order_list = ['collect']# ['decon_map_bam','factera','collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
+    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

@@ -71,7 +71,7 @@ def generate_summary():
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             
             # msi 和 chemo
-            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B']: 
+            if bed_key in ['Q120','SD160','NBC650','BCP650']: 
                 file1 = f"{generate_location}/{sample_path}/msi_generate/msi_result"
                 file2 = f"{generate_location}/{sample_path}/msi_generate/msi_result_unstable"
                 file = f"{generate_location}/{sample_path}/msi_generate/to_summery_smi"

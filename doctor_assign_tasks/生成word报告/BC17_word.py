@@ -19,7 +19,13 @@ from docx.oxml import parse_xml
 from docx.enum.text import WD_BREAK
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+pd.set_option('display.max_columns', None) 
 
+useful_17_gene = ['AKT1','ALK','BCL2L11','BRAF',\
+               'EGFR','ERBB2','KRAS','MAP2K1',\
+               'MET','NRAS','NTRK1','NTRK2',\
+               'NTRK3','RET','ROS1','PTEN',\
+               'PIK3CA']
 
 class explain():  # 解读 c.96+1G>T 以及 p.L747_P753delinsS 的意思。
     def __init__(self):
@@ -288,10 +294,12 @@ class BC17():
         table.cell(1, 1).text = self.BC17_meta['name'].iloc[0]
         table.cell(1, 3).text = self.BC17_meta['gender'].iloc[0]
         table.cell(1, 5).text = self.BC17_meta['age'].iloc[0].astype(str)
-        date_string = self.BC17_meta['到样日期*'].iloc[
-            0]  # 2023-03-01。在这里，我们首先使用strptime()函数将字符串转换为datetime对象，然后使用strftime()函数将datetime对象转换为字符串并指定所需的格式。
-        date_object = datetime.datetime.strptime(date_string, "%Y/%m/%d")
+        
+# 注意，这个是临时注释的，以后记得取消注释。！！！！
+        date_string = self.BC17_meta['到样日期*'].iloc[0]  # 2023-03-01。在这里，我们首先使用strptime()函数将字符串转换为datetime对象，然后使用strftime()函数将datetime对象转换为字符串并指定所需的格式。
+        date_object = datetime.datetime.strptime(date_string, "%m/%d/%Y")
         new_date_string = date_object.strftime("%Y-%m-%d")
+        # new_date_string = '20230404'
         table.cell(2, 1).text = new_date_string
         table.cell(2, 3).text = self.BC17_meta['送检医院'].iloc[0] if not pd.isna(self.BC17_meta['送检医院'].iloc[0]) else ''
         table.cell(3, 1).text = self.BC17_meta['clinname'].iloc[0]
@@ -465,11 +473,16 @@ class BC17():
             for i in range(0, len(header)):  # 列
                 table.cell(0, i).paragraphs[0].text = header[i]
             # 第一先考虑snpindel 这个sheet 中的s1 情况。
-            df_ref = self.BC17_snpindel[self.BC17_snpindel['review'].isin(['S1', 'S2'])]
+            df_ref = self.BC17_snpindel[(self.BC17_snpindel['review'].isin(['S1', 'S2'])) & (self.BC17_snpindel['Gene.smallrefGene'].isin(useful_17_gene))]
+            
             # print(df_ref)
+            # row_count = len(table.rows)
+            # col_count = len(table.columns)
+            # print(f"表格有 {row_count} 行和 {col_count} 列。")
+            # print('self.cell 是：',self.cell)
             i = 1
             for index, row in df_ref.iterrows():
-                # print(index,row['Gene.smallrefGene'],row['RNA'])
+                print(index,row['Gene.smallrefGene'],row['RNA'])
                 table.cell(i, 0).paragraphs[0].text = row['Gene.smallrefGene']
                 table.cell(i, 1).paragraphs[0].text = row['RNA']
                 table.cell(i, 2).paragraphs[0].text = row['NCchange']
@@ -494,9 +507,10 @@ class BC17():
                 table.cell(i, 0).paragraphs[0].text = row['Gene']
                 table.cell(i, 1).paragraphs[0].text = \
                 self.GeneIndo[self.GeneIndo['Genename'] == row['Gene']]['RNA'].iloc[0].split('.')[0]
-                table.cell(i, 4).paragraphs[0].text = str(row['N.exons'])
+                match = re.search(r"(?<=\.E)\d+(?=\.)", str(row['Exon']))
+                table.cell(i, 4).paragraphs[0].text = str(match.group(0)) if match else '-'
                 table.cell(i, 5).paragraphs[0].text = '基因扩增'
-                table.cell(i, 6).paragraphs[0].text = str(row['cnv.number']).split('.')[0]
+                table.cell(i, 6).paragraphs[0].text = str(row['RC.norm'])
                 i += 1
         self.table_analysis = copy.deepcopy(table)  # 拷贝好这个表格，给后面一个插入的地方用，记得表格的拷贝要靠 深拷贝。
         # 建立表2。
@@ -1128,7 +1142,7 @@ class BC17():
 
 
 if __name__ == '__main__':
-    path = '/archive/20230419'
+    path = '/archive/1111'
     word_date = path.split('/')[-1]
     if not os.path.exists(f'/archive/word/{word_date}'):
         os.makedirs(f'/archive/word/{word_date}')

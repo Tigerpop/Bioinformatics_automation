@@ -22,18 +22,18 @@ def run_DeCoN():
     if not os.path.exists(tmp_dir):
         os.mkdir(tmp_dir)
     os.chdir(tmp_dir)
-    cmd_0 = f"/usr/bin/Rscript /opt/DECoN_4.2/Linux/ReadInBams.R \
+    cmd_0 = f"Rscript /opt/DECoN/ReadInBams.R \
             --bams /refhub/hg19/toolbox_and_RefFile/Decon_ref_bam_file_txt/{bed_key}_bam_file.txt \
             --bed {decon_bed_0} \
             --fasta {ref_fasta} \
             --out {tmp_dir}/DECoNtest > ReadInBams.log 2>&1"
-    cmd_1 = f"/usr/bin/Rscript /opt/DECoN_4.2/Linux/IdentifyFailures.R  \
+    cmd_1 = f"Rscript /opt/DECoN/IdentifyFailures.R  \
             --RData DECoNtest.RData   \
             --exons {decon_bed_1} \
             --mincorr .98 \
             --mincov 100 \
             --out DECoNtest > IdentifyFailures.log 2>&1"
-    cmd_2 = f"/usr/bin/Rscript /opt/DECoN_4.2/Linux/makeCNVcalls.R \
+    cmd_2 = f"Rscript /opt/DECoN/makeCNVcalls.R \
             --RData DECoNtest.RData \
             --exons {decon_bed_1} \
             --out DECoNtestCalls > makeCNVcalls.log 2>&1"

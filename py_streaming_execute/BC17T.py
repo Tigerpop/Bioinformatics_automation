@@ -190,10 +190,10 @@ if __name__ == '__main__':
                   	-polish"
     command['process_anno_filter'] = \
               f"python process_anno_filter.py {sample} {sample_path} {generate_location} {annover_txt}"
-    command['decon_map_bam'] = \
-              f"python decon_map_bam.py {sample} {sample_path} {generate_location} {bed_key} {ref_fasta} "
     command['panelcn_map_bam'] = \
               f"/usr/bin/Rscript panelcn.R {sample} {sample_path} {generate_location} {bed_key} "
+    command['decon_map_bam'] = \
+              f"python decon_map_bam.py {sample} {sample_path} {generate_location} {bed_key} {ref_fasta} "
     command['factera'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
               conda activate cnv_factera_delly  && \
@@ -202,7 +202,7 @@ if __name__ == '__main__':
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
     # 流程list
-    execution_order_list = ['collect']# ['decon_map_bam','factera','collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
+    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

@@ -3,7 +3,8 @@ import time,os,random,subprocess
 import queue,chardet
 import pandas as pd 
 from multiprocessing import Pool
-from datetime import date,datetime
+from datetime import date
+
 
 def worker(sample,panel):
     # print(f"start {sample},process is {os.getpid()}")
@@ -13,10 +14,10 @@ def worker(sample,panel):
         print('运行的启动时间是： ',time.time())
         def choose_bed(panel: str) -> str:  
             options = {
-                'BC17T': f'python BC17T.py {sample}', 'BC17B': f'python BC17B.py {sample}', 
-                'Q110T': f'python Q120T.py {sample}','Q80T': f'python Q120T.py {sample}','Q120T': f'python Q120T.py {sample}','Q110B': f'python Q120B.py {sample}','Q80B': f'python Q120B.py {sample}','Q120B': f'python Q120B.py {sample}',
-                'SD160T': f'python SD160T.py {sample}', 'SD160B': f'python SD160B.py {sample}', 
-                'BCP650': f'python BCP650.py {sample}','NBC650': f'python NBC650.py {sample}'
+                'BC17': f'python BC17.py {sample}', 
+                'Q110': f'python Q120.py {sample}','Q80': f'python Q120.py {sample}','Q120': f'python Q120.py {sample}',
+                'SD160': f'python SD160.py {sample}', 'BCP650': f'python BCP650.py {sample}',
+                'NBC650': f'python NBC650.py {sample}'
             }
             return options.get(panel, f'echo no_this_panel {panel}')
         cmd = choose_bed(panel)
@@ -38,8 +39,7 @@ def worker(sample,panel):
             # subprocess.call("pause",shell=True)  # 暂停
             exit(100)  # 在 try 中使用 exit 会退出程序，在退出程序之前会引发一个SystemExit异常，交给except捕获，等except下的代码运行完 再 退出此进程。
     except:
-        # Time = date.today().strftime("%Y-%m-%d %H:%M")
-        Time = datetime.now().strftime("%Y-%m-%d %H:%M")
+        Time = date.today().strftime("%Y-%m-%d %H:%M")
         with open('/home/chenyushao/py_streaming_generate/need_manual_processing.txt','a+')as log:
             log.write('执行出错，需要手工调整: '+sample+f' {Time}'+'\n'+stderr.decode('utf-8')+"------------------------------\n\n")        
         print("运行：",cmd,"出现问题。")
@@ -53,7 +53,7 @@ def Output_New_File_and_push_to_pool(path_to_watch,pool): # path_to_watch 是被
     before = dict([(f, None) for f in os.listdir(path_to_watch)])
     while True:
         start_time = time.time()
-        time.sleep(60)
+        time.sleep(5)
         
         # 加载（移动）文件进文件夹，写在这。读未读。
         # time.sleep(5)
