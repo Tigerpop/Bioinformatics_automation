@@ -65,8 +65,9 @@ if __name__ == '__main__':
     generate_location = '/home/chenyushao/py_streaming_generate'
     log_path = f"{generate_location}/{sample_path}/log" # 'py_streaming_execute/log'
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
-    bed = '/refhub/hg19/target/BCP650/BCP650.raw.hg19.bed'
-    bed_key = 'BCP650'
+    bed = '/refhub/hg19/target/Q120T/Q80.raw.hg19.bed'
+    bed_key = 'Q120B'
+    bed_1p19q = '/refhub/hg19/target/Q120B/1p19qtest2.bed'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
     fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
     fa_gz_2 = str(f'/fastq_data/{sample_path}/{sample}_2.fq.gz')
@@ -209,10 +210,12 @@ if __name__ == '__main__':
               python msi_detect.py --tool msisensor-pro --gene {bed_key} \
               {generate_location}/{sample_path}/{sample}.markdup.bam \
               {generate_location}/{sample_path}/msi_generate/msi_result'
+    command['test_1p19q'] = \
+              f"python test_1p19q.py {sample} {sample_path} {generate_location} {bed_1p19q} {log_path} "
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
     # 流程list
-    execution_order_list = ['factera','chemo','msi','collect']#['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
+    execution_order_list = ['annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']# ['test_1p19q']#,'collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

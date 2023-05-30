@@ -38,9 +38,10 @@ def anno_filter():
                 'nonsynonymous SNV': '错义突变', 'synonymous SNV': '同义突变',
                 'frameshift deletion': '移码缺失', 'nonframeshift deletion': '非移码缺失',
                 'frameshift insertion': '移码插入', 'nonframeshift insertion': '非移码插入',
-                'stopgain': '终止子获得', 'stoploss': '终止子缺失'
+                'stopgain': '终止子获得', 'stoploss': '终止子缺失','nonframeshift substitution':'非移码碱基置换',
+                'startloss':'启动子缺失'
             }
-            return options.get(english_Name, f'对应的中文翻译不存在，英文单词为{english_Name}。')
+            return options.get(english_Name, 'unknown')# f'对应的中文翻译不存在，英文单词为{english_Name}。')
 
         with open(annover_txt, 'r')as f1, open(temp_file, 'w')as f2:
             firstline = f1.readline().strip("\n")

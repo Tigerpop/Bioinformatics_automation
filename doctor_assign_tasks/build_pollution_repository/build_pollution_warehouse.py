@@ -110,8 +110,7 @@ def build_pollution_warehouse(input_file: str):
     for index, row in df_potential_pollution.iterrows():
         # 有则修改。
         if row['chr_pos_ref_alt'] in unique_list:
-            num = \
-            df_pollution_warehouse[df_pollution_warehouse['chr_pos_ref_alt'] == row['chr_pos_ref_alt']]['num'].iloc[0]
+            num = df_pollution_warehouse[df_pollution_warehouse['chr_pos_ref_alt'] == row['chr_pos_ref_alt']]['num'].iloc[0]
             args_VAF = float(
                 df_pollution_warehouse[df_pollution_warehouse['chr_pos_ref_alt'] == row['chr_pos_ref_alt']][
                     'arg_VAF'].iloc[0].strip('%'))
@@ -132,45 +131,48 @@ def build_pollution_warehouse(input_file: str):
     df_pollution_warehouse.to_csv(pollution_warehouse, sep='\t', index=None)
 
 
-    # 着补回 误打标签进 污染库的数据，就像chr3 30691872 - A 没打污染标签 ，而chr3 30691872  A - 被打了污染标签；
-    # 她们复原到call 完突变的vcf文件中 其实都是一个位置  chr3 30691871 GA G,GAAA 
-    # 因此我们需要 根据没打标签的信息，把这样的 chr3 30691871 GA G,GAAA 从污染库中剔除；
-    df_out_pollution = df_snpindel[~(df_snpindel['review'].isin(['po', 'PO', 'Po', 'oP']))]
-    df_out_pollution = df_out_pollution.reset_index(drop=True)
-    df_out_pollution['chr_pos'] = df_out_pollution['Chr']+"_"\
-                                            +df_out_pollution['Start'].astype(str)
-    df_out_pollution['chr_pos_ref_alt'] = None
-    for index,row in df_out_pollution.iterrows():
-        print('index 是:',index)
-        start,chr = row['Start'],row['Chr']
-        chr_pos = row['chr_pos']
-        print('start,chr is :',start,chr)
-        print('chr_pos is :',chr_pos)
-        while df_vcf[df_vcf['chr_pos'] == chr_pos].empty:
-            start -= 1
-            chr_pos = chr+"_"+str(start)
-            print('中间的chr_pos 是:',chr_pos)
-        print('找到可以匹配上的 chr_pos is：',chr_pos)
-        row['Start'] = start = chr_pos.split('_')[1]
-        row['Chr'] = ref = df_vcf.loc[df_vcf['chr_pos'] == chr_pos, '#CHROM'].values[0]
-        row['Ref'] = ref = df_vcf.loc[df_vcf['chr_pos'] == chr_pos, 'REF'].values[0]
-        row['Alt'] = alt =  df_vcf.loc[df_vcf['chr_pos'] == chr_pos, 'ALT'].values[0]
-        row['chr_pos_ref_alt'] = f'{chr}_{start}_{ref}_{alt}'
-        df_out_pollution.iloc[index] = row
-        print('chr_pos_ref_alt 是',row['chr_pos_ref_alt'])
-        print('chr,start,ref,alt 分别为： ',chr,start,ref,alt)
-        print('chr,start,ref,alt例举完。\n')
-    print('df_out_pollution 是：',df_out_pollution)
-    # 剔除。
-    df_pollution_warehouse = pd.read_csv(pollution_warehouse, sep='\t')
-    df_pollution_warehouse = df_pollution_warehouse[~df_pollution_warehouse['chr_pos_ref_alt'].isin(df_out_pollution['chr_pos_ref_alt'])]
+# '''
+#     # 着补回 误打标签进 污染库的数据，就像chr3 30691872 - A 没打污染标签 ，而chr3 30691872  A - 被打了污染标签；
+#     # 她们复原到call 完突变的vcf文件中 其实都是一个位置  chr3 30691871 GA G,GAAA 
+#     # 因此我们需要 根据没打标签的信息，把这样的 chr3 30691871 GA G,GAAA 从污染库中剔除；
+#     df_out_pollution = df_snpindel[~(df_snpindel['review'].isin(['po', 'PO', 'Po', 'oP']))]
+#     df_out_pollution = df_out_pollution.reset_index(drop=True)
+#     df_out_pollution['chr_pos'] = df_out_pollution['Chr']+"_"\
+#                                             +df_out_pollution['Start'].astype(str)
+#     df_out_pollution['chr_pos_ref_alt'] = None
+#     for index,row in df_out_pollution.iterrows():
+#         print('index 是:',index)
+#         start,chr = row['Start'],row['Chr']
+#         chr_pos = row['chr_pos']
+#         print('start,chr is :',start,chr)
+#         print('chr_pos is :',chr_pos)
+#         while df_vcf[df_vcf['chr_pos'] == chr_pos].empty:
+#             start -= 1
+#             chr_pos = chr+"_"+str(start)
+#             print('中间的chr_pos 是:',chr_pos)
+#         print('找到可以匹配上的 chr_pos is：',chr_pos)
+#         row['Start'] = start = chr_pos.split('_')[1]
+#         row['Chr'] = ref = df_vcf.loc[df_vcf['chr_pos'] == chr_pos, '#CHROM'].values[0]
+#         row['Ref'] = ref = df_vcf.loc[df_vcf['chr_pos'] == chr_pos, 'REF'].values[0]
+#         row['Alt'] = alt =  df_vcf.loc[df_vcf['chr_pos'] == chr_pos, 'ALT'].values[0]
+#         row['chr_pos_ref_alt'] = f'{chr}_{start}_{ref}_{alt}'
+#         df_out_pollution.iloc[index] = row
+#         print('chr_pos_ref_alt 是',row['chr_pos_ref_alt'])
+#         print('chr,start,ref,alt 分别为： ',chr,start,ref,alt)
+#         print('chr,start,ref,alt例举完。\n')
+#     print('df_out_pollution 是：',df_out_pollution)
+#     # 剔除。
+#     df_pollution_warehouse = pd.read_csv(pollution_warehouse, sep='\t')
+#     df_pollution_warehouse = df_pollution_warehouse[~df_pollution_warehouse['chr_pos_ref_alt'].isin(df_out_pollution['chr_pos_ref_alt'])]
+#     
+#     
+#     
+#     df_pollution_warehouse.to_csv(pollution_warehouse, sep='\t', index=None)
+# '''
 
-    
-    
-    
-    df_pollution_warehouse.to_csv(pollution_warehouse, sep='\t', index=None)
-    # df_result = read_df(pollution_warehouse)
-    # df_result.to_csv(pollution_warehouse, sep='\t', index=None)
+    df_result = read_df(pollution_warehouse)
+    df_result = df_result.drop_duplicates()
+    df_result.to_csv(pollution_warehouse, sep='\t', index=None)
     
 
 if __name__ == '__main__':

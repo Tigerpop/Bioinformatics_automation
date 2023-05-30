@@ -62,12 +62,12 @@ def generate_summary():
             #     DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             file = f'{generate_location}/{sample_path}/panelcn_generate/panelcn_output.txt'
             if not os.path.exists(file):
-                head = ['Sample','Chr','Gene','Exon','Start','End','RC','medRC','RC.norm','medRC.norm','lowQual','CN','CNN','review']
+                head = ['Sample','Chr','Gene','Exon','Start','End','RC','medRC','RC.norm','medRC.norm','lowQual','CN','review']
                 df_cnv = pd.DataFrame(columns=head)
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             else:
                 df_cnv = pd.read_csv(file,sep='\t')
-                df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int)*2/df_cnv['medRC.norm'].astype(int)).round() # .astype(int)
+                df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int)*2/df_cnv['medRC.norm'].astype(int)).astype(int)
                 df_cnv['review'] = None
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             
@@ -87,7 +87,6 @@ def generate_summary():
                 df_chemo = pd.read_csv(file,sep='\t')
                 df_chemo['review'] = None
                 DataFrame(df_chemo).to_excel(writer,sheet_name='chemo',index=False,header=True)
-            
             '''
             # hla 和 neoantigen
             if bed_key in ['NBC650','BCP650']: 
@@ -101,7 +100,6 @@ def generate_summary():
                 df_neoantigen['review'] = None
                 DataFrame(df_neoantigen).to_excel(writer,sheet_name='neoantigen',index=False,header=True) 
             '''
-            
             # qc   
             file = f"{log_path}/quality_control/Quality_Control.txt"
             file1 = f"{log_path}/temp_qc"
@@ -362,8 +360,8 @@ def add_color0(input='./BCX-YCH0784-17T-1G0507.summary.xlsx',sheet='cnv'):
     df = pd.read_excel(input, sheet_name=None)
     df = df[sheet]
     # print(df['CN'])
-    # 筛选出CNN列 > 4 的行中 gene 出现的行     # (抛弃方案)筛选出CN列等于"CN4"的行中 gene 出现的行。
-    cn4_rows = df[df['CNN']>=4]
+    # 筛选出CN列等于"CN4"的行中 gene 出现的行。
+    cn4_rows = df[df['CN'] == 'CN4']
     cn4_rows_gene = cn4_rows['Gene'].tolist()
     cn4_rows_gene_list = list(set(cn4_rows_gene))
     cn4_rows = df[df['Gene'].isin(cn4_rows_gene_list)]

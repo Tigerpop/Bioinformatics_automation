@@ -17,8 +17,8 @@ class FParser:
     def __post_init__(self):
         logging.debug("post init")
         self.parser = argparse.ArgumentParser(add_help=False)
-        self.parser.add_argument("--gene", type=str, metavar="GENE_PANEL", nargs=1, choices=["Q120T","Q120B","BC17B", "BC17T","BCP650","NBC650"],
-                                 help="Chooice Gene Panel,Only: Q120B,Q120T,BC17B,BC17T,BCP650,NBC650")
+        self.parser.add_argument("--gene", type=str, metavar="GENE_PANEL", nargs=1, choices=["Q120T","Q120B","BC17B", "BC17T","BCP650","NBC650","G2T","G2B","BRCAG","BRCAT"],
+                                 help="Chooice Gene Panel,Only: Q120B,Q120T,BC17B,BC17T,BCP650,NBC650,G2T,G2B,BRCAG,BRCAT")
         self.parser.add_argument("--tool", type=str, metavar="TOOL_NAME", nargs=1,
                                  choices=["msisensor-pro", "msisensor2"],
                                  help="Chooice Annalyze Tool,Only msisensor-pro,msisensor2")
@@ -68,7 +68,7 @@ class MsiPro:
         baseline_file_path=l[0]
         sample_bam_file_path=l[1]
         result_file_path=l[2]
-        cmd_str = f"{self.base_path}/msisensor-pro pro -d {baseline_file_path} -t {sample_bam_file_path} -o {result_file_path}"
+        cmd_str = f"{self.base_path}/msisensor-pro pro -c 100 -d {baseline_file_path} -t {sample_bam_file_path} -o {result_file_path}"
         logging.debug(f"cmd_str_pro:{cmd_str}")
         self.execute_cmd(cmd_str)
 

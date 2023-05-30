@@ -67,6 +67,7 @@ if __name__ == '__main__':
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
     bed = '/refhub/hg19/target/Q120T/Q80.raw.hg19.bed'
     bed_key = 'Q120T'
+    bed_1p19q = '/refhub/hg19/target/Q120T/1p19qtest2.bed'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
     fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
     fa_gz_2 = str(f'/fastq_data/{sample_path}/{sample}_2.fq.gz')
@@ -209,6 +210,8 @@ if __name__ == '__main__':
               python msi_detect.py --tool msisensor-pro --gene {bed_key} \
               {generate_location}/{sample_path}/{sample}.markdup.bam \
               {generate_location}/{sample_path}/msi_generate/msi_result'
+    command['test_1p19q'] = \
+              f"python test_1p19q.py {sample} {sample_path} {generate_location} {bed_1p19q} {log_path} "
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
     # 流程list

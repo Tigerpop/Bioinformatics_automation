@@ -16,7 +16,9 @@ def worker(sample,panel):
                 'BC17T': f'python BC17T.py {sample}', 'BC17B': f'python BC17B.py {sample}', 
                 'Q110T': f'python Q120T.py {sample}','Q80T': f'python Q120T.py {sample}','Q120T': f'python Q120T.py {sample}','Q110B': f'python Q120B.py {sample}','Q80B': f'python Q120B.py {sample}','Q120B': f'python Q120B.py {sample}',
                 'SD160T': f'python SD160T.py {sample}', 'SD160B': f'python SD160B.py {sample}', 
-                'BCP650': f'python BCP650.py {sample}','NBC650': f'python NBC650.py {sample}'
+                'BCP650': f'python BCP650.py {sample}','NBC650': f'python NBC650.py {sample}',
+                'G2T':f'python comprehensive_bed.py {sample} {panel}','G2B':f'python comprehensive_bed.py {sample} {panel}',
+                'BRCAT':f'python comprehensive_bed.py {sample} {panel}','BRCAG':f'python comprehensive_bed.py {sample} {panel}'
             }
             return options.get(panel, f'echo no_this_panel {panel}')
         cmd = choose_bed(panel)
@@ -41,7 +43,7 @@ def worker(sample,panel):
         # Time = date.today().strftime("%Y-%m-%d %H:%M")
         Time = datetime.now().strftime("%Y-%m-%d %H:%M")
         with open('/home/chenyushao/py_streaming_generate/need_manual_processing.txt','a+')as log:
-            log.write('执行出错，需要手工调整: '+sample+f' {Time}'+'\n'+stderr.decode('utf-8')+"------------------------------\n\n")        
+            log.write('执行出错，需要手工调整: '+sample+'  '+panel+f' {Time}'+'\n'+stderr.decode('utf-8')+"------------------------------\n\n")        
         print("运行：",cmd,"出现问题。")
     
     

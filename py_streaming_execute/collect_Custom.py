@@ -4,6 +4,8 @@ import pandas as pd
 from pandas import DataFrame
 from datetime import date
 from openpyxl import load_workbook
+import openpyxl, functools
+from typing import Dict, List, Union
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -12,6 +14,8 @@ sample_path = sys.argv[2]
 log_path = sys.argv[3]
 generate_location = sys.argv[4]
 bed_key = sys.argv[5]
+collect_list_str = sys.argv[6]
+collect_list = collect_list_str.split(",")
 
 def generate_summary():
     # 实现多个sheet 写入一个exel。
@@ -72,7 +76,7 @@ def generate_summary():
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             
             # msi 和 chemo
-            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B']: 
+            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B','G2T','G2B','BRCAT','BRCAG']: 
                 file1 = f"{generate_location}/{sample_path}/msi_generate/msi_result"
                 file2 = f"{generate_location}/{sample_path}/msi_generate/msi_result_unstable"
                 file = f"{generate_location}/{sample_path}/msi_generate/to_summery_smi"
@@ -87,7 +91,6 @@ def generate_summary():
                 df_chemo = pd.read_csv(file,sep='\t')
                 df_chemo['review'] = None
                 DataFrame(df_chemo).to_excel(writer,sheet_name='chemo',index=False,header=True)
-            
             '''
             # hla 和 neoantigen
             if bed_key in ['NBC650','BCP650']: 
@@ -101,7 +104,19 @@ def generate_summary():
                 df_neoantigen['review'] = None
                 DataFrame(df_neoantigen).to_excel(writer,sheet_name='neoantigen',index=False,header=True) 
             '''
-            
+            # hrd 
+            if 'hrd' in collect_list:
+                collect_hrd_path = sys.argv[7]
+                sample_remove_T_N = sample.replace('-N','').replace('-T','')
+                file = f'{collect_hrd_path}/hrd_tmp/{sample_remove_T_N}.seqz._HRDresults.txt'
+                if not os.path.exists(file):
+                    head = ['Sample.seqz','HRD','Telomeric AI','LST','HRD-sum']
+                    df_hrd = pd.DataFrame(columns=head)
+                    DataFrame(df_hrd).to_excel(writer,sheet_name='hrd',index=False,header=True)
+                else:
+                    df_hrd = pd.read_csv(file,sep='\t')
+                    DataFrame(df_hrd).to_excel(writer,sheet_name='hrd',index=False,header=True)
+                
             # qc   
             file = f"{log_path}/quality_control/Quality_Control.txt"
             file1 = f"{log_path}/temp_qc"
@@ -436,13 +451,44 @@ def adjust_sheet_order_and_change_sheet_name(file_path, sheet_order):
     adjust_sheet_order(file_path, sheet_order)
     changename(file_path)
 
+# 这才是最真实的 换 sheet 顺序。
+def Delete_sheets_not_in_list(file_path: str, sheet_list:  List[str]):
+    def delete_sheets_not_in_list(func):
+        @functools.wraps(func)
+        def wrapper(*args,**kwargs):
+            workbook = func(*args,**kwargs)
+            # 获取所有sheet的名称
+            sheet_names = workbook.sheetnames
+            # 遍历所有sheet，如果不在给定的列表中，则删除该sheet
+            for sheet_name in sheet_names:
+                print(sheet_list)
+                if sheet_name not in sheet_list:
+                    sheet = workbook[sheet_name]
+                    workbook.remove(sheet)
+            sort_list = [i for i in  sheet_list if i in sheet_names]
+            # 调整工作表的顺序
+            sheet_names = workbook.sheetnames
+            sheet_dict = {name: sheet for name, sheet in zip(sheet_names, workbook.worksheets)}
+            # 根据指定顺序重新排序 sheet
+            for i, sheet_name in enumerate(sort_list):
+                if sheet_name in sheet_dict:
+                    workbook.move_sheet(sheet_dict[sheet_name], offset=i)
+            workbook.save(file_path)
+            return workbook
+        return wrapper
+    return delete_sheets_not_in_list
+@Delete_sheets_not_in_list(file_path=f'{generate_location}/{sample_path}/{sample}.summary.xlsx',sheet_list=collect_list)
+def read_excel(file_path):
+    print(collect_list)
+    workbook = openpyxl.load_workbook(file_path)
+    return workbook 
+
 if __name__=='__main__':
     generate_summary()
     # add_review_lable()
-
     add_color_rename_resort()
-    
     file_path = f'{generate_location}/{sample_path}/{sample}.summary.xlsx'
     sheet_order = ['meta','snpindel','germline','fusion','cnv','msi','chemo','qc']  if bed_key not in['BC17T','BC17B'] else ['meta','snpindel','germline','','fusion','cnv','qc']
     adjust_sheet_order_and_change_sheet_name(file_path, sheet_order)
+    read_excel(file_path=f'{generate_location}/{sample_path}/{sample}.summary.xlsx')
     send_summary_to_archive()
