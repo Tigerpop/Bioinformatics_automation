@@ -73,7 +73,10 @@ if __name__ == '__main__':
             'SD160T': '/refhub/hg19/target/SD160T/SD160.raw.bed', 'SD160B': '/refhub/hg19/target/SD160T/SD160.raw.bed', 
             'BCP650': '/refhub/hg19/target/BCP650/BCP650.raw.hg19.bed','NBC650': '/refhub/hg19/target/NBC650/NBC650.raw.hg19.bed',
             'G2T':'/refhub/hg19/target/G2T/G2.exon.hg19.bed','G2B':'/refhub/hg19/target/G2B/G2.exon.hg19.bed',
-            'BRCAT':'/refhub/hg19/target/BRCAT/BRCA.exon.hg19.bed','BRCAG':'/refhub/hg19/target/BRCAG/BRCA.exon.hg19.bed'
+            'BRCAT':'/refhub/hg19/target/BRCAT/BRCA.exon.hg19.bed','BRCAG':'/refhub/hg19/target/BRCAG/BRCA.exon.hg19.bed',        
+            'SLC17T':'/refhub/hg19/target/SLC17T/SLC.raw.bed','SLC17B':'/refhub/hg19/target/SLC17B/SLC.raw.bed',
+            'SLC80T':'/refhub/hg19/target/SLC80T/SLC.raw.bed','SLC80B':'/refhub/hg19/target/SLC80B/SLC.raw.bed',
+            'HRD':' /refhub/hg19/target/HRD/HRD_SNP_Covered.hg19.bed'
         }
         return options.get(panel, f'echo no_this_panel {panel}')
     bed = choose_bed(bed_key)
@@ -226,11 +229,14 @@ if __name__ == '__main__':
     command['test_1p19q'] = \
               f"python test_1p19q.py {sample} {sample_path} {generate_location} {bed_1p19q} {log_path} "
     command['collect'] = \
-              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
+              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     command['collect_Custom'] = \
-              f"python collect_Custom.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {collect_list_str} {collect_Alternative_items}"     
+              f"python collect_Custom.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {collect_list_str} {collect_Alternative_items} {sample_monitor} {bed}"     
     # 流程list
-    execution_order_list = ['collect_Custom']# ['split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect_Custom']
+    if bed_key not in ['HRD','HRR']:
+        execution_order_list = ['split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect_Custom']
+    else:
+        execution_order_list = ['collect_Custom']#['split_callMutation_merge','pollution_filter','annovar','process_anno_filter','collect_Custom']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

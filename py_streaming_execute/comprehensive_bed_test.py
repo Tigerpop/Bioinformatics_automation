@@ -65,8 +65,21 @@ if __name__ == '__main__':
     generate_location = '/home/chenyushao/py_streaming_generate'
     log_path = f"{generate_location}/{sample_path}/log" # 'py_streaming_execute/log'
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
-    bed = '/refhub/hg19/target/BC17B/BC17.expand1.hg19.bed'
-    bed_key = 'BC17B'
+    bed_key = sys.argv[2] # 'Q120T'
+    def choose_bed(panel: str) -> str:  
+        options = {
+            'BC17T': '/refhub/hg19/target/BC17T/BC17.expand1.hg19.bed', 'BC17B': '/refhub/hg19/target/BC17T/BC17.expand1.hg19.bed', 
+            'Q120T': '/refhub/hg19/target/Q120T/Q80.raw.hg19.bed','Q120B': '/refhub/hg19/target/Q120T/Q80.raw.hg19.bed',
+            'SD160T': '/refhub/hg19/target/SD160T/SD160.raw.bed', 'SD160B': '/refhub/hg19/target/SD160T/SD160.raw.bed', 
+            'BCP650': '/refhub/hg19/target/BCP650/BCP650.raw.hg19.bed','NBC650': '/refhub/hg19/target/NBC650/NBC650.raw.hg19.bed',
+            'G2T':'/refhub/hg19/target/G2T/G2.exon.hg19.bed','G2B':'/refhub/hg19/target/G2B/G2.exon.hg19.bed',
+            'BRCAT':'/refhub/hg19/target/BRCAT/BRCA.exon.hg19.bed','BRCAG':'/refhub/hg19/target/BRCAG/BRCA.exon.hg19.bed',        
+            'SLC17T':'/refhub/hg19/target/SLC17T/SLC.raw.bed','SLC17B':'/refhub/hg19/target/SLC17B/SLC.raw.bed',
+            'SLC80T':'/refhub/hg19/target/SLC80T/SLC.raw.bed','SLC80B':'/refhub/hg19/target/SLC80B/SLC.raw.bed'
+        }
+        return options.get(panel, f'echo no_this_panel {panel}')
+    bed = choose_bed(bed_key)
+    bed_1p19q = '/refhub/hg19/target/Q120T/1p19qtest2.bed'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
     fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
     fa_gz_2 = str(f'/fastq_data/{sample_path}/{sample}_2.fq.gz')
@@ -82,6 +95,20 @@ if __name__ == '__main__':
     annovar_out_prefix = f'{generate_location}/{sample_path}/{sample}.anno'
     annover_txt = f'{generate_location}/{sample_path}/{sample}.anno.hg19_multianno.txt'
     process_anno_filter_txt = f'{generate_location}/{sample_path}/{sample}.process.hg19_multiprocess.txt'
+    # 确定结果中保留的内容。
+    if  bed_key in ['Q120T','Q120B','SLC80T','SLC80B','SD160T','SD160B']:
+        collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','qc']
+    elif bed_key in ['BCP650','NBC650']:
+        collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','hla','neoantigen','qc']
+    elif bed_key in ['G2T','G2B','BRCAT']:
+        collect_list = ['meta','somatic','germline','qc']
+    elif bed_key in ['BRCAG']:
+        collect_list = ['meta','germline','qc']
+    elif bed_key in ['SLC17T','SLC17B','BC17B','BC17T']:
+        collect_list = ['meta','somatic','germline','fusion','cnv','qc']
+    # collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','hrd','qc'] 
+    collect_list_str = ",".join(collect_list)
+    collect_Alternative_items =  f'{generate_location}/{sample_path}'
     
     # 主动抛出错误测试。
     # aaa
@@ -133,6 +160,8 @@ if __name__ == '__main__':
     # 用 process.returncode 来判断是不是真的正确输出，调试信息存起来就行。
     # time.sleep(60)
     command = {}  
+    command['TN_similarity_qc'] = \
+              f"python TN_similarity_qc.py {sample} {sample_path} {log_path} {bed_key} {sample_monitor}"
     command['fastp_extract'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
               conda activate no_umitools_py  && \
@@ -161,7 +190,7 @@ if __name__ == '__main__':
     command['picard_markdup'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
               conda activate no_umitools_py  && \
-              picard MarkDuplicates \
+              umask 002; picard MarkDuplicates \
               I={sorted_bam} \
               O={markdup_bam} \
               M=sample_name.markdup_metrics.txt && \
@@ -199,10 +228,37 @@ if __name__ == '__main__':
               conda activate cnv_factera_delly  && \
               python factera.py {sample} {sample_path} {generate_location} {ref_fasta} && \
               conda deactivate"
+    command['chemo'] = \
+              f"python chemo.py {sample} {sample_path} {generate_location}"
+    command['msi'] = \
+              f'folder="{generate_location}/{sample_path}/msi_generate" \n \
+              if [ ! -d "$folder" ]; then \n \
+              mkdir "$folder" \n \
+              fi && \
+              python msi_detect.py --tool msisensor-pro --gene {bed_key} \
+              {generate_location}/{sample_path}/{sample}.markdup.bam \
+              {generate_location}/{sample_path}/msi_generate/msi_result'
+    command['test_1p19q'] = \
+              f"python test_1p19q.py {sample} {sample_path} {generate_location} {bed_1p19q} {log_path} "
+    command['HLA'] = \
+              f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
+                conda activate optitype  && \
+                python optitype_hla.py {sample} {sample_path} {generate_location} {bed_key} && \
+                conda deactivate"
+    command['antigen_vcf'] = \
+              f"python antigen_vcf.py {sample} {sample_path} {generate_location} {bed_key} "
+    command['neoantigen'] = \
+              f"python neoantigen.py {sample} {sample_path} {generate_location} {bed_key} "
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
+    command['collect_Custom'] = \
+              f"python collect_Custom.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {collect_list_str} {collect_Alternative_items} {sample_monitor} {bed}"              
     # 流程list
-    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
+    execution_order_list = ['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','test_1p19q','collect_Custom']
+    # if bed_key not in['G2T','G2B','BRCAT','BRCAG']:
+    #     execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect_Custom']
+    # else:
+    #     execution_order_list = ['collect_Custom']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','collect_Custom']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。
@@ -222,4 +278,13 @@ if __name__ == '__main__':
                 sys.stderr.write(f'{custom_output}\n')
             # break
             exit(1)
- 
+            
+    # output_file = sys.argv[3]
+    # 
+    # cmd = f"folder={output_file} && \
+    #        if [ ! -d \"$folder\" ]; then \
+    #        mkdir -p \"$folder\"; \
+    #        fi && \
+    #        cp -R {generate_location}/{sample_path}/* \"$folder\"/"
+    # p = subprocess.Popen(cmd,shell=True)
+    # p.communicate()

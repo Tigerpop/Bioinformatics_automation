@@ -95,7 +95,10 @@ class split_callMutation_merge():
         os.chdir(self.file_path)
         if not os.path.exists(self.chr_split):
             os.makedirs(self.chr_split)
-        os.system(f"cp {self.file_path}/{self.sample}.markdup.bam ./chr_split/")
+        # os.system(f"cp {self.file_path}/{self.sample}.markdup.bam ./chr_split/") # 这种写法有隐患。
+        cmd = f"cp {self.file_path}/{self.sample}.markdup.bam ./chr_split/"
+        p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        p.communicate()
         os.chdir(self.chr_split)
         cmd = f"bamtools split -in {self.chr_split}/{self.sample}.markdup.bam  -reference"
         p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)

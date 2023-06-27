@@ -200,7 +200,7 @@ if __name__ == '__main__':
               python factera.py {sample} {sample_path} {generate_location} {ref_fasta} && \
               conda deactivate"
     command['collect'] = \
-              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
+              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
     execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
     for command_key in execution_order_list:

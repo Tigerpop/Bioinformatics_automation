@@ -17,7 +17,7 @@ class FParser:
     def __post_init__(self):
         logging.debug("post init")
         self.parser = argparse.ArgumentParser(add_help=False)
-        self.parser.add_argument("--gene", type=str, metavar="GENE_PANEL", nargs=1, choices=["Q120T","Q120B","BC17B", "BC17T","BCP650","NBC650","G2T","G2B","BRCAG","BRCAT"],
+        self.parser.add_argument("--gene", type=str, metavar="GENE_PANEL", nargs=1, choices=["Q120T","Q120B","BC17B", "BC17T","BCP650","NBC650","G2T","G2B","BRCAG","BRCAT","SD160T","SD160B","SLC17T","SLC17B","SLC80T","SLC80B"],
                                  help="Chooice Gene Panel,Only: Q120B,Q120T,BC17B,BC17T,BCP650,NBC650,G2T,G2B,BRCAG,BRCAT")
         self.parser.add_argument("--tool", type=str, metavar="TOOL_NAME", nargs=1,
                                  choices=["msisensor-pro", "msisensor2"],

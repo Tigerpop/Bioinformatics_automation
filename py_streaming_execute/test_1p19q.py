@@ -317,6 +317,13 @@ def process_output_base_num():
         df_result1 = pd.concat([df_result1,df_resultY])
     df_result1 = df_result1.drop(columns=['chr_num'])
     print(df_result1)
+   
+    # 这个打了个补丁，把vaf 1和 0 的值 反过来了；临时处理的；就不改动前面的生成逻辑了。
+    df_result1['vaf'] = df_result1['VAF'] 
+    df_result1.loc[df_result1['VAF'] == 1, 'vaf'] = 0
+    df_result1.loc[df_result1['VAF'] == 0, 'vaf'] = 1
+    df_result1.drop('VAF', axis=1, inplace=True)
+    df_result1 = df_result1.rename(columns={'vaf': 'VAF'})
     df_result1.to_csv(f'{generate_location}/{sample_path}/1p19q_generate/process_output_base_num.txt',sep='\t',index=None)
     df_result2 = df_result1[['REF','POS','rs','VAF']]
     df_result2.to_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t',index=None,header=['chr','pos','rs','VAF'])
@@ -433,18 +440,19 @@ def qc():
             f0.write('depth: '+str(depth)+'\n')
             f0.write('cleandepth: '+str(cleandepth)+'\n')
 
-def plot_pic():
+def plot_pic0():
     import matplotlib
     # 设置Matplotlib的后端为Qt5
     matplotlib.use('agg')
     # 导入其他相关模块和库
     import matplotlib.pyplot as plt
-
+    plt.figure() 
+    # plt.subplot(1, 2, 1)  # 子图1，1行2列，第1个位置
     # 填写数据
     df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
-    print(df[['pos','VAF']])
+    # print(df[df['chr']=='chr19']['pos','VAF'])
     df['VAF'] =df['VAF']*100
-    x,y = df['pos'].tolist(),df['VAF'].tolist()
+    x,y = df[df['chr']=='chr19']['pos'].tolist(),df[df['chr']=='chr19']['VAF'].tolist()
     # x = [47112648, 48833800,56030428]  # 横坐标
     # y = [25.00, 36.59,29.63]  # 纵坐标
     plt.scatter(x, y)
@@ -471,12 +479,198 @@ def plot_pic():
     
     # 文字
     plt.legend()
-    plt.text(10000000, 105, '19p', color='red', ha='right')
+    # plt.text(10000000, 105, '19p', color='red', ha='right')
     plt.text(45000000, 105, '19q', color='red', ha='left')
     # 保存图像到指定位置
-    save_path = f"{generate_location}/{sample_path}/"+"1p19q_generate/image.png" # 替换为您想要保存的路径和文件名
+    save_path = f"{generate_location}/{sample_path}/"+"1p19q_generate/chr19_image.png" # 替换为您想要保存的路径和文件名
     plt.savefig(save_path)
-           
+    
+def plot_pic1():
+    import matplotlib
+    # 设置Matplotlib的后端为Qt5
+    matplotlib.use('agg')
+    # 导入其他相关模块和库
+    import matplotlib.pyplot as plt
+    plt.figure() 
+    # plt.subplot(1, 2, 2)  # 子图1，1行2列，第1个位置
+    # 填写数据
+    df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
+    df['VAF'] =df['VAF']*100
+    x,y = df[df['chr']=='chr1']['pos'].tolist(),df[df['chr']=='chr1']['VAF'].tolist()
+    # x = [47112648, 48833800,56030428]  # 横坐标
+    # y = [25.00, 36.59,29.63]  # 纵坐标
+    plt.scatter(x, y)
+    
+    # 添加辅助线
+    plt.axhline(y=90, color=(13/255, 83/255, 138/255), linestyle='-')
+    plt.axhline(y=60, color=(13/255, 83/255, 138/255), linestyle='-')
+    plt.axhline(y=40, color=(13/255, 83/255, 138/255), linestyle='-')
+    plt.axhline(y=10, color=(13/255, 83/255, 138/255), linestyle='-')
+    plt.axvline(x=150000000, color=(194/255, 194/255, 194/255), linestyle='-', label='cen')
+    
+    # 设置图表标题和坐标轴标签
+    plt.title('Chromosome 1')
+    plt.xlabel('Chromosome position (bp)')
+    plt.ylabel('Allelic Frequency (%)')
+    
+    # 设置刻度范围
+    plt.xlim(0, 250000000)
+    plt.ylim(0, 110)
+    plt.xticks(range(0, 250000000, 50000000))
+    plt.yticks(range(-10, 110, 10))
+    plt.ticklabel_format(style='plain', axis='x')
+    plt.grid(True,which='major',axis='y')
+    
+    # 文字
+    plt.legend()
+    plt.text(50000000, 105, '1p', color='red', ha='right')
+    # plt.text(20000000, 105, '1q', color='red', ha='left')
+    # 保存图像到指定位置
+    save_path = f"{generate_location}/{sample_path}/"+"1p19q_generate/chr1_image.png" # 替换为您想要保存的路径和文件名
+    plt.savefig(save_path)
+
+def concat_plot():
+    # 以下注释部分为 上下拼接。 
+    # from PIL import Image
+    # # 打开两张图片
+    # image1 = Image.open(f"{generate_location}/{sample_path}/"+"1p19q_generate/chr1_image.png")
+    # image2 = Image.open(f"{generate_location}/{sample_path}/"+"1p19q_generate/chr19_image.png")
+    # # 获取两张图片的宽度和高度
+    # width1, height1 = image1.size
+    # width2, height2 = image2.size
+    # # 确定新图片的宽度和高度
+    # new_width = max(width1, width2)
+    # new_height = height1 + height2
+    # # 创建一个新的空白图片
+    # new_image = Image.new('RGB', (new_width, new_height))
+    # # 将image1粘贴到新图片的上半部分
+    # new_image.paste(image1, (0, 0))
+    # # 将image2粘贴到新图片的下半部分
+    # new_image.paste(image2, (0, height1))
+    # # 保存拼接后的图片
+    # new_image.save('1p19q_image.jpg')
+    import matplotlib.pyplot as plt
+    fig = plt.figure(figsize=(13, 6.5)) # 设置画布宽度。
+    def line_deccor(plt):
+        # plt.xlabel('Chromosome position (bp)')
+        # plt.ylabel('Allelic Frequency (%)')
+        # Add gray background for y-values between 40 and 60 using RGB color
+        gray_color = (0.5, 0.5, 0.5)  # RGB values for gray color
+        plt.axhspan(10, 40, facecolor=gray_color, alpha=0.5)
+        plt.ylim(0, 110)
+        plt.yticks(range(-10, 110, 10))
+        plt.grid(True, which='major', axis='y')
+
+    def plot_chr1(plt):
+        # x = [47112648, 48833800, 56030428]
+        # y = [25.00, 36.59, 29.63]
+        # plt.subplot(1, 2, 1)
+        # plt.scatter(x, y)
+        # plt.xlim(0, 65000000)
+        # plt.xticks(range(-5000000, 65000000, 10000000))
+        # plt.legend()
+        # plt.text(10000000, 105, '19p', color='red', ha='right')
+        # plt.text(45000000, 105, '19q', color='red', ha='left')
+        # line_deccor(plt)
+        plt.subplot(1, 2, 1)
+        df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
+        df['VAF'] =df['VAF']*100
+        x,y = df[df['chr']=='chr1']['pos'].tolist(),df[df['chr']=='chr1']['VAF'].tolist()
+        plt.scatter(x, y,color=(41/255, 84/255, 117/255), zorder=10)
+        # 添加辅助线
+        plt.axhline(y=100, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=90, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=60, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=40, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=10, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=0, color=(41/255, 84/255, 117/255), linestyle='-')
+        # Add gray background for y-values between 10 and 40 using RGB color
+        plt.axhspan(10, 40, facecolor=(241 / 255, 241 / 255, 241 / 255), alpha=0.5)
+        plt.axhspan(60, 90, facecolor=(241 / 255, 241 / 255, 241 / 255), alpha=0.5)
+        # plt.axvline(x=150000000, color=(194/255, 194/255, 194/255), linestyle='-', label='cen')
+        # 设置图表标题和坐标轴标签
+        plt.title('Chromosome 1p')
+        plt.xlabel('Chromosome position (bp)')
+        plt.ylabel('Allelic Frequency (%)')
+        # 设置刻度范围
+        # plt.xlim(0, 150000000)
+        plt.ylim(0, 110)
+        # plt.xticks(range(0, 150000000, 50000000))
+        yticks=range(-10, 110, 10)
+        # 隐藏 -10 刻度线
+        yticks_labels = ['' if tick == -10 else str(tick) for tick in yticks]
+        # 应用自定义刻度线标签
+        plt.yticks(yticks, yticks_labels)
+        # 隐藏x轴坐标。
+        plt.xticks([])
+        # Disable scientific notation on x-axis tick labels
+        plt.ticklabel_format(style='plain', axis='x', useOffset=False)
+        
+        # Change default gridlines to dashed lines 
+        plt.grid(True, which='major', axis='y', linestyle='--')
+        # 文字
+        plt.legend()
+        # plt.text(50000000, 105, '1p', color='red', ha='right')
+    
+    def plot_chr19(plt):
+        # x = [47112648, 48833800, 56030428]
+        # y = [25.00, 36.59, 29.63]
+        # plt.subplot(1, 2, 2)
+        # plt.scatter(x, y)
+        # plt.xlim(0, 65000000)
+        # plt.xticks(range(-5000000, 65000000, 10000000))
+        # plt.legend()
+        # plt.text(10000000, 105, '19p', color='red', ha='right')
+        # plt.text(45000000, 105, '19q', color='red', ha='left')
+        # line_deccor(plt)
+        plt.subplot(1, 2, 2)
+        df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
+        df['VAF'] =df['VAF']*100
+        x,y = df[df['chr']=='chr19']['pos'].tolist(),df[df['chr']=='chr19']['VAF'].tolist()
+        plt.scatter(x, y,color=(41/255, 84/255, 117/255), zorder=10)
+        # 设置图表标题和坐标轴标签
+        plt.title('Chromosome 19q')
+        plt.xlabel('Chromosome position (bp)')
+        # plt.ylabel('Allelic Frequency (%)')
+        # plt.axvline(x=25000000, color=(194 / 255, 194 / 255, 194 / 255), linestyle='-', label='cen')
+        # 设置刻度范围
+        # plt.xlim(0, 65000000)
+        plt.ylim(0, 110)
+        # plt.xticks(range(-5000000, 65000000, 10000000))
+        yticks=range(-10, 110, 10)
+        # 隐藏 -10 刻度线
+        yticks_labels = ['' if tick == -10 else str(tick) for tick in yticks]
+        # 应用自定义刻度线标签
+        plt.yticks(yticks, yticks_labels)
+        # plt.ticklabel_format(style='plain', axis='x')
+        # 添加辅助线
+        plt.axhline(y=100, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=90, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=60, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=40, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=10, color=(41/255, 84/255, 117/255), linestyle='-')
+        plt.axhline(y=0, color=(41/255, 84/255, 117/255), linestyle='-')
+        # Add gray background for y-values between 10 and 40 using RGB color
+        plt.axhspan(10, 40, facecolor=(241 / 255, 241 / 255, 241 / 255), alpha=0.5)
+        plt.axhspan(60, 90, facecolor=(241 / 255, 241 / 255, 241 / 255), alpha=0.5)
+        # 隐藏x轴坐标。
+        plt.xticks([])
+        # Disable scientific notation on x-axis tick labels
+        plt.ticklabel_format(style='plain', axis='x', useOffset=False)
+        # Change default gridlines to dashed lines 
+        plt.grid(True, which='major', axis='y', linestyle='--')
+        # 文字
+        plt.legend()
+        # plt.text(10000000, 105, '19p', color='red', ha='right')
+        # plt.text(45000000, 105, '19q', color='red', ha='left')
+
+    plot_chr1(plt)
+    plot_chr19(plt)
+    plt.show()
+    save_path = f"{generate_location}/{sample_path}/"+"1p19q_generate/1p19q_image.png" # 替换为您想要保存的路径和文件名
+    plt.savefig(save_path)
+
+
 def main():
     qc()
     
@@ -490,7 +684,9 @@ def main():
     output_base_num()
     process_output_base_num()
     drop_duplicate()
-    plot_pic()
+    plot_pic1()
+    plot_pic0()
+    concat_plot()
     # Make_chemo_csv_Prepare_for_summery()
 
 if __name__=="__main__":

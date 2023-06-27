@@ -210,7 +210,7 @@ if __name__ == '__main__':
               {generate_location}/{sample_path}/{sample}.markdup.bam \
               {generate_location}/{sample_path}/msi_generate/msi_result'
     command['collect'] = \
-              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
+              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
     execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
     for command_key in execution_order_list:

@@ -133,6 +133,8 @@ if __name__ == '__main__':
     # 用 process.returncode 来判断是不是真的正确输出，调试信息存起来就行。
     # time.sleep(60)
     command = {}  
+    command['TN_similarity_qc'] = \
+              f"python TN_similarity_qc.py {sample} {sample_path} {log_path} {bed_key} {sample_monitor}"
     command['fastp_extract'] = \
               f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
               conda activate no_umitools_py  && \
@@ -209,10 +211,19 @@ if __name__ == '__main__':
               python msi_detect.py --tool msisensor-pro --gene {bed_key} \
               {generate_location}/{sample_path}/{sample}.markdup.bam \
               {generate_location}/{sample_path}/msi_generate/msi_result'
+    command['HLA'] = \
+              f"source /opt/miniconda3/etc/profile.d/conda.sh  && \
+                conda activate optitype  && \
+                python optitype_hla.py {sample} {sample_path} {generate_location} {bed_key} && \
+                conda deactivate"
+    command['antigen_vcf'] = \
+              f"python antigen_vcf.py {sample} {sample_path} {generate_location} {bed_key} "
+    command['neoantigen'] = \
+              f"python neoantigen.py {sample} {sample_path} {generate_location} {bed_key} "
     command['collect'] = \
-              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
+              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
-    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
+    execution_order_list = ['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

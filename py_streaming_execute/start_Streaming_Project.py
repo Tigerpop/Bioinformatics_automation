@@ -18,7 +18,9 @@ def worker(sample,panel):
                 'SD160T': f'python SD160T.py {sample}', 'SD160B': f'python SD160B.py {sample}', 
                 'BCP650': f'python BCP650.py {sample}','NBC650': f'python NBC650.py {sample}',
                 'G2T':f'python comprehensive_bed.py {sample} {panel}','G2B':f'python comprehensive_bed.py {sample} {panel}',
-                'BRCAT':f'python comprehensive_bed.py {sample} {panel}','BRCAG':f'python comprehensive_bed.py {sample} {panel}'
+                'BRCAT':f'python comprehensive_bed.py {sample} {panel}','BRCAG':f'python comprehensive_bed.py {sample} {panel}',
+                'SLC17T':f'python comprehensive_bed.py {sample} {panel}','SLC17B':f'python comprehensive_bed.py {sample} {panel}',
+                'SLC80T':f'python comprehensive_bed.py {sample} {panel}','SLC80B':f'python comprehensive_bed.py {sample} {panel}'
             }
             return options.get(panel, f'echo no_this_panel {panel}')
         cmd = choose_bed(panel)

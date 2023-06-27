@@ -4,6 +4,9 @@ import pandas as pd
 from pandas import DataFrame
 from datetime import date
 from openpyxl import load_workbook
+import openpyxl, functools
+from typing import Dict, List, Union
+import calculate_total_length_of_bed as ctlb
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -12,19 +15,63 @@ sample_path = sys.argv[2]
 log_path = sys.argv[3]
 generate_location = sys.argv[4]
 bed_key = sys.argv[5]
+sample_monitor = sys.argv[6]
+bed = sys.argv[7]
+
+if  bed_key in ['Q120T','Q120B','SLC80T','SLC80B','SD160T','SD160B']:
+    collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','qc']
+elif bed_key in ['BCP650','NBC650']:
+    collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','hla','neoantigen','qc']
+elif bed_key in ['G2T','G2B','BRCAT']:
+    collect_list = ['meta','somatic','germline','qc']
+elif bed_key in ['BRCAG']:
+    collect_list = ['meta','germline','qc']
+elif bed_key in ['SLC17T','SLC17B','BC17B','BC17T']:
+    collect_list = ['meta','somatic','germline','fusion','cnv','qc']
 
 def generate_summary():
     # 实现多个sheet 写入一个exel。
     with pd.ExcelWriter(f'{generate_location}/{sample_path}/{sample}.summary.xlsx') as writer:
         try:
             # mate
+            def determine_sample_type(sample):
+                pattern1 = r'.*(-T|-N|-T-1|-N-1)$'  # 样本类型1的正则表达式模式
+                pattern2 = r'^\d{8}C?L\d{3}$'  # 样本类型2和3的正则表达式模式
+                if re.match(pattern1, sample):
+                    print('这是 解码的样本')
+                    return "解码"
+                elif re.match(pattern2, sample):
+                    print('这是 睿明的样本')
+                    return "睿明"
+                else:
+                    return "未知样本类型"
+                  
             with open('/received/main/received.csv', 'rb') as f0: # 确认编码类型。
                 encoding_stype = chardet.detect(f0.read())
             df_receive = pd.read_csv(f'/received/main/received.csv',sep=',',header=1,encoding=encoding_stype['encoding'])
-            df_mate = df_receive[df_receive['样本编号*']==sample]
-            df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
-            = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
-            df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
+            if determine_sample_type(sample)=="解码":
+                sample_TN = sample.replace('-T','-N') if '-T' in sample else sample.replace('-N','-T')
+                # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+            elif determine_sample_type(sample)=="睿明":
+                sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
+            
+            if bed_key in ['BCP650','NBC650'] and sample_TN in os.listdir(f'{sample_monitor}'):
+                df_mate = df_receive[df_receive['样本编号*']==sample]
+                df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]
+                df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
+                = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
+                df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
+                df_mate['对照样本类型'] = df_mate_TN['样本类型*'].iloc[0]
+                df_mate['对照样本编号'] = df_mate_TN['样本编号*'].iloc[0]
+                Tool = ctlb.tool(sample,sample_path,generate_location,bed) 
+                df_mate['bp_num(non-repeated)'] = Tool.main()
+            else:
+                df_mate = df_receive[df_receive['样本编号*']==sample]
+                df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
+                = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
+                df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
+                Tool = ctlb.tool(sample,sample_path,generate_location,bed) 
+                df_mate['bp_num(non-repeated)'] = Tool.main()
             # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
             df_mate = df_mate.tail(1)
             DataFrame(df_mate).to_excel(writer,sheet_name='meta',index=False,header=True)
@@ -88,7 +135,7 @@ def generate_summary():
                 df_chemo['review'] = None
                 DataFrame(df_chemo).to_excel(writer,sheet_name='chemo',index=False,header=True)
             
-            '''
+            
             # hla 和 neoantigen
             if bed_key in ['NBC650','BCP650']: 
                 file = f'{generate_location}/{sample_path}/optitype_generate/fished_result.tsv'
@@ -100,7 +147,7 @@ def generate_summary():
                 df_neoantigen = pd.read_csv(file,sep='\t')
                 df_neoantigen['review'] = None
                 DataFrame(df_neoantigen).to_excel(writer,sheet_name='neoantigen',index=False,header=True) 
-            '''
+          
             
             # qc   
             file = f"{log_path}/quality_control/Quality_Control.txt"
@@ -404,7 +451,7 @@ def add_color_rename_resort(input_path=f'{generate_location}/{sample_path}/{samp
     add_color1(input=input_path, output=input_path,sheet='germline')
     order_and_rename(input=input_path)
 
-def adjust_sheet_order_and_change_sheet_name(file_path, sheet_order):
+def adjust_sheet_order_and_change_sheet_name(file_path, sheet_order): 
     def adjust_sheet_order(file_path, sheet_order):
         # 加载 Excel 文件
         wb = load_workbook(file_path)
@@ -414,7 +461,7 @@ def adjust_sheet_order_and_change_sheet_name(file_path, sheet_order):
         # 根据指定顺序重新排序 sheet
         for i, sheet_name in enumerate(sheet_order):
             if sheet_name in sheet_dict:
-                wb.move_sheet(sheet_dict[sheet_name], offset=i)
+                wb.move_sheet(sheet_dict[sheet_name], offset=i-wb.index(sheet_dict[sheet_name]))
         # 保存修改后的 Excel 文件
         print('改完了顺序。')
         wb.save(file_path)
@@ -432,9 +479,42 @@ def adjust_sheet_order_and_change_sheet_name(file_path, sheet_order):
             print('已经改过名了。')
     # file_path = './2021WSSW003781-T.summary.xlsx'
     # sheet_order = ['cnv','msi', 'che','qc','meta','snpindel','fusion']  # 指定的 sheet 顺序
-    adjust_sheet_order(file_path, sheet_order)
-    adjust_sheet_order(file_path, sheet_order)
+    # adjust_sheet_order(file_path, sheet_order)
+    # adjust_sheet_order(file_path, sheet_order)
     changename(file_path)
+
+# 这才是最真实的 换 sheet 顺序。
+def Delete_sheets_not_in_list(file_path: str, sheet_list:  List[str]):
+    def delete_sheets_not_in_list(func):
+        @functools.wraps(func)
+        def wrapper(*args,**kwargs):
+            workbook = func(*args,**kwargs)
+            # 获取所有sheet的名称
+            sheet_names = workbook.sheetnames
+            # 遍历所有sheet，如果不在给定的列表中，则删除该sheet
+            for sheet_name in sheet_names:
+                print(sheet_list)
+                if sheet_name not in sheet_list:
+                    sheet = workbook[sheet_name]
+                    workbook.remove(sheet)
+            sort_list = [i for i in  sheet_list if i in sheet_names]
+            # 调整工作表的顺序
+            sheet_names = workbook.sheetnames
+            sheet_dict = {name: sheet for name, sheet in zip(sheet_names, workbook.worksheets)}
+            # 根据指定顺序重新排序 sheet
+            for i, sheet_name in enumerate(sort_list):
+                if sheet_name in sheet_dict:
+                    workbook.move_sheet(sheet_dict[sheet_name], offset=i-workbook.index(sheet_dict[sheet_name]))
+            workbook.save(file_path)
+            return workbook
+        return wrapper
+    return delete_sheets_not_in_list
+
+@Delete_sheets_not_in_list(file_path=f'{generate_location}/{sample_path}/{sample}.summary.xlsx',sheet_list=collect_list)
+def read_excel(file_path):
+    print(collect_list)
+    workbook = openpyxl.load_workbook(file_path)
+    return workbook 
 
 if __name__=='__main__':
     generate_summary()
@@ -445,4 +525,5 @@ if __name__=='__main__':
     file_path = f'{generate_location}/{sample_path}/{sample}.summary.xlsx'
     sheet_order = ['meta','snpindel','germline','fusion','cnv','msi','chemo','qc']  if bed_key not in['BC17T','BC17B'] else ['meta','snpindel','germline','','fusion','cnv','qc']
     adjust_sheet_order_and_change_sheet_name(file_path, sheet_order)
+    read_excel(file_path=f'{generate_location}/{sample_path}/{sample}.summary.xlsx')
     send_summary_to_archive()

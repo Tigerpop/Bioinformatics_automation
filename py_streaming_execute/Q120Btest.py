@@ -213,9 +213,9 @@ if __name__ == '__main__':
     command['test_1p19q'] = \
               f"python test_1p19q.py {sample} {sample_path} {generate_location} {bed_1p19q} {log_path} "
     command['collect'] = \
-              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key}"
+              f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
-    execution_order_list = ['annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']# ['test_1p19q']#,'collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
+    execution_order_list = ['collect']#['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

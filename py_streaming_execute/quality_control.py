@@ -74,14 +74,27 @@ class tool():
                     print(cleandepth)
         return mapped,Coverage,ontarget,depth,cleandepth
 
-    def NGScheckmate(self,sample_path,sample_dir,generate_location):
+    def NGScheckmate(self,sample,sample_path,sample_dir,log_path):
         try:
-            quality_dir = generate_location+"/"+sample_path+"/"+"quality_control"
-            if not os.path.exists(log_path):
-                os.mkdir(log_path)
+            quality_dir = log_path +'/'+'quality_control'
+            if not os.path.exists(quality_dir):
+                os.makedirs(quality_dir)# os.mkdir(quality_dir)
             # 用 TN 表示对照样本的区分，如果sample 是 1008-T sample_TN 就是 1008-N。
-            sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
-            sample = sample_path.split("/")[-1]
+            def determine_sample_type(sample):
+                pattern1 = r'.*(-T|-N|-T-1|-N-1)$'  # 样本类型1的正则表达式模式
+                pattern2 = r'^\d{8}C?L\d{3}$'  # 样本类型2和3的正则表达式模式
+                if re.match(pattern1, sample):
+                    print('这是 解码的样本')
+                    return "解码"
+                elif re.match(pattern2, sample):
+                    print('这是 睿明的样本')
+                    return "睿明"
+                else:
+                    return "未知样本类型"
+            if determine_sample_type(sample)=="解码":
+                sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+            elif determine_sample_type(sample)=="睿明":
+                sample_path_TN = sample_path.replace('CL','L') if 'CL' in sample_path else sample_path.replace('L','CL')
             # sample_TN = sample_path_TN.split("/")[-1]
             [fq_1] = [ ele for ele in os.listdir(f'{sample_dir}/{sample_path}') if re.search('_1.fq',ele)!=None ]
             [fq_2] = [ ele for ele in os.listdir(f'{sample_dir}/{sample_path}') if re.search('_2.fq',ele)!=None ]

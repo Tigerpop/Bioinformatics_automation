@@ -132,12 +132,6 @@ def reserved_noexonic_vaf_greater_than_3():
     df = pd.read_csv(process_anno_filter_txt, sep='\t')
     # print(df)
     df_result = df[~((df['Func.smallrefGene']!='exonic') & (df['VAF'].str.strip('%').astype('float')<3))]
-    # 对annovar注释后得到的表格的Func.smallrefGene列的intergenic、intronic、UTR5、UTR3、upstream、downstream项，
-    # 根据CLNSIG列筛选，如果CLNSIG有注释，则保留；
-    # 之后保留AO>=100,DP>=200的项，其余去除。
-    df_result_0 = df_result[~((df_result['Func.smallrefGene'].isin(['intergenic', 'intronic', 'UTR5', 'UTR3', 'upstream', 'downstream'])) & (df_result['CLNSIG'] == '.'))]
-    df_result_1 = df_result[(df_result['Func.smallrefGene'].isin(['intergenic', 'intronic', 'UTR5', 'UTR3', 'upstream', 'downstream'])) & (df_result['CLNSIG'] == '.') & (df_result['AO'] >= 100) & (df_result['DP'] >= 200)]
-    df_result = pd.concat([df_result_0, df_result_1], ignore_index=True)
     df_result.to_csv(process_anno_filter_txt, sep='\t', index=False)
 
 if __name__ == '__main__':
