@@ -38,7 +38,9 @@ class tool():
     def __init__(self,sample,sample_path,generate_location,bed):
         self.sample,self.sample_path,self.generate_location,self.bed = sample,sample_path,generate_location,bed
     def sort_chr(self,bed: str,output: str):
+        print('bed 是:',bed)
         bed_df = pd.read_csv(bed,sep='\t')
+        print('bed_df 是 \n',bed_df)
         bed_df = bed_df.iloc[:, :3]
         bed_df.columns = ['chr','start','end']
         # print(bed_df)

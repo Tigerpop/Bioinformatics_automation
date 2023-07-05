@@ -37,12 +37,16 @@ def generate_summary():
             def determine_sample_type(sample):
                 pattern1 = r'.*(-T|-N|-T-1|-N-1)$'  # 样本类型1的正则表达式模式
                 pattern2 = r'^\d{8}C?L\d{3}$'  # 样本类型2和3的正则表达式模式
+                pattern3 = r'^\w+-\w+-\w+-\w+$'
                 if re.match(pattern1, sample):
                     print('这是 解码的样本')
                     return "解码"
                 elif re.match(pattern2, sample):
                     print('这是 睿明的样本')
                     return "睿明"
+                elif re.match(pattern3, sample):
+                    print('这是 融享的样本')
+                    return "融享"
                 else:
                     return "未知样本类型"
                   
@@ -54,7 +58,9 @@ def generate_summary():
                 # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
             elif determine_sample_type(sample)=="睿明":
                 sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
-            
+            elif determine_sample_type(sample)=="融享":
+                sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
+                
             if bed_key in ['BCP650','NBC650'] and sample_TN in os.listdir(f'{sample_monitor}'):
                 df_mate = df_receive[df_receive['样本编号*']==sample]
                 df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]

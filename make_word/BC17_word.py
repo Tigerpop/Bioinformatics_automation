@@ -190,8 +190,133 @@ class Tools():
         set_column_alignment(table, no_center_num) if no_center_num!=None else print('')
         return doc
 
+    # def format_Table(self, doc,table_index=-1, header_size=10,First_column_colore=True,col_width=[1, 1], header_color=RGBColor(0, 0, 0), Border=[],
+    #                  Border_all=False):
+    #     tables = doc.tables
+    #     table = tables[table_index]  # 默认处理doc 中的最后一个table。
+    #     # 遍历每一行
+    #     for i, row in enumerate(table.rows):
+    #         # 获取每一行的所有单元格
+    #         cells = row.cells
+    #         # 遍历每个单元格
+    #         row.height = Cm(1)  # 统一行高
+    #         for index,cell in enumerate(cells):
+    #             # 获取单元格的段落对象
+    #             paragraph = cell.paragraphs[0]
+    #             # 如果 第二行是 “未检出相关基因突变”，设置单元格高度。
+    #             if cell.paragraphs[0].text == '未检出相关基因突变' or cell.paragraphs[0].text == '未检出相关基因突变，无相关提示。':
+    #                 table.rows[1].height = Cm(1)
+    #             # 如果是首行，设置字体为粗体，并设置背景色为灰色 ，设置单元格高度。
+    #             if i == 0:
+    #                 run = paragraph.runs[0]
+    #                 run.font.bold = True
+    #                 run.font.size = Pt(header_size)
+    #                 run.font.color.rgb = RGBColor(0, 0, 0)
+    #                 table.rows[0].height = Cm(1)
+    #                 self.Set_Background_Color(cell, "CFDAE6")
+    #             # 如果是奇数行，设置背景色为浅蓝色,且第一列不变色。 First_column_colore 来控制第一列是否变色。
+    #             elif i % 2 != 1 and First_column_colore==True:  # and cell !=cells[0]:
+    #                 self.Set_Background_Color(cell, "F1F1F1")
+    #             elif i % 2 != 1 and First_column_colore==False:  # and cell !=cells[0]:
+    #                 if index != 0:
+    #                     self.Set_Background_Color(cell, "F1F1F1")
+    #             if cell.text == '基因与肿瘤相关性概述' or cell.text == '位点变异信息注释' or cell.text == '临床意义提示':
+    #                 for paragraph in cell.paragraphs:
+    #                     run = cell.paragraphs[0].runs[0]
+    #                     font = run.font
+    #                     font.bold = True
+    #                     font.name = "Microsoft YaHei"  # 设置字体名称
+    #                     font.size = Pt(11)  # 设置字体大小为12号
+    #                     font.color.rgb = RGBColor(67, 114, 161)  # 设置字体颜色为黑色
+    #                     paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT  # 设置段落水平左对齐。
+    #                     from docx.oxml.ns import qn  # 中文字体。
+    #                     run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
+    #                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER  # 设置单元格垂直居中
+    #     # # 按比例列宽调整。
+    #     # for i in range(len(table.rows)):
+    #     #     for col in range(len(table.columns)):
+    #     #         table.cell(i, col).width = Cm(col_width[col])
+    #     # 按照固定的宽度调整。以免表格超出页边的距离。
+    #     table.autofit = False
+    #     table.allow_autofit = False
+    #     table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    #     table.width = Cm(16)
+    #     for i, col in enumerate(col_width):
+    #         table.columns[i].width = Cm(col)
+    #     # 加边框
+    #     def set_cell_border(cell, **kwargs):
+    #         # 这里的kwargs 其实就是一个dict，key 是 top、bottom 这些，value是 {} 一个嵌套的dict。
+    #         # 不定数量的形参传入时常用这样的写法，形参传入时=符号充当了dict的构建，=左边是key右边是value。
+    #         """
+    #         Set cell`s border
+    #         Usage:
+    #         set_cell_border(
+    #             cell,
+    #             top={"sz": 12, "val": "single", "color": "#FF0000", "space": "0"},
+    #             bottom={"sz": 12, "color": "#00FF00", "val": "single"},
+    #             left={"sz": 24, "val": "dashed", "shadow": "true"},
+    #             right={"sz": 12, "val": "dashed"},
+    #         )
+    #         """
+    #         # XML 元素是 XML 文档中必不可缺的部分，我们可以将 XML 元素看成一个容器，其中存放了文本，元素，属性，媒体对象或所有的这些。XML 文档包含 XML 元素。
+    #         tc = cell._tc  # cell._tc 是一个单元格对象。_tc 属性是一个内部属性，它返回一个 _Element 对象，表示单元格的 XML 元素。
+    #         tcPr = tc.get_or_add_tcPr()  # 获取短元格内部属性。
+    #         # check for tag existnace, if none found, then create one
+    #         tcBorders = tcPr.first_child_found_in(
+    #             "w:tcBorders")  # 它返回了单元格属性对象中第一个 <w:tcBorders> 元素。如果该元素不存在，则该方法返回 None。
+    #         if tcBorders is None:
+    #             tcBorders = OxmlElement('w:tcBorders')
+    #             tcPr.append(tcBorders)
+    #         # list over all available tags
+    #         for edge in ('left', 'top', 'right', 'bottom', 'insideH', 'insideV'):
+    #             edge_data = kwargs.get(edge)  # edge_data 就是形参中内部嵌套的子dict。
+    #             if edge_data:
+    #                 tag = 'w:{}'.format(edge)  # w:left
+    #                 # check for tag existnace, if none found, then create one
+    #                 from docx.oxml.ns import qn
+    #                 element = tcBorders.find(qn(tag))  # qn(tag) 是一个函数调用，它将字符串 tag 转换为一个 XML 命名空间。
+    #                 if element is None:
+    #                     element = OxmlElement(tag)
+    #                     tcBorders.append(element)
+    #                 # looks like order of attributes is important
+    #                 for key in ["sz", "val", "color", "space", "shadow"]:
+    #                     if key in edge_data:
+    #                         element.set(qn('w:{}'.format(key)), str(edge_data[key]))  # 在元素中 把 xml 和 形参输入的值 对应起来。
+    #     if Border == []:
+    #         Border = [len(table.rows) - 1] # 把默认改成这个。
+    #     if Border != [] and Border_all == False:  # Border = [] list 中存放 行号，第几行的所有单元格统一加某种边框。
+    #         # 给指定单元格加边框
+    #         for j in Border:
+    #             for i in range(len(table.columns)):
+    #                 set_cell_border(
+    #                     table.cell(j, i),
+    #                     # top={"color": "#000000", "space": "0"},
+    #                     bottom={"val": "single", "color": "#CFDAE6", "space": "1"},
+    #                     # left={"color": "#000000", "space": "0"},
+    #                     # right={"sz": 0.5, "val": "double", "color": "#000000", "space": "0"},
+    #                     # insideH={"sz": 0.5, "val": "double", "color": "#000000", "space": "0"},
+    #                     # end={"sz": 0.5, "val": "double", "color": "#000000", "space": "0"}
+    #                 )
+    #     elif Border_all == True:
+    #         # 给全部单元格加边框。
+    #         for row in table.rows:
+    #             for cell in row.cells:
+    #                 set_cell_border(
+    #                     cell,
+    #                     top={"val": "dotted", "color": "#CFDAE6", "space": "0"},
+    #                     bottom={"val": "dotted", "color": "#CFDAE6", "space": "0"},
+    #                     left={"val": "dotted", "color": "#CFDAE6", "space": "0"},
+    #                     right={"val": "dotted", "color": "#CFDAE6", "space": "0"},
+    #                     insideH={"val": "dotted", "color": "#CFDAE6", "space": "0"},
+    #                     end={"val": "dotted", "color": "#CFDAE6", "space": "0"}
+    #                 )
+    #     # table.autofit = True
+    #     return doc
+
+    # 像 指定 table_index 一样，修改的 target_paragraph 需要指定好是哪一个。
+
     def format_Table(self, doc,table_index=-1, header_size=10,First_column_colore=True,col_width=[1, 1], header_color=RGBColor(0, 0, 0), Border=[],
-                     Border_all=False):
+                     Border_all=False,no_colore_column=[]):
         tables = doc.tables
         table = tables[table_index]  # 默认处理doc 中的最后一个table。
         # 遍历每一行
@@ -216,10 +341,18 @@ class Tools():
                     self.Set_Background_Color(cell, "CFDAE6")
                 # 如果是奇数行，设置背景色为浅蓝色,且第一列不变色。 First_column_colore 来控制第一列是否变色。
                 elif i % 2 != 1 and First_column_colore==True:  # and cell !=cells[0]:
-                    self.Set_Background_Color(cell, "F1F1F1")
-                elif i % 2 != 1 and First_column_colore==False:  # and cell !=cells[0]:
-                    if index != 0:
+                    if no_colore_column==[]: # 没有 no_colore_column 参数时 就按照原逻辑来，有no_colore_column参数，优先考虑no_colore_column参数。
                         self.Set_Background_Color(cell, "F1F1F1")
+                    else:
+                        if index not in no_colore_column:
+                            self.Set_Background_Color(cell, "F1F1F1")
+                elif i % 2 != 1 and First_column_colore==False:  # and cell !=cells[0]:
+                    if no_colore_column==[]: # 没有 no_colore_column 参数时 就按照原逻辑来，有no_colore_column参数，优先考虑no_colore_column参数。
+                        if index != 0:
+                            self.Set_Background_Color(cell, "F1F1F1")
+                    else:
+                        if index not in no_colore_column:
+                            self.Set_Background_Color(cell, "F1F1F1")
                 if cell.text == '基因与肿瘤相关性概述' or cell.text == '位点变异信息注释' or cell.text == '临床意义提示':
                     for paragraph in cell.paragraphs:
                         run = cell.paragraphs[0].runs[0]
@@ -313,7 +446,6 @@ class Tools():
         # table.autofit = True
         return doc
 
-    # 像 指定 table_index 一样，修改的 target_paragraph 需要指定好是哪一个。
     def format_paragraph(self,doc, paragraph_end_with, size=10, bold=False):
         target_paragraph = self.fixed_position(doc,paragraph_end_with)
         run = target_paragraph.runs[0]
@@ -324,26 +456,61 @@ class Tools():
         run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
         return doc
 
+    # def Merge_cells_by_first_column(self,doc,table_index=-1, column_index=0):
+    #     tables = doc.tables
+    #     table = tables[table_index]
+    #     first_column = table.columns[column_index]
+    #     previous_text = first_column.cells[column_index].text
+    #     merge_start_index = 0
+    #     for i in range(1, len(first_column.cells)):
+    #         current_text = first_column.cells[i].text
+    #         if current_text != previous_text:
+    #             # 合并单元格，并将第一个单元格设置为保留的值
+    #             table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
+    #             table.cell(merge_start_index, column_index).text = previous_text
+    #             merge_start_index = i
+    #         else:
+    #             # 将后续相同值的单元格清空
+    #             table.cell(i, column_index).text = ""
+    #         previous_text = current_text
+    #     # 执行最后一个合并操作
+    #     table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
+    #     table.cell(merge_start_index, column_index).text = previous_text
+    #     return doc
+
     def Merge_cells_by_first_column(self,doc,table_index=-1, column_index=0):
         tables = doc.tables
         table = tables[table_index]
         first_column = table.columns[column_index]
-        previous_text = first_column.cells[column_index].text
-        merge_start_index = 0
-        for i in range(1, len(first_column.cells)):
-            current_text = first_column.cells[i].text
-            if current_text != previous_text:
-                # 合并单元格，并将第一个单元格设置为保留的值
-                table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
+        if len(table.rows)>1:
+            previous_text = first_column.cells[1].text
+            merge_start_index = 1
+            previous_left_text = table.cell(1, column_index - 1).text if column_index > 0 else None
+            print('table有{}行'.format(len(table.rows)))
+            for i in range(2, len(first_column.cells)):
+                #print(f'第{i}行','merge_start_index 是',merge_start_index)
+                #print('table.cell(merge_start_index, column_index-1).text 是 ',table.cell(merge_start_index, column_index-1).text)
+                #print('previous_left_text 是 ',previous_left_text)
+                current_text = first_column.cells[i].text
+                current_left_text = table.cell(i, column_index - 1).text if column_index > 0 else None
+                #print('current_text 是 ', current_text, 'previous_text', previous_text)
+                if (current_text != previous_text or current_left_text != previous_left_text)\
+                        and (current_left_text==None or table.cell(merge_start_index, column_index-1).text==previous_left_text):
+                    # 合并单元格，并将第一个单元格设置为保留的值
+                    table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
+                    table.cell(merge_start_index, column_index).text = previous_text
+                    merge_start_index = i
+                    #print('一共有{}行，从0开始处理到第{}行前的合并'.format(len(first_column.cells),i))
+                elif current_text == previous_text and (current_left_text==None or current_left_text == previous_left_text):
+                    # 将后续相同值的单元格清空
+                    table.cell(i, column_index).text = ""
+                    #print('第{}行补了空值'.format(i))
+                previous_text = current_text
+                previous_left_text = current_left_text
+            # 执行最后一个合并操作
+            if current_text == previous_text and (current_left_text==None or current_left_text == previous_left_text):
+                table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
                 table.cell(merge_start_index, column_index).text = previous_text
-                merge_start_index = i
-            else:
-                # 将后续相同值的单元格清空
-                table.cell(i, column_index).text = ""
-            previous_text = current_text
-        # 执行最后一个合并操作
-        table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
-        table.cell(merge_start_index, column_index).text = previous_text
         return doc
 
     def Specify_cell_color_change(self,doc,search_text,color=RGBColor(255, 0, 0),table_index=-1):
@@ -564,7 +731,7 @@ class BC17():
         table.cell(2, 3).text = self.arrival_date
         table.cell(3, 1).text = self.clinname
         table.cell(3, 3).text = self.projectname
-        table.cell(4, 1).text = self.sample.replace('-T','').replace('-N','')
+        table.cell(4, 1).text = self.sample#.replace('-T','').replace('-N','')
         table.cell(4, 3).text = self.sample_type
         table.cell(5, 1).text = '-'
         temp_position = [(1, 1), (1, 3), (1, 5), (2, 1), (2, 3), (3, 1), (3, 3), (4, 1), (4, 3), (5, 1)]
@@ -612,19 +779,19 @@ class BC17():
             # 第一先考虑snpindel 这个sheet 中的s1 情况。
             if ele.variant_type != '基因融合' and ele.variant_type != '基因扩增':
                 for j in range(1, len(table.rows)):
-                    if ele.gene in cell[f'cell_{j}'][0] and ('突变' in  cell[f'cell_{j}'][1] or (f"外显子" in cell[f'cell_{j}'][1] and f"{ele.exon.replace('exon','')}" in cell[f'cell_{j}'][1])):
+                    if ele.gene in cell[f'cell_{j}'][0].split(' ') and ('突变' in  cell[f'cell_{j}'][1] or (f"外显子" in cell[f'cell_{j}'][1] and f"{ele.exon.replace('exon','')}" in cell[f'cell_{j}'][1])):
                         cell[f'cell_{j}'][2] =  cell[f'cell_{j}'][2] + ele.amino_acid + f' ({ele.vaf})\n'
                         reserve_index_list.append(index)
             # 第二考虑 fusion 这个sheet 中的s1 情况。
             if ele.variant_type == '基因融合':
                 for j in range(1, len(table.rows)):
-                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0]) and ('重排' in  cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
+                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0].split(' ')) and ('重排' in  cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
                         cell[f'cell_{j}'][2] = cell[f'cell_{j}'][2] + ele.gene + f' 基因融合\n'
                         reserve_index_list.append(index)
             # 第三考虑 cnv 这个sheet 中的s1 情况。
             if ele.variant_type == '基因扩增':
                 for j in range(1, len(table.rows)):
-                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0]) and ('扩增' in cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
+                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0].split(' ')) and ('扩增' in cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
                         cell[f'cell_{j}'][2] = cell[f'cell_{j}'][2] + f'基因扩增\n'
                         reserve_index_list.append(index)
         # 把 完工的cell 填入对应的talbe的位置。
@@ -869,7 +1036,7 @@ class BC17():
             return self_drug, other_drug, Clinical_drugs, resistance_Drug
 
         @Tools_Decorator(tool='move_table_after', paragraph_end_with="靶向治疗提示")
-        @Tools_Decorator(tool='format_Table', col_width=[3.92, 3, 3, 3, 3])
+        @Tools_Decorator(tool='format_Table', col_width=[3, 3, 3.92, 3, 3])
         @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
         def have_targeted_Therapy_Tips(position=[]):
             # 建立表。
@@ -1171,10 +1338,10 @@ class BC17():
             if float(self.BC17_meta['HE结果'].iloc[0].strip('%')) / 100.0 >= 0.1:
                 self.temp['cell_1'] += f"{'{:.0%}'.format(float(self.BC17_meta['HE结果'].iloc[0].strip('%')) / 100)}"
             else:
-                self.temp['cell_1'] += '10%'
+                self.temp['cell_1'] += '>10%'
         else:
             if self.BC17_meta['样本类型*'].iloc[0] == '组织':
-                self.temp['cell_1'] += '10%'
+                self.temp['cell_1'] += '>10%'
             else:
                 self.temp['cell_1'] += '不适用'
         if 'DNA总量' in self.BC17_meta.columns:
@@ -1248,7 +1415,7 @@ class BC17():
         target_table.cell(8, 2).text = self.temp['cell_8']
         target_table.cell(9, 2).text = self.temp['cell_9']
         target_table.cell(10, 2).text = self.temp['cell_10']
-        temp_position = [(i, 2) for i in range(1, 11)]
+        temp_position = [(i, j) for i in range(1, 12) for j in range(1,4)]
         position.extend(temp_position)
         return self.doc
 

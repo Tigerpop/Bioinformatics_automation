@@ -673,7 +673,7 @@ def concat_plot():
 
 def main():
     qc()
-    
+
     tmp_dir = f"{generate_location}/{sample_path}/"+"1p19q_generate"
     sample_dir = f"{generate_location}/{sample_path}"
     if not os.path.exists(tmp_dir):

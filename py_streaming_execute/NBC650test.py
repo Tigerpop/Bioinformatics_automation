@@ -65,8 +65,8 @@ if __name__ == '__main__':
     generate_location = '/home/chenyushao/py_streaming_generate'
     log_path = f"{generate_location}/{sample_path}/log" # 'py_streaming_execute/log'
     ref_fasta = '/refhub/hg19/fa/ucsc.hg19.fasta'
-    bed = '/refhub/hg19/target/BCP650/BCP650.raw.hg19.bed'
-    bed_key = 'BCP650'
+    bed = '/refhub/hg19/target/NBC650/NBC650.raw.hg19.bed'
+    bed_key = 'NBC650'
     bed_1p19q = '/refhub/hg19/target/Q120T/1p19qtest2.bed'
     human_genome_index = '/refhub/hg19/human_genome_index/gatk_hg19'
     fa_gz_1 = str(f'/fastq_data/{sample_path}/{sample}_1.fq.gz')
@@ -226,7 +226,7 @@ if __name__ == '__main__':
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
-    execution_order_list = ['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','test_1p19q','collect']
+    execution_order_list = ['test_1p19q']#['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','test_1p19q','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

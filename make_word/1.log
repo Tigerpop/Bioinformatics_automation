@@ -140,3 +140,925 @@ DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 o
 DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8c51163180>
 DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f8c511ccf40>,), kwargs: {'position': [], 'position_1': []}
 DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8c51163180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7ffb002f9550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ffb002faf80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f2f9a741550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2f9a752180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f49f1364550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f49f1375100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f2355eb2550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2355ec3200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fa16a422550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa16a433240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f43e7a43550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f43e7a542c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f91b007f580>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f91b0081f80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fdb50edb580>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdb50eec040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f3d45ae4550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3d45af5100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fb6628e7550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb6628f8100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f9fd2579550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9fd258a080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f9f8b39e550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9f8b3af080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fbbc71be550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbbc71cf080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fa9bc19c550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa9bc1ad040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fc0d6586550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc0d6596200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f83913f9550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f839140a080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f53a8e35580>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f53a8e45180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7ff65e093580>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff65e0a3200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fb70cb90550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb70cba1240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f25d4cbc550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f25d4ccc280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f95b8efa550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f95b8f0a3c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f10354e4550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f10354f5140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fc6439e0550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc6439f0200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f306049b550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3063f551c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fd65d456550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd65d4670c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fcb4686d550>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcb4687d1c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f47cca6bbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f47cca7f200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f47cca6bbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f47cca7f200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fc806a7abb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc806a7ef40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fc806a7abb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc806a7ef40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f38dbdebbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f38dbdfc440>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f38dbdebbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f38dbdfc440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f4c28de8bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4c28dfc280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f4c28de8bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f4c28dfc280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fe4eac01ee0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe4eab99080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fe4eac01ee0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe4eab99080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa6b2bd7eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa6b2b6f080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa6b2bd7eb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa6b2b6f080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fe528d74eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe528d7ab00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fe528d74eb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe528d7ab00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f0ce747eb80>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0ce7493100>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f0ce747eb80>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0ce7493100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f879b7c4b20>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f879b7d9080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f879b7c4b20>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f879b7d9080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f376e4aab80>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f376e4be240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f376e4aab80>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f376e4be240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f77b252ceb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f77b2533a40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f77b252ceb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f77b2533a40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f93893cfeb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9389367040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f93893cfeb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9389367040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f966e363bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f966e3790c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f966e363bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f966e3790c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f1c62dc6b50>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1c62ddb280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f1c62dc6b50>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f1c62ddb280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fcd34a96bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcd34aab180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fcd34a96bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fcd34aab180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fec93ea6eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fec93eaca00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fec93ea6eb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fec93eaca00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f9c67692eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9c6762a2c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f9c67692eb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9c6762a2c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7ff59bb3ebb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff3c82720c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7ff59bb3ebb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff3c82720c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f9eef6d5b50>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9eef6e8600>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f9eef6d5b50>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9eef6e8600>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fcc0f31bbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcc0f3310c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fcc0f31bbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fcc0f3310c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f086196dc10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0861980500>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f086196dc10>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0861980500>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fc053621c40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc0535b9200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fc053621c40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc0535b9200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f3e46308c40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3e462a2200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f3e46308c40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f3e462a2200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f2522082ca0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2522094600>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f2522082ca0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2522094600>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f85600b5c70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f85600bf800>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f85600b5c70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f85600bf800>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fbf3d214c70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbf3d225640>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fbf3d214c70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fbf3d225640>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fbae4460c40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbae44725c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fbae4460c40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fbae44725c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f0321508c40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f032149f940>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f0321508c40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f032149f940>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f21d115dc10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f21d10f6280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f21d115dc10>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f21d10f6280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f5c216d7ca0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5c216e8600>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f5c216d7ca0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f5c216e8600>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f8eb4120fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8eb4125f80>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f8eb4120fa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8eb4125f80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fc1350cbfa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc1350d0fc0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fc1350cbfa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc1350d0fc0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f6268669fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f626866fdc0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f6268669fa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f626866fdc0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f9572c0bf40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9572ba2040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f9572c0bf40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9572ba2040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f7e39ffdf40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7e39f99080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f7e39ffdf40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7e39f99080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7ff792e7bf40>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff792e83c40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7ff792e7bf40>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff792e83c40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fceb04d4bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fceb04e8200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fceb04d4bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fceb04e8200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f2c792b1bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2c792c2580>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f2c792b1bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2c792c2580>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fdda8d90bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdda8da5140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fdda8d90bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fdda8da5140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f9880912430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9880923540>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f25732b1430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f25732c25c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f7892457bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7892468440>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f7892457bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7892468440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f20535a2bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f20535b4380>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f20535a2bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f20535b4380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f17e557c430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f17e558d380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f5f0ab37bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5f0ab4b280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f5f0ab37bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f5f0ab4b280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f9682863bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9682874480>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f9682863bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9682874480>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f0c880f8430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0c883a0300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7feca3187430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7feca3198440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f6b68f8d430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6b68fa00c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f2444ee4bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2444ef5540>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f2444ee4bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2444ef5540>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f19cf5ecbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f19cf601180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f19cf5ecbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f19cf601180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f7d85601430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7d85612480>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f3be5b0abb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3be5a9f180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f3be5b0abb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f3be5a9f180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f5381a21bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5381bd42c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f5381a21bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f5381bd42c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f82d7970430>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f82d7981380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f7575f69610>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7575eff100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f22db796700>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f22db7a9900>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fdd6da7f8b0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdd6da95240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f81d0ffdfa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f81d1005940>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f81d0ffdfa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f81d1005940>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fd9e5671fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd9e5609080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fd9e5671fa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fd9e5609080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fa65ee57f70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa65edf0040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fa65ee57f70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa65edf0040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f013fc5ff70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f013fc69980>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f013fc5ff70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f013fc69980>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f7eb962df70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7eb96378c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f7eb962df70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7eb96378c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f82f7e21f70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f82f7dba040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f82f7e21f70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f82f7dba040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fb2d75abfa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb2d7544240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fb2d75abfa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb2d7544240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f1cd7cfefa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1cd7c96040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f1cd7cfefa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f1cd7c96040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fd59624dfa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd5961e6240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fd59624dfa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fd5961e6240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f89c23dafa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f89c23e3980>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f89c23dafa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f89c23e3980>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f22d8799fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f22d8731040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f22d8799fa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f22d8731040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fe3534f2fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe35348a0c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fe3534f2fa0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe35348a0c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f3095177f70>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3095181840>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f3095177f70>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f3095181840>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f0dd5645160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0dd55d8280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f0dd5645160>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0dd55d8280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f10a0306130>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f10a0299280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f10a0306130>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f10a0299280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f593daea130>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f593da7d040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f593daea130>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f593da7d040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f39f9736130>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f39f96ce040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f39f9736130>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f39f96ce040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f0b72659250>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0b725ec0c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f0b72659250>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0b725ec0c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f7c9d2d3280>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7c9d2d5d00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f7c9d2d3280>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7c9d2d5d00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f3a9f9d12e0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3a9f969040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f3a9f9d12e0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f3a9f969040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fb4ff1922e0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb4ff195f80>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fb4ff1922e0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb4ff195f80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f76b1ecb7c0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f76b1e5e340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f76b1ecb7c0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f76b1e5e340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fd2e394e6a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd2e38e3100>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fd2e394e6a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fd2e38e3100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fb0ddb696a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb0ddafd1c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fb0ddb696a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb0ddafd1c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f00e60036a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f00e5f96240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f00e60036a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f00e5f96240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f4001e596a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4001dec300>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f4001e596a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f4001dec300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fed2b0b29d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fed2b047040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fed2b0b29d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fed2b047040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f17128f5eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1712909100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f91f0f5fbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f91f0f74180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f91f0f5fbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f91f0f74180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f662d415bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f662d5c5a40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f662d415bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f662d5c5a40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fe5e0d8deb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe5e0da1240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fc86c2d29d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc86c267200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fc86c2d29d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc86c267200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f2b35940eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2b35be3680>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fd0f0b399d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd0f0b40880>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fd0f0b399d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fd0f0b40880>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7ff32c415eb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff32c427300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f68ada0ebb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f68ada22280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f68ada0ebb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f68ada22280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fc84146ebb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc841472f40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fc84146ebb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc841472f40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fa7e574feb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa7e5763140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f46a079e9d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f46a0733200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f46a079e9d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f46a0733200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fdd8ee4eeb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdd8ee62180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f7516848bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f751685d080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f7516848bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f751685d080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7ff382a0bbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff382a1f180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7ff382a0bbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff382a1f180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f97580deeb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f97580f2080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fda4dd6c9d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fda4dd01140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fda4dd6c9d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fda4dd01140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fdd5a44beb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdd5a45f100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fcb45b86bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcb45b9b180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fcb45b86bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fcb45b9b180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fd0de0959d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcf08c39f40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fd0de0959d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fcf08c39f40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7feeb635ebb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7feeb63740c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7feeb635ebb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7feeb63740c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f199e11b9d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f17ca6ed540>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f199e11b9d0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f17ca6ed540>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f4b2ea30a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4b2e9c52c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f4b2ea30a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f4b2e9c52c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f56f2fe5bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f56f2ff9300>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f56f2fe5bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f56f2ff9300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fe603f21f10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe603f36080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f3a947f7bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3a94808540>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f3a947f7bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f3a94808540>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fca109e7bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fca109fb240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fca109e7bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fca109fb240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fb1a360bbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb1a361f1c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fb1a360bbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb1a361f1c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fb8165fbf10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb816610100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f6e433d2a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6e43367140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f6e433d2a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f6e43367140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7face80dff10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7face80f40c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f866ae39bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f866ae4e100>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f866ae39bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f866ae4e100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f812bd6bbb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f812bd80100>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f812bd6bbb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f812bd80100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa32245ba60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa3223f0080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa32245ba60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa3223f0080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fbe86e81bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbe86e96180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fbe86e81bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fbe86e96180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f73e010e6a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f720abe3c00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f73e010e6a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f720abe3c00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7ff0e5641a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff0e55d6240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7ff0e5641a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff0e55d6240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f99498676a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f99497f9240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f99498676a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f99497f9240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f1601fd06a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1601f651c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f1601fd06a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f1601f651c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7ffae44a30a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ffae44a5b40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7ff18e549f10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff18e54efc0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f161f5200a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f161f522d80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f80ef805a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f80ef78e7c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f80ef805a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f80ef78e7c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7ff44e9f8bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff44ea0e240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7ff44e9f8bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff44ea0e240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fd6477860a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd64779a080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f907e7babb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f907e7d01c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f907e7babb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f907e7d01c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f7854664f10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f78546791c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fe41436b0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe41436dc40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f07231920a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0723194b40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fdbbf4fc0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdbbf4fec40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f0d5a019bb0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0d5a02f0c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f0d5a019bb0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0d5a02f0c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fc0495a2a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc04952a8c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fc0495a2a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc04952a8c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fa1347ed0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa134801040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fbf8a1046a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbf8a099100>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fbf8a1046a0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fbf8a099100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f2fbc760a60>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2fbc6f51c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f2fbc760a60>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2fbc6f51c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fdf16fdba90>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fdd435ac440>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fdf16fdba90>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fdd435ac440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f0896d21f10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f06c2169c00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fbdc1349f10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fbdc135c300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f33ce53bf10>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f33ce550080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f57db50a070>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f57db51c140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f9befa09040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9befa19240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f70a7a0d0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6ed1c51380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fd5c669d0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd5c66ac400>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f8ef450b0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8ef451d280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f4bc2805040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4bc28141c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f3efb20c040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3efb21b300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fb252c32070>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb252c442c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f075fbb2040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f075fbc1300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f4ee8bd4070>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4ee8be6180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fae439d80a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fac6f551c00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f20084f50a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2008507280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f9048f35070>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9048f44580>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f848ca0e0d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f848ca1d580>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f2e8aabffd0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2e8aad3380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f91896f6040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9189707280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f8bc2e7f040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8bc2e8f300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f3c195f9040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f3c19609300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f4ec108b040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4ec109a400>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f6867413fd0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6692fd0240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f4c67826fd0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4c6783b280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f5af0ca5fd0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5af0cbc2c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f4b9583efd0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4b958523c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7fd9f79eb040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd9f79f9400>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f1efbbdd700>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1efbb6c340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f1efbbdd700>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f1efbb6c340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f6bc85e0b20>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6bc8568800>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f6bc85e0b20>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f6bc8568800>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f24012fd700>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f240128e280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f24012fd700>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f240128e280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fafa0a84700>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fafa0a170c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fafa0a84700>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fafa0a170c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fc12357e0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc123592040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f7ee00c3fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7ee00d9180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f782a7fe0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f782a818080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f949ed7fb20>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f949ed14080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f949ed7fb20>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f949ed14080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7ff7c1082b80>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff5ec456c00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7ff7c1082b80>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff5ec456c00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f8b90b700a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8b90b72d80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f6aa7abeb80>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6aa7a52200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f6aa7abeb80>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f6aa7a52200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f586a6a9fa0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f586a6be2c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fe972d7b0a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe972d7de80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fb95a5150a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb95a517ec0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fd428c220a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd428c3c040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7faf101d6b80>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fad3a3a4e40>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7faf101d6b80>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fad3a3a4e40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f6c290e4b20>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6c29079240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f6c290e4b20>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f6c29079240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fb02a7440a0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb02a759140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f8bbaa4c700>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8bba9de240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f8bbaa4c700>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8bba9de240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f745ab8eb20>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7285f5b540>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f745ab8eb20>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7285f5b540>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f16c7d3e0d0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f16c7d53240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fc80e404190>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc80e418200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fa5f9d44790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa5f9cd5500>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fa5f9d44790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa5f9cd5500>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f863395daf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f86338f3340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f863395daf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f86338f3340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fced7733790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fced76c4480>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fced7733790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fced76c4480>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f2bcab7f790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2bcab13240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f2bcab7f790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2bcab13240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f847d161160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f847d17b080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7ff73fd37040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff73fd48100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f78ff9de160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f78ff9e0f00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f77c020caf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f77c01a0040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f77c020caf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f77c01a0040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fcc0aa7cbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fcc0aa14040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fcc0aa7cbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fcc0aa14040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fd8e7df7160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd8e7e11040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f126ef9bbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f126ef31340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f126ef9bbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f126ef31340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f1937b1d040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1937b2e140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f8e7ec46160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8e7ec5a200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f6fc4ca0160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f6fc4cba040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f2bd3fe2160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2bd3ff7100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7ffa27669be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ffa27601240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7ffa27669be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ffa27601240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fe21d4b7af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe21d44d280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fe21d4b7af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe21d44d280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f426e3d5160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f426e3ea140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f9322b69790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9322afd240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f9322b69790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9322afd240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa64c2f0af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa64c276a00>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa64c2f0af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa64c276a00>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f7b50aa9af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f7b50a3e0c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f7b50aa9af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f7b50a3e0c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fae870c9af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fae8705d040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fae870c9af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fae8705d040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7ffa5555e160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ffa555730c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f5d67caabe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5d67c41240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f5d67caabe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f5d67c41240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa1424deaf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa1424742c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa1424deaf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa1424742c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f210812a790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f21080be200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f210812a790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f21080be200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f8c3ce1baf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8c3cdae040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f8c3ce1baf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8c3cdae040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa031a3daf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa0319d1080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa031a3daf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa0319d1080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f08062fc040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f080630c240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fc7a48d8be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fc7a486e340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fc7a48d8be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fc7a486e340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f1f1926caf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1d44bfb4c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f1f1926caf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f1d44bfb4c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7fe4dfb9a790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe4dfb2d140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7fe4dfb9a790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe4dfb2d140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7faf6cc5fbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7faf6cbf7140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7faf6cc5fbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7faf6cbf7140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f8c1d46eaf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8c1d404300>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f8c1d46eaf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8c1d404300>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f0bc8de2790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0bc8d72480>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f0bc8de2790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0bc8d72480>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f1496483160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f1496485e40>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f4475fd4160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4475fd6dc0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f2efad21af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2d252bcb80>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f2efad21af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2d252bcb80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f4aad3fc790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4aad38f140>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f4aad3fc790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f4aad38f140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f50552b1040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f50552c3100>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f03708ea160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f03708ecd80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f894e46daf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f894e402040>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f894e46daf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f894e402040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f759f534af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f759f4c8080>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f759f534af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f759f4c8080>
+DEBUG:sample_information:Running sample_information with args: (<__main__.SD160 object at 0x7f42b35ae040>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f42b35bf140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f245be26af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f245bdbd180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f245be26af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f245bdbd180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7efe63c4f790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7efe63bdf3c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7efe63c4f790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7efe63bdf3c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f909252e790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f90924be3c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f909252e790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f90924be3c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa58ecf2af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa58ec77b80>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa58ecf2af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa58ec77b80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f44b8534af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f42e4b043c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f44b8534af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f42e4b043c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fedb430cbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fedb42a32c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fedb430cbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fedb42a32c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fa9fd5b2af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fa82897d940>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fa9fd5b2af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fa82897d940>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f0f7cd97790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f0f7cd2a280>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f0f7cd97790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f0f7cd2a280>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7f5185dedaf0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f5185d82340>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7f5185dedaf0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f5185d82340>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q80 object at 0x7f2403e6a790>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f2403dfd200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q80 object at 0x7f2403e6a790>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f2403dfd200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f9c47dd0160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9c47de5180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7fd3bb54d160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fd3bb562140>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7ff029987af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7ff029c40440>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7ff029987af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7ff029c40440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f9ccf0bcbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f9ccf050440>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f9ccf0bcbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f9ccf050440>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f447c00f160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f447c011c80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f770b128be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f770b0bf2c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f770b128be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f770b0bf2c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fe75c313be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fe75c2ab180>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fe75c313be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fe75c2ab180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f4847569160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f484757e180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7f4ef6b1f160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f4ef6b39040>
+DEBUG:sample_information:Running sample_information with args: (<__main__.Q110 object at 0x7fea873d3af0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fea873670c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.Q110 object at 0x7fea873d3af0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fea873670c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fb786361be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb7862f9200>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fb786361be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb7862f9200>
+DEBUG:sample_information:Running sample_information with args: (<__main__.NBC650 object at 0x7feeb4e0c160>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7feeb4e21180>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f77cda10be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f77cd9a6380>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f77cda10be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f77cd9a6380>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7efdd6936be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7efdd693df80>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7efdd6936be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7efdd693df80>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7efd24507be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7efd2449e1c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7efd24507be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7efd2449e1c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f8b54c4fbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f8b54be61c0>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f8b54c4fbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f8b54be61c0>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fecbdaa3be0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7feae9504740>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fecbdaa3be0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7feae9504740>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7f927f5ddbe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7f927f574240>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7f927f5ddbe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7f927f574240>
+DEBUG:sample_information:Running sample_information with args: (<__main__.BC17 object at 0x7fb01fb5ebe0>,), kwargs: {'position': []}
+DEBUG:sample_information:sample_information result: <docx.document.Document object at 0x7fb01faf5300>
+DEBUG:Details_of_genetic_testing_results:Running Details_of_genetic_testing_results with args: (<__main__.BC17 object at 0x7fb01fb5ebe0>,), kwargs: {'position': [], 'position_1': []}
+DEBUG:Details_of_genetic_testing_results:Details_of_genetic_testing_results result: <docx.document.Document object at 0x7fb01faf5300>

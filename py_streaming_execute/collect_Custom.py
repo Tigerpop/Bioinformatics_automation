@@ -17,8 +17,8 @@ generate_location = sys.argv[4]
 bed_key = sys.argv[5]
 collect_list_str = sys.argv[6]
 collect_list = collect_list_str.split(",")
-sample_monitor = sys.argv[7]
-bed = sys.argv[8]
+sample_monitor = sys.argv[8]
+bed = sys.argv[9]
 
 def generate_summary():
     # 实现多个sheet 写入一个exel。
@@ -28,12 +28,16 @@ def generate_summary():
             def determine_sample_type(sample):
                 pattern1 = r'.*(-T|-N|-T-1|-N-1)$'  # 样本类型1的正则表达式模式
                 pattern2 = r'^\d{8}C?L\d{3}$'  # 样本类型2和3的正则表达式模式
+                pattern3 = r'^\w+-\w+-\w+-\w+$'
                 if re.match(pattern1, sample):
                     print('这是 解码的样本')
                     return "解码"
                 elif re.match(pattern2, sample):
                     print('这是 睿明的样本')
                     return "睿明"
+                elif re.match(pattern3, sample):
+                    print('这是 融享的样本')
+                    return "融享"
                 else:
                     return "未知样本类型"
                   
@@ -45,7 +49,9 @@ def generate_summary():
                 # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
             elif determine_sample_type(sample)=="睿明":
                 sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
-            
+            elif determine_sample_type(sample)=="融享":
+                sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
+                
             if bed_key in ['BCP650','NBC650'] and sample_TN in os.listdir(f'{sample_monitor}'):
                 df_mate = df_receive[df_receive['样本编号*']==sample]
                 df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]
@@ -61,7 +67,7 @@ def generate_summary():
                 df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
                 = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
                 df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
-                Tool = ctlb.tool(sample,sample_path,generate_location,bed) 
+                Tool = ctlb.tool(sample,sample_path,generate_location,bed)
                 df_mate['bp_num(non-repeated)'] = Tool.main()
             # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
             df_mate = df_mate.tail(1)
