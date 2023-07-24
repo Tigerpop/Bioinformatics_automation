@@ -7,22 +7,29 @@ import docx, copy, re, os,datetime,math,shutil,logging,inspect,sys
 import numpy as np
 from docx import Document
 
+# , '睿明226基因': f'python /home/chenyushao/make_word/SD160_word.py {sample} {date} {word_name}'
+# , '睿明110基因': f'python /home/chenyushao/make_word/Gene110_ty_LangCancerTissue_word.py {sample} {date} {word_name}'
 def choose_channe(mode:str,sample:str,date:str,word_name:str)-> str:
     dict_ = {'解码17基因':f'python /home/chenyushao/make_word/BC17_word.py {sample} {date} {word_name}'
+              ,'解码25基因': f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
               ,'解码80基因':f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
               ,'解码110基因':f'python /home/chenyushao/make_word/Q110_word.py {sample} {date} {word_name}'
               ,'解码223基因':f'python /home/chenyushao/make_word/SD160_word.py {sample} {date} {word_name}'
               ,'解码682基因':f'python /home/chenyushao/make_word/NBC650_word.py {sample} {date} {word_name}'
+              , '睿明660基因': f'python /home/chenyushao/make_word/NBC650_word.py {sample} {date} {word_name}'
               , '睿明120基因': f'python /home/chenyushao/make_word/Q110_word.py {sample} {date} {word_name}'
-              , '睿明110基因': f'python /home/chenyushao/make_word/Q110_word.py {sample} {date} {word_name}'
-              ,'睿明66基因':f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
-              , '睿明65基因': f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
-              ,'睿明60基因':f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
+              , '睿明80基因': f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
+              , '睿明70基因': f'python /home/chenyushao/make_word/Gene60_rm_LangCancerTissue_word.py {sample} {date} {word_name}'
+              ,'睿明66基因':f'python /home/chenyushao/make_word/Gene60_rm_LangCancerTissue_word.py {sample} {date} {word_name}'
+              , '睿明65基因': f'python /home/chenyushao/make_word/Gene60_rm_LangCancerTissue_word.py {sample} {date} {word_name}'
+              ,'睿明60基因':f'python /home/chenyushao/make_word/Gene60_rm_LangCancerTissue_word.py {sample} {date} {word_name}'
+              ,'睿明25基因':f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
               ,'睿明17基因':f'python /home/chenyushao/make_word/BC17_word.py {sample} {date} {word_name}'
               ,'融享17基因': f'python /home/chenyushao/make_word/BC17_word.py {sample} {date} {word_name}'
-              , '融享80基因': f'python /home/chenyushao/make_word/BC17_word.py {sample} {date} {word_name}'
+              , '融享55基因': f'python /home/chenyushao/make_word/BC17_word.py {sample} {date} {word_name}'
+              , '融享80基因': f'python /home/chenyushao/make_word/Gene65_ty_IntestinalCancerTissue_word.py {sample} {date} {word_name}'
               , '融享671基因': f'python /home/chenyushao/make_word/NBC650_word.py {sample} {date} {word_name}'
-
+              , 'MSI': f'python /home/chenyushao/make_word/Q80_word.py {sample} {date} {word_name}'
               }
     return dict_.get(mode, f'echo no_this_mode {mode}')
     

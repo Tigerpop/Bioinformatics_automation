@@ -238,9 +238,9 @@ class Tools():
                     run = paragraph.runs[0]
                     run.font.bold = True
                     run.font.size = Pt(header_size)
-                    run.font.color.rgb = RGBColor(0, 0, 0)
+                    run.font.color.rgb = RGBColor(255, 255, 255)
                     table.rows[0].height = Cm(1)
-                    self.Set_Background_Color(cell, "CFDAE6")
+                    self.Set_Background_Color(cell, "517B95")
                 # 如果是奇数行，设置背景色为浅蓝色,且第一列不变色。 First_column_colore 来控制第一列是否变色。
                 elif i % 2 != 1 and First_column_colore==True:  # and cell !=cells[0]:
                     if no_colore_column==[]: # 没有 no_colore_column 参数时 就按照原逻辑来，有no_colore_column参数，优先考虑no_colore_column参数。
@@ -543,7 +543,7 @@ def Tools_Decorator(tool: str, *tool_args, **tool_kwargs):
 
 class Q80():
     def __init__(self, input_file):
-        self.doc = Document('/refhub/ref/masterplate/解码80基因报告母版.2023v1的副本.docx')
+        self.doc = Document('/refhub/ref/masterplate/60基因检测报告_通用_组织版_肺癌.docx')
         self.input_file = input_file
         self.sample = self.input_file.split('/')[-1].replace('.summary.xlsx', '')
         print(self.sample, 'input_file is : ', input_file)
@@ -687,8 +687,8 @@ class Q80():
         return self.doc
 
     position,position_1 = [],[]
-    @Tools_Decorator(tool='format_Cell', table_index=4,position=position, size=10, color=RGBColor(255, 0, 0))
-    @Tools_Decorator(tool='format_Cell', table_index=4,position=position_1, size=10, color=RGBColor(0, 0, 0))
+    @Tools_Decorator(tool='format_Cell', table_index=3,position=position, size=10, color=RGBColor(255, 0, 0))
+    @Tools_Decorator(tool='format_Cell', table_index=3,position=position_1, size=10, color=RGBColor(0, 0, 0))
     @log_to_file(folder='./', filename='1.log')
     def Details_of_genetic_testing_results(self, position=[],position_1=[]):  # 给第个表格插入值。
         for temp_table in self.doc.tables:
@@ -784,7 +784,7 @@ class Q80():
             self.cell.append(ele)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with='具有明确临床意义的变异位点【Ⅰ类/Ⅱ类】')
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with='致病或可能致病的变异位点【Ⅰ类/Ⅱ类】')
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     @Tools_Decorator(tool='fill_empty_cells_with_slash')
@@ -822,7 +822,7 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with="具有潜在临床意义的变异位点【Ⅲ类】")
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with="临床意义不明确的变异位点【Ⅲ类】")
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     def Somatic_variation_results_1(self,position=[]):
@@ -1936,9 +1936,9 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
-    @Tools_Decorator(tool='format_Cell', position=position, table_index=3,size=10, color=RGBColor(0, 0, 0),left=True)
+    @Tools_Decorator(tool='format_Cell', position=position, table_index=2,size=10, color=RGBColor(0, 0, 0),left=True)
     def Evaluation_of_therapeutic_effect_of_chemotherapy_drugs(self,position=[]):
-        table = self.doc.tables[3]
+        table = self.doc.tables[2]
         table.cell(2,1).text = '、'.join(self.recommend_chemo_drug_list) if self.recommend_chemo_drug_list!=[] else '无'
         table.cell(3, 1).text = '、'.join(self.common_chemo_drug_list) if self.common_chemo_drug_list!=[] else '无'
         table.cell(4, 1).text = '、'.join(self.danger_chemo_drug_list) if self.danger_chemo_drug_list!=[] else '无'
@@ -2059,13 +2059,13 @@ class Q80():
         section = self.doc.sections[1]
         header = section.header
         header.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 居中显示
-        header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
+        # header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
         data_ = f'{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else manual_Date
         sample_id, sample_name = self.BC17_meta['id'].iloc[0], self.BC17_meta['name'].iloc[0]
-        header.tables[0].cell(0, 1).paragraphs[0].text = sample_id.replace('-T', '').replace('-N',
+        header.tables[0].cell(0, 0).paragraphs[0].text = sample_id.replace('-T', '').replace('-N',
                                                                                              '') + ' | ' + sample_name + ' | ' + data_
-        header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
-        header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
+        header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(81, 123, 149)
+        # header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
         return self.doc
 
     def add_date(self, manual_Date=None):
@@ -2074,16 +2074,19 @@ class Q80():
             if len(table.columns) == 2 and table.cell(0, 0).paragraphs[0].text == '检测人：' and \
                     table.cell(0, 1).paragraphs[0].text == '复核人：':
                 target_table = table
-        target_table.cell(1,
-                          0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(1,0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(0, 0).text = '检测人：陈宇韶'
+        target_table.cell(0, 1).text = '复核人：顾嘉琦\n'
         from docx.oxml.ns import qn  # 中文字体。
-        cell = target_table.cell(1, 0)
-        for paragraph in cell.paragraphs:  # 遍历单元格中的段落
-            run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
-            font = run.font  # 获取字体对象
-            font.name = "Microsoft YaHei"  # 设置字体名称
-            from docx.oxml.ns import qn  # 中文字体。
-            run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
+        cells = [target_table.cell(1, 0),target_table.cell(0, 0),target_table.cell(0, 1)]
+        for cell in cells:
+            for paragraph in cell.paragraphs:  # 遍历单元格中的段落
+                run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
+                font = run.font  # 获取字体对象
+                font.name = "Microsoft YaHei"  # 设置字体名称
+                font.size = Pt(11)  # 设置字体大小为11磅
+                from docx.oxml.ns import qn  # 中文字体。
+                run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
         return self.doc
 
     def delete_rubbish(self):
@@ -2117,8 +2120,8 @@ if __name__ == '__main__':
     doc = q80.Chemotherapy_drug_testing_1(position=[])
     doc = q80.Chemotherapy_drug_testing_0(position=[])
     doc = q80.Evaluation_of_therapeutic_effect_of_chemotherapy_drugs( position=[])
-    doc = q80.MSI_detection(position=[])
-    doc = q80.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
+    # doc = q80.MSI_detection(position=[])
+    # doc = q80.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
     doc = q80.Targeted_drug_annotations(position=[])
     doc = q80.DrugCombinedPlan_func(position=[])
 

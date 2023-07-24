@@ -1,8 +1,8 @@
 #coding=utf8
 import docx, copy, re, os,datetime,math,shutil,logging,inspect,sys
-from typing import List
 import pandas as pd
 import numpy as np
+from typing import List
 from docx import Document
 from functools import wraps
 from docx.oxml import CT_P, CT_Tbl
@@ -238,9 +238,9 @@ class Tools():
                     run = paragraph.runs[0]
                     run.font.bold = True
                     run.font.size = Pt(header_size)
-                    run.font.color.rgb = RGBColor(0, 0, 0)
+                    run.font.color.rgb = RGBColor(255, 255, 255)
                     table.rows[0].height = Cm(1)
-                    self.Set_Background_Color(cell, "CFDAE6")
+                    self.Set_Background_Color(cell, "517B95")
                 # 如果是奇数行，设置背景色为浅蓝色,且第一列不变色。 First_column_colore 来控制第一列是否变色。
                 elif i % 2 != 1 and First_column_colore==True:  # and cell !=cells[0]:
                     if no_colore_column==[]: # 没有 no_colore_column 参数时 就按照原逻辑来，有no_colore_column参数，优先考虑no_colore_column参数。
@@ -393,6 +393,29 @@ class Tools():
     #     table.cell(merge_start_index, column_index).text = previous_text
     #     return doc
 
+    # def Merge_cells_by_first_column(self,doc,table_index=-1, column_index=0):
+    #     tables = doc.tables
+    #     table = tables[table_index]
+    #     first_column = table.columns[column_index]
+    #     previous_text = first_column.cells[1].text
+    #     merge_start_index = 1
+    #     for i in range(2, len(first_column.cells)):
+    #         current_text = first_column.cells[i].text
+    #         if current_text != previous_text:
+    #             # 合并单元格，并将第一个单元格设置为保留的值
+    #             table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
+    #             table.cell(merge_start_index, column_index).text = previous_text
+    #             merge_start_index = i
+    #         else:
+    #             # 将后续相同值的单元格清空
+    #             table.cell(i, column_index).text = ""
+    #         previous_text = current_text
+    #     # 执行最后一个合并操作
+    #     if current_text == previous_text:
+    #         table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
+    #         table.cell(merge_start_index, column_index).text = previous_text
+    #     return doc
+
     def Merge_cells_by_first_column(self,doc,table_index=-1, column_index=0):
         tables = doc.tables
         table = tables[table_index]
@@ -427,29 +450,6 @@ class Tools():
                 table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
                 table.cell(merge_start_index, column_index).text = previous_text
         return doc
-
-    # def Merge_cells_by_first_column(self,doc,table_index=-1, column_index=0):
-    #     tables = doc.tables
-    #     table = tables[table_index]
-    #     first_column = table.columns[column_index]
-    #     previous_text = first_column.cells[1].text
-    #     merge_start_index = 1
-    #     for i in range(2, len(first_column.cells)):
-    #         current_text = first_column.cells[i].text
-    #         if current_text != previous_text:
-    #             # 合并单元格，并将第一个单元格设置为保留的值
-    #             table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
-    #             table.cell(merge_start_index, column_index).text = previous_text
-    #             merge_start_index = i
-    #         else:
-    #             # 将后续相同值的单元格清空
-    #             table.cell(i, column_index).text = ""
-    #         previous_text = current_text
-    #     # 执行最后一个合并操作
-    #     if current_text == previous_text:
-    #         table.cell(merge_start_index, column_index).merge(table.cell(len(first_column.cells) - 1, column_index))
-    #         table.cell(merge_start_index, column_index).text = previous_text
-    #     return doc
 
     def Specify_cell_color_change(self,doc,search_text,color=RGBColor(255, 0, 0),table_index=-1):
         tables = doc.tables
@@ -540,10 +540,9 @@ def Tools_Decorator(tool: str, *tool_args, **tool_kwargs):
     return tools_decorator
 
 
-
-class Q80():
+class Q110():
     def __init__(self, input_file):
-        self.doc = Document('/refhub/ref/masterplate/解码80基因报告母版.2023v1的副本.docx')
+        self.doc = Document('/refhub/ref/masterplate/65基因检测报告_通用_组织版_乳腺癌.docx')
         self.input_file = input_file
         self.sample = self.input_file.split('/')[-1].replace('.summary.xlsx', '')
         print(self.sample, 'input_file is : ', input_file)
@@ -677,7 +676,7 @@ class Q80():
         table.cell(1, 5).text = self.age
         table.cell(2, 1).text = self.hospital
         table.cell(2, 3).text = self.arrival_date
-        table.cell(3, 1).text = self.clinname
+        table.cell(3, 1).text = self.clinname if self.clinname else ' -'
         table.cell(3, 3).text = self.projectname
         table.cell(4, 1).text = self.sample#.replace('-T','').replace('-N','')
         table.cell(4, 3).text = self.sample_type
@@ -739,7 +738,7 @@ class Q80():
             # 第三考虑 cnv 这个sheet 中的s1 情况。
             if ele.variant_type == '基因扩增':
                 for j in range(1, len(table.rows)):
-                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0].split(' ')) and ('扩增' in cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
+                    if (cell[f'cell_{j}'][0] in ele.gene or ele.gene in cell[f'cell_{j}'][0].split(' '))  and ('扩增' in cell[f'cell_{j}'][1] or ('其它' in  cell[f'cell_{j}'][1])):
                         cell[f'cell_{j}'][2] = cell[f'cell_{j}'][2] + f'基因扩增\n'
                         reserve_index_list.append(index)
         # 把 完工的cell 填入对应的talbe的位置。
@@ -784,7 +783,7 @@ class Q80():
             self.cell.append(ele)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with='具有明确临床意义的变异位点【Ⅰ类/Ⅱ类】')
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with='致病或可能致病的变异位点【Ⅰ类/Ⅱ类】')
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     @Tools_Decorator(tool='fill_empty_cells_with_slash')
@@ -822,7 +821,7 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with="具有潜在临床意义的变异位点【Ⅲ类】")
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with="临床意义不明确的变异位点【Ⅲ类】")
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     def Somatic_variation_results_1(self,position=[]):
@@ -1128,8 +1127,8 @@ class Q80():
             self.Drug_Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}药物注释匹配表.csv', sep=',')
             self.Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}注释匹配表.csv', sep=':', header=None,
                                                             names=['Genetic_variation', 'Citations'])
-            print(f'{self.sample}药物注释匹配表 is :', self.Drug_Annotation_Matching_Table_df)
-            print(f'{self.sample}注释匹配表 is :', self.Annotation_Matching_Table_df)
+            # print(f'{self.sample}药物注释匹配表 is :', self.Drug_Annotation_Matching_Table_df)
+            # print(f'{self.sample}注释匹配表 is :', self.Annotation_Matching_Table_df)
             for file_path in [f'./{self.sample}药物注释匹配表.csv', f'./{self.sample}注释匹配表.csv']:
                 if os.path.exists(file_path):
                     os.remove(file_path)
@@ -1203,7 +1202,7 @@ class Q80():
                 # print('citation is :',citation)
                 # 注意，可能出现 citation 从 citation表中找不到的情况，此时 会找到 空的 Series([], Name: Description, dtype: object)
                 if self.Citation[self.Citation['Citation'].astype(str) == citation.strip(' ')]['Description'].empty:
-                    print('出现 citation 从 citation表中找不到的情况,跳过。')
+                    # print('出现 citation 从 citation表中找不到的情况,跳过。')
                     continue
 
                 # print(self.Citation[self.Citation['Citation'].astype(str) == citation.strip(' ')]['Description'])
@@ -1297,7 +1296,7 @@ class Q80():
             temp_position = [(i, j) for i in range(len(new_table.rows)) for j in range(len(new_table.columns))]
             position.extend(temp_position)
             position_1.extend([(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(1,0),(1,1),(1,2),(1,3),(1,4),(1,5),(1,6)])
-            position_0.extend([(3,0),(5,0),(7,0)])
+            position_0.extend([(3, 0), (5, 0), (7, 0)])
             # 微改表格。
             for i in [3, 5, 7]:
                 for paragraph in new_table.cell(i, 0).paragraphs:
@@ -1378,7 +1377,7 @@ class Q80():
             doc = not_insert_add_sub_table(position=[])
         return doc
 
-    @Tools_Decorator(tool='format_Cell', table_index=-7,position=position, size=10, color=RGBColor(0, 0, 0))
+    @Tools_Decorator(tool='format_Cell', table_index=-8,position=position, size=10, color=RGBColor(0, 0, 0))
     def quality_Control_Results(self,position=[]):  # 插入值完成填表。。
         # print('进入质控表。')
         # 通过匹配table的表头来定位table。
@@ -1965,6 +1964,46 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with="通过高通量测序法检测DNA错配修复基因（MMR），评估免疫检查点抑制剂获益情况。")
+    @Tools_Decorator(tool='format_Table', col_width=[2, 2.5, 3, 3, 5.42], Border_all=False)
+    @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
+    def MMR_detection(self,position=[]):
+        dict_ = {'MMR':'MLH1、MSH2、MSH6、PMS2'}
+        def choose_cli(key):
+            cli_dict={'MMR':'免疫检查点抑制剂获益较好\n患林奇综合征风险较好'}
+            return cli_dict.get('key','患病风险较高')
+        table = self.doc.add_table(rows=1, cols=5)
+        for i,head in enumerate(['通路名称','基因','突变位点','变异类型','临床意义']):
+            table.cell(0,i).text = head
+        self.MMR_result = ''
+        i = 0 # 计数
+        for ele in self.cell:
+            for key, value in dict_.items():
+                if ele.gene in value:
+                    matching_key = key
+                    new_row = table.add_row().cells
+                    new_row[0].text = key
+                    new_row[1].text = ele.gene
+                    new_row[2].text = ele.amino_acid if ele.amino_acid else ele.variant_type
+                    new_row[3].text = ele.variant_type
+                    new_row[4].text = choose_cli(key)
+                    if key == 'MMR':
+                        self.MMR_result = self.MMR_result+ ele.gene+' '+ new_row[2].text+'\n'
+                    i += 1
+                    break
+        if i == 0:
+            # 填充表格内容
+            new_row = table.add_row().cells
+            for cell in new_row:
+                cell.text = '-'
+            table.cell(1,0).merge(table.cell(1,4))
+            table.cell(1, 0).text = '未检到已知的 DNA 错配修复基因致病性/可能致病性位点'
+        temp_position = [(i, j) for i in range(len(table.rows)) for j in range(len(table.columns))]
+        position.extend(temp_position)
+        self.MMR_result = self.MMR_result if self.MMR_result else '未检出'
+        return self.doc
+
+    # @Tools_Decorator(tool='Specify_cell_color_change_condition', table_index=2, color_address=[(3,1),(3,2)], condition_addre=(3,1),condition="!='未检出'",color=RGBColor(255, 0, 0))
     @Tools_Decorator(tool='format_Cell', table_index=2,position=position, size=10, color=RGBColor(0, 0, 0))
     def Evaluation_of_the_therapeutic_effect_of_immunotherapy(self,position=[]):
         for temp_table in self.doc.tables:
@@ -1979,23 +2018,56 @@ class Q80():
                     and temp_table.cell(0, 4).text == '获益情况':
                 target_table_ref = temp_table
                 break
+        for temp_table in self.doc.tables:
+            if len(temp_table.columns) == 5 and temp_table.cell(0, 0).text == '通路名称'\
+                    and temp_table.cell(0, 1).text == '基因'\
+                    and temp_table.cell(0, 2).text == '突变位点'\
+                    and temp_table.cell(0, 3).text == '变异类型'\
+                    and temp_table.cell(0, 4).text == '临床意义':
+                target_table_ref1 = temp_table
+                break
         table = target_table
         table_ref = target_table_ref
+        table_ref1 = target_table_ref1
         if self.clinname=='肠癌':
             if 'MSI-L' in table_ref.cell(1, 1).text:
                 table.cell(2,1).text = ' MSI-L（微卫星不稳定度较低）'
-                table.cell(2,2).text = '结直肠癌患者可能预后较差\n结直肠癌患者对5-FU方案可能敏感\n免疫检查点抑制剂获益一般\n患林奇综合征风险较低'
+                temp_txt = '结直肠癌患者可能预后较差\n结直肠癌患者对5-FU方案可能敏感\n免疫检查点抑制剂获益一般\n患林奇综合征风险较低'
             else:
                 table.cell(2, 1).text = ' MSI-H（微卫星不稳定度较高）'
-                table.cell(2, 2).text = '结直肠癌患者可能预后较好\n结直肠癌患者对5-FU方案可能不敏感\n免疫检查点抑制剂获益较好\n患林奇综合征风险较高'
+                temp_txt = '结直肠癌患者可能预后较好\n结直肠癌患者对5-FU方案可能不敏感\n免疫检查点抑制剂获益较好\n患林奇综合征风险较高'
         else:
             if 'MSI-L' in table_ref.cell(1, 1).text:
                 table.cell(2,1).text = ' MSI-L（微卫星不稳定度较低）'
-                table.cell(2,2).text = '免疫检查点抑制剂获益一般\n患林奇综合征风险较低'
+                temp_txt = '免疫检查点抑制剂获益一般\n患林奇综合征风险较低'
             else:
                 table.cell(2, 1).text = ' MSI-H（微卫星不稳定度较高）'
-                table.cell(2, 2).text = '免疫检查点抑制剂获益较好\n患林奇综合征风险较高'
-        position.extend([(2,1),(2,2)])
+                temp_txt = '免疫检查点抑制剂获益较好\n患林奇综合征风险较高'
+        # print(table_ref1.cell(1, 0),'未检到已知的 DNA 错配修复基因致病性/可能致病性位点')
+        table.cell(2, 2).text = temp_txt
+        if table_ref1.cell(1, 0).text == '未检到已知的 DNA 错配修复基因致病性/可能致病性位点':
+            table.cell(3, 1).text = '未检出'
+            # table.cell(2, 2).text = ' '
+        # 检测出mmr ，以后补充在下面：
+        if self.MMR_result=='未检出':
+            # # 获取第一行和第二行
+            # row1 = table.rows[2]
+            # row2 = table.rows[3]
+            # # 计算两行原始高度和的一半
+            # # print(table.rows[1].height,table.rows[1].height/914400,type(table.rows[1].height),'look here !')
+            # new_height = (row1.height+row2.height) / (2*2*91440)
+            # # # 设置新的行高
+            # row1.height = Cm(new_height)
+            # row2.height = Cm(new_height)
+            table.cell(2, 2).merge(table.cell(3, 2))
+            table.cell(3, 1).text = self.MMR_result.strip('\n')
+        elif self.MMR_result != '未检出':
+            table.cell(3, 2).text = '免疫检查点抑制剂获益较高' if self.MMR_result != '未检出' else '免疫检查点抑制剂获益一般'
+            table.cell(3, 1).text = self.MMR_result.strip('\n')
+            # 标红
+
+
+        position.extend([(2,1),(2,2),(3,1),(3,2)])
         return self.doc
 
     @Tools_Decorator(tool='move_table_after', paragraph_end_with="多靶点药物和联合用药方案评估")
@@ -2006,10 +2078,10 @@ class Q80():
     @Tools_Decorator(tool='Merge_cells_by_first_column', column_index=0)  # 指定合并单元格的列号。
     @Tools_Decorator(tool='format_Table', col_width=[1.2, 4.32, 4, 1.2, 4, 1.2], First_column_colore=False,Border_all=True,no_colore_column=[0,1])
     def DrugCombinedPlan_func(self,position=[]):
-        print(self.cancer,'是癌症种类。')
+        # print(self.cancer,'是癌症种类。')
         df = self.DrugCombinedPlan[self.DrugCombinedPlan['癌种'].apply(lambda x: x in self.cancer)]
         # print(df)
-        print('突变过滤后数量是 ',len(self.cell),[(ele.gene,ele.amino_acid) for ele in self.cell])
+        # print('突变过滤后数量是 ',len(self.cell),[(ele.gene,ele.amino_acid) for ele in self.cell])
         def judge_wheter_optional(List_: List[str])-> str:
             if List_ == ['']:
                 return '可选'
@@ -2019,11 +2091,11 @@ class Q80():
                     if obj in self.danger_chemo_drug_list:
                         return '慎选'
                     if hasattr(self, 'MSI_result'):
-                        print("变量 self.MSI_result 存在，现在看检测结果。")
+                        # print("变量 self.MSI_result 存在，现在看检测结果。")
                         if 'MSI-H' in self.MSI_result and obj == 'MSI-H':
                             return '慎选'
                     if hasattr(self, 'MMR_result'):
-                        print("变量 self.MMR_result 存在，现在看检测结果。")
+                        # print("变量 self.MMR_result 存在，现在看检测结果。")
                         if self.MMR_result!='未检出' and obj == 'dMMR':
                             return '慎选'
                     if obj in mutation_gene_str:
@@ -2032,11 +2104,11 @@ class Q80():
         df.fillna('', inplace=True)
         df['评估结果'] = ''
         for index,row in df.iterrows():
-            print(type(row['评估内容']),row['评估内容'])
+            # print(type(row['评估内容']),row['评估内容'])
             Evaluation_Content_List = re.split(r"[,.;，/]",row['评估内容'])
-            print(Evaluation_Content_List)
+            # print(Evaluation_Content_List)
             df.at[index, '评估结果'] = judge_wheter_optional(Evaluation_Content_List)
-        print(df)
+        # print(df)
         # 添加一个表格
         table = self.doc.add_table(rows=1, cols=6)
         # 设置表头
@@ -2059,13 +2131,13 @@ class Q80():
         section = self.doc.sections[1]
         header = section.header
         header.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 居中显示
-        header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
+        # header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
         data_ = f'{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else manual_Date
         sample_id, sample_name = self.BC17_meta['id'].iloc[0], self.BC17_meta['name'].iloc[0]
-        header.tables[0].cell(0, 1).paragraphs[0].text = sample_id.replace('-T', '').replace('-N',
+        header.tables[0].cell(0, 0).paragraphs[0].text = sample_id.replace('-T', '').replace('-N',
                                                                                              '') + ' | ' + sample_name + ' | ' + data_
-        header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
-        header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
+        header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(81, 123, 149)
+        # header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
         return self.doc
 
     def add_date(self, manual_Date=None):
@@ -2074,61 +2146,65 @@ class Q80():
             if len(table.columns) == 2 and table.cell(0, 0).paragraphs[0].text == '检测人：' and \
                     table.cell(0, 1).paragraphs[0].text == '复核人：':
                 target_table = table
-        target_table.cell(1,
-                          0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(1,0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(0, 0).text = '检测人：陈宇韶'
+        target_table.cell(0, 1).text = '复核人：顾嘉琦\n'
         from docx.oxml.ns import qn  # 中文字体。
-        cell = target_table.cell(1, 0)
-        for paragraph in cell.paragraphs:  # 遍历单元格中的段落
-            run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
-            font = run.font  # 获取字体对象
-            font.name = "Microsoft YaHei"  # 设置字体名称
-            from docx.oxml.ns import qn  # 中文字体。
-            run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
+        cells = [target_table.cell(1, 0),target_table.cell(0, 0),target_table.cell(0, 1)]
+        for cell in cells:
+            for paragraph in cell.paragraphs:  # 遍历单元格中的段落
+                run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
+                font = run.font  # 获取字体对象
+                font.name = "Microsoft YaHei"  # 设置字体名称
+                font.size = Pt(11)  # 设置字体大小为11磅
+                from docx.oxml.ns import qn  # 中文字体。
+                run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
         return self.doc
 
     def delete_rubbish(self):
-        for ele in ['chemotable','Somatic_variation_results_table','drugtable','pathogenictable','unknowntable','msitable','chemodetailtable']:
+        for ele in ['chemotable','Somatic_variation_results_table','drugtable','pathogenictable','unknowntable','msitable','chemodetailtable','ddrtable']:
             try:
                 target = self.class_Tools.fixed_position(self.doc, End_character=ele)
                 if target!=None:
                     self.class_Tools.delete_paragraph(target)
             except:
-                print('无此段落。')
+                # print('无此段落。')
                 continue
         return self.doc
 
 if __name__ == '__main__':
-    # 2022WSSW005892-T.summary.xlsx 2023WSSW001035-T.summary.xlsx 2023WSSW001754-T
-    # sample = '2023WSSW001328-T'
-    # date = '230626'
+    # 2023WSSW001253-T.summary.xlsx 2023WSSW001008-T.summary.xlsx 2023WSSW001581-T.summary.xlsx 2023WSSW001700-T.summary.xlsx
+    # sample = '2022WSSW005555-T'
+    # date = '230627'
     sample = sys.argv[1]
     date = sys.argv[2]
     word_name = sys.argv[3]
     print('sample',sample,'date',date,'word_name',word_name)
-    q80 = Q80(f'/archive/{date}/{sample}.summary.xlsx') # 2023WSSW001612-T.summary.xlsx 2023WSSW001320-T.summary.xlsx 2023WSSW000786-T.summary.xlsx
-    doc = q80.sample_information(position=[])
-    doc = q80.Details_of_genetic_testing_results(position=[],position_1=[]) # 这一步其实对self.cell做了一次过滤。
-    doc = q80.Somatic_variation_results_0(position=[])
-    doc = q80.Somatic_variation_results_1(position=[])
-    doc = q80.targeted_Therapy_Tips(position=[])
-    doc = q80.Analysis_of_Somatic_Variant_Genes_and_Loci(position=[])
-    doc = q80.quality_Control_Results(position=[])
-    doc = q80.machining_table_1()
-    doc = q80.Chemotherapy_drug_testing_1(position=[])
-    doc = q80.Chemotherapy_drug_testing_0(position=[])
-    doc = q80.Evaluation_of_therapeutic_effect_of_chemotherapy_drugs( position=[])
-    doc = q80.MSI_detection(position=[])
-    doc = q80.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
-    doc = q80.Targeted_drug_annotations(position=[])
-    doc = q80.DrugCombinedPlan_func(position=[])
+    q110 = Q110(f'/archive/{date}/{sample}.summary.xlsx')
+    doc = q110.sample_information(position=[])
+    doc = q110.Details_of_genetic_testing_results(position=[],position_1=[]) # 这一步其实对self.cell做了一次过滤。
+    doc = q110.Somatic_variation_results_0(position=[])
+    doc = q110.Somatic_variation_results_1(position=[])
+    doc = q110.targeted_Therapy_Tips(position=[])
+    doc = q110.Analysis_of_Somatic_Variant_Genes_and_Loci(position=[])
+    doc = q110.quality_Control_Results(position=[])
+    doc = q110.machining_table_1()
+    doc = q110.Chemotherapy_drug_testing_1(position=[])
+    doc = q110.Chemotherapy_drug_testing_0(position=[])
+    doc = q110.Evaluation_of_therapeutic_effect_of_chemotherapy_drugs( position=[])
+    doc = q110.MSI_detection(position=[])
+    doc = q110.MMR_detection(position=[])
+    doc = q110.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
+    doc = q110.Targeted_drug_annotations(position=[])
+    doc = q110.DrugCombinedPlan_func(position=[])
 
-    doc = q80.add_header()
-    doc = q80.add_date()
-    doc = q80.delete_rubbish()
+    doc = q110.add_header()
+    doc = q110.add_date()
+    doc = q110.delete_rubbish()
 
     folder_path = f'/archive/word/{date}'
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
-    q80.doc.save(f'/archive/word/{date}/{word_name}.docx')
+    q110.doc.save(f'/archive/word/{date}/{word_name}.docx')
 
 

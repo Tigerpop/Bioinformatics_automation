@@ -190,7 +190,7 @@ class Tools():
     def format_Cell(self,doc,table_index=-1,position=[],size=10, color=RGBColor(0, 0, 0),left=False,no_center_num=None):  # doxc 中 table 和 table 中的cell 都是可变对象。
         tables = doc.tables
         table = tables[table_index]  # 默认处理doc 中的最后一个table。
-        print('position is ',position)
+        # print('position is ',position)
         for (row, column) in position:
             cell = table.cell(row, column)
             for paragraph in cell.paragraphs:  # 遍历单元格中的段落
@@ -346,6 +346,18 @@ class Tools():
                         end={"val": "dotted", "color": "#CFDAE6", "space": "0"}
                     )
         # table.autofit = True
+        # 统一给第一行相邻单元格之间加 竖直白色边框。
+        for i in range(len(table.rows[0].cells) - 1):
+            cell = table.rows[0].cells[i]
+            next_cell = table.rows[0].cells[i + 1]
+            set_cell_border(
+                cell,
+                right={"val": "single", "color": "#FFFFFF", "space": "0"}
+            )
+            set_cell_border(
+                next_cell,
+                left={"val": "single", "color": "#FFFFFF", "space": "0"}
+            )
         return doc
 
     # 像 指定 table_index 一样，修改的 target_paragraph 需要指定好是哪一个。
@@ -542,9 +554,13 @@ class Q110():
         # 以下为 出报告用到的参考表；
         df = pd.read_excel('/refhub/ref/drug/DrugCombinedPlan.xlsx',sheet_name=None)
         self.DrugCombinedPlan = df['Sheet1'].dropna(subset=['癌种'],how='any')
+        # 拆分包含斜杠的字符串并扩展成多行
+        self.DrugCombinedPlan = self.DrugCombinedPlan.assign(癌种=self.DrugCombinedPlan['癌种'].str.split('/')).explode('癌种')
         df = pd.read_excel('/refhub/ref/drug/DrugApproval.xlsx', sheet_name=None)
         self.DrugApproval = df['药物获批情况表'].dropna(subset=['ApprovedContent'], how='any')
         df = pd.read_excel('/refhub/ref/gene/GeneInfo.xlsx', sheet_name=None)
+        # 拆分包含斜杠的字符串并扩展成多行
+        self.DrugApproval = self.DrugApproval.assign(DrugName=self.DrugApproval['DrugName'].str.split('/')).explode('DrugName')
         self.GeneIndo = df['Genename_table'].dropna(subset=['Genename'], how='any')
         df = pd.read_excel("/refhub/ref/citation/Citation.xlsx", sheet_name=None)
         self.Citation = df['citation']
@@ -570,7 +586,7 @@ class Q110():
         df_ref_cnv = self.BC17_cnv[self.BC17_cnv['review'].isin(['S1', 'S2'])]
         for index,row in df_ref_snpindel.iterrows():
             ele = self.Mutation_ele(gene=row['Gene.smallrefGene'],rna=row['RNA'],nucleotide=row['NCchange']\
-                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'])
+                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'],region=row['Func.smallrefGene'])
             self.cell.append(ele)
         for index, row in df_ref_fusion.iterrows():
             ele = self.Mutation_ele(gene=row['Region1']+'-'+row['Region2'],rna='',nucleotide=''\
@@ -591,7 +607,7 @@ class Q110():
         df_ref_cnv = self.BC17_cnv[self.BC17_cnv['review'].isin(['G1', 'G2'])]
         for index,row in df_ref_snpindel.iterrows():
             ele = self.Mutation_ele(gene=row['Gene.smallrefGene'],rna=row['RNA'],nucleotide=row['NCchange']\
-                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'])
+                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'],region=row['Func.smallrefGene'])
             self.cell_g1g2.append(ele)
         for index, row in df_ref_fusion.iterrows():
             ele = self.Mutation_ele(gene=row['Region1']+'-'+row['Region2'],rna='',nucleotide=''\
@@ -612,7 +628,7 @@ class Q110():
         df_ref_cnv = self.BC17_cnv[self.BC17_cnv['review'].isin(['G1', 'G2'])]
         for index,row in df_ref_snpindel.iterrows():
             ele = self.Mutation_ele(gene=row['Gene.smallrefGene'],rna=row['RNA'],nucleotide=row['NCchange']\
-                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'])
+                                    ,amino_acid=row['AAchange'],exon=row['EXON'],variant_type=row['ExonicFunc.smallrefGene'],vaf_cnv=row['VAF'],region=row['Func.smallrefGene'])
             self.cell_S3S4g3g4.append(ele)
         for index, row in df_ref_fusion.iterrows():
             ele = self.Mutation_ele(gene=row['Region1']+'-'+row['Region2'],rna='',nucleotide=''\
@@ -627,9 +643,11 @@ class Q110():
         for i in self.cell_S3S4g3g4:
             print(i.gene,i.rna,i.nucleotide,i.amino_acid,i.exon,i.variant_type,i.vaf)
         print('S3S4g3g4 所有出问题的地方如上 ############')
+        self.Drug_order = ['吉非替尼', '厄洛替尼', '达克替尼', '阿法替尼', '埃克替尼', '奥希替尼', '阿美替尼', '伏美替尼', '厄洛替尼+雷莫芦单抗',
+                           '厄洛替尼+贝伐珠单抗']  # 药物指定用这个顺序排序；
 
     class Mutation_ele():
-        def __init__(self,gene,rna,nucleotide,amino_acid,exon,variant_type,vaf_cnv):
+        def __init__(self,gene,rna,nucleotide,amino_acid,exon,variant_type,vaf_cnv,region='exonic'):
             self.gene = gene
             self.rna = rna
             self.nucleotide = nucleotide
@@ -637,6 +655,7 @@ class Q110():
             self.exon = exon
             self.variant_type = variant_type
             self.vaf = vaf_cnv
+            self.region = region
             self.replace_nan()
         def replace_nan(self):
             for attr, value in self.__dict__.items():
@@ -736,6 +755,21 @@ class Q110():
         print('self.cell 中的原色最后保留的只有：',reserve_index_list)
         self.cell_raw = copy.deepcopy(self.cell)
         self.cell = [self.cell[i] for i in reserve_index_list]
+        # 针对 TERT 基因非外显区域的补丁；
+        for ele in self.cell_raw:
+            if ele.gene=='TERT':
+                ele.amino_acid = ele.region
+                ele.rna = 'NM_198253'
+                ele.variant_type = '启动子突变'
+                ele.nucleotide = 'c-124C>T'
+                self.cell.append(ele)
+        # 针对 非外显子区域的 tp53 splicing 补丁；
+        for ele in self.cell:
+            if ele.gene=='TP53' and ele.region=='splicing':
+                ele.amino_acid = ele.region
+                ele.rna = 'NM_000546'
+                ele.variant_type = '剪接区突变'
+                ele.nucleotide = 'c.782+1G>T'
         # 补丁：
         # 肺癌全阴 self.cell 中 加入EGFR/ALK野生型，
         # 肠癌全阴 self.cell 中 加入KRAS/NRAS/BRAF野生型；
@@ -778,9 +812,9 @@ class Q110():
                 table.cell(index+1, 3).paragraphs[0].text = ele.amino_acid
                 table.cell(index+1, 4).paragraphs[0].text = ele.exon.replace('exon', '')
                 table.cell(index+1, 5).paragraphs[0].text = ele.variant_type
-                print('ok',ele.gene,ele.variant_type,ele.vaf)
+                # print('ok',ele.gene,ele.variant_type,ele.vaf)
                 table.cell(index+1, 6).paragraphs[0].text = str(ele.vaf)
-                print('ok1',ele.gene,ele.variant_type,ele.vaf)
+                # print('ok1',ele.gene,ele.variant_type,ele.vaf)
         self.table_analysis = copy.deepcopy(table)
         # self.table_analysis = copy.deepcopy(table)  # 拷贝好这个表格，给后面一个插入的地方用，记得表格的拷贝要靠 深拷贝。
         temp_position = [(i, j) for i in range(len(table.rows)) for j in range(len(table.columns))]
@@ -838,41 +872,87 @@ class Q110():
         # self.format_Table(table_1, col_width=[2, 3, 2.7, 2.8, 1.5, 2.3, 1.7], Border=[len(table_1.rows) - 1])
         return self.doc
 
-    def targeted_Therapy_Tips(self,position=[]):
+    def targeted_Therapy_Tips(self, position=[]):
         # 构建靶向治疗提示表 的规则方法。
-        def build_Rules(Genetic_variation, variation_type) -> (str, str, str, str):  # 一次处理一行。返回的是  # 本癌药物 、其它癌药物、其它癌药物、耐药药物。
+        def build_Rules(Genetic_variation, variation_type) -> (
+        str, str, str, str):  # 一次处理一行。返回的是  # 本癌药物 、其它癌药物、其它癌药物、耐药药物。
             ele = Genetic_variation.split('\n')
             df = pd.read_excel('/refhub/ref/var/VarLabel_Drug_Sensitivity.xlsx', sheet_name=None)
             df_sensitive = df['实体瘤用药表']
             # 按照snpdelins 方法来
-            if re.findall(r'基因融合', Genetic_variation) == [] and re.findall(r'基因扩增', Genetic_variation) == [] and re.findall(r'野生型', Genetic_variation) == []:
+            if re.findall(r'基因融合', Genetic_variation) == [] and re.findall(r'基因扩增',
+                                                                           Genetic_variation) == [] and re.findall(
+                r'野生型', Genetic_variation) == []:
                 name = ele[0]
                 alteration_list = []
                 alteration_0 = ele[1].replace(r'p.', '')  # L747_E749del
                 alteration_1_list = re.findall(r'\d+', alteration_0)  # ['747', '749']
                 alteration_2 = '致病突变'
                 alteration_3 = variation_type
-                alteration_list.extend([alteration_0, alteration_2, alteration_3])
-                # print(name,alteration_0,alteration_1_list,alteration_2,alteration_3)
-                df_result_0 = df_sensitive[
-                    (df_sensitive['Gene'] == name) & (df_sensitive['VarLabel'].isin(alteration_list))]
-                # df['col1'].astype(str).str.findall('\d+').apply(set).apply(lambda x: bool(x & set(a)))
-                # x & set(a)是一个交集运算，它返回两个集合的交集。如果交集不为空，则返回True，否则返回False。
-                # 因此，apply(lambda x: bool(x & set(a)))的作用是判断数字集合是否与列表a有交集，如果有，则返回True，否则返回False。
-                df_result_1 = df_sensitive[(df_sensitive['Gene'] == name) & (
-                    df_sensitive['VarLabel'].astype(str).str.findall('\d+').apply(set).apply(
-                        lambda x: bool(x & set(alteration_1_list))))]
-                df_result = pd.concat([df_result_0, df_result_1])
-                df_result.drop_duplicates(keep='first', inplace=True)  # 所有列都相等就去重。# df_result_1 df_result_0 之间可能有重复的部分。
-                # print(df_result)
+                alteration_4_list = ['哨兵值']
+
+                def process_EGFR_Drugs():
+                    print('检查点: 进入EGFR的匹配逻辑.')
+                    if ele[1].find('ins') != -1:
+                        alteration_4_list.append(re.findall(r'\d+', ele[2])[0] + 'ins')
+                    if ele[1].find('del') != -1:
+                        alteration_4_list.append(re.findall(r'\d+', ele[2])[0] + 'del')
+                    alteration_list.extend([alteration_0, alteration_3])
+                    alteration_list.extend(alteration_4_list)
+                    # print('检查点----> ',name,alteration_0,alteration_1_list,alteration_2,alteration_3)
+                    df_result_0 = df_sensitive[(df_sensitive['Gene'] == name) & (
+                        df_sensitive['VarLabel'].astype(str).str.split(',').apply(set).apply(
+                            lambda x: bool(x & set(alteration_list))))]
+                    df_result = df_result_0
+                    df_result.drop_duplicates(keep='first',
+                                              inplace=True)  # 所有列都相等就去重。# df_result_1 df_result_0 之间可能有重复的部分。
+                    # print('检查点，df_result 值已经得出，如下:\n',df_result)
+                    return df_result
+
+                def process_unkonw_drugs():
+                    if ele[1].find('ins') != -1:
+                        alteration_4_list.append(re.findall(r'\d+', ele[2])[0] + 'ins')
+                    if ele[1].find('del') != -1:
+                        alteration_4_list.append(re.findall(r'\d+', ele[2])[0] + 'del')
+                    alteration_list.extend([alteration_0, alteration_2, alteration_3])
+                    alteration_list.extend(alteration_4_list)
+                    # print('检查点----> ',name,alteration_0,alteration_1_list,alteration_2,alteration_3)
+                    df_result_0 = df_sensitive[(df_sensitive['Gene'] == name) & (
+                        df_sensitive['VarLabel'].astype(str).str.split(',').apply(set).apply(
+                            lambda x: bool(x & set(alteration_list))))]
+                    df_result_1 = df_sensitive[(df_sensitive['Gene'] == name) & (
+                        df_sensitive['VarLabel'].astype(str).str.findall('\d+').apply(set).apply(
+                            lambda x: bool(x & set(alteration_1_list))))]
+
+                    # print('检查点---> ','df_result_0 是\n',df_result_0,'df_result_1 是\n',df_result_1)
+                    df_result = pd.concat([df_result_0, df_result_1])
+                    df_result.drop_duplicates(keep='first',
+                                              inplace=True)  # 所有列都相等就去重。# df_result_1 df_result_0 之间可能有重复的部分。
+                    # print(df_result)
+                    return df_result
+
+                # 使用字典将不同基因的处理逻辑映射起来
+                gene_logic_mapping = {
+                    'EGFR': process_EGFR_Drugs
+                }
+                target_gene = ele[0]
+                gene_logic_function = gene_logic_mapping.get(target_gene, process_unkonw_drugs)
+                df_result = gene_logic_function()
+
                 # 按照fusion 方法来
             elif re.findall(r'基因融合', Genetic_variation) != []:
                 name_list = ele[0].split('-')
                 alteration_0 = '融合'
                 df_result_0 = df_sensitive[
-                    (df_sensitive['Gene'] == name_list[0]) & (df_sensitive['VarLabel'].isin([alteration_0]))]
+                    ((df_sensitive['Gene'] == name_list[0]) & (df_sensitive['VarLabel'].isin([alteration_0])))
+                    | ((df_sensitive['Gene'] == name_list[0]) & (df_sensitive['VarLabel'].str.contains(alteration_0))
+                       & (df_sensitive['VarLabel'].str.contains(name_list[0]))
+                       & (df_sensitive['VarLabel'].str.contains(name_list[1])))]
                 df_result_1 = df_sensitive[
-                    (df_sensitive['Gene'] == name_list[1]) & (df_sensitive['VarLabel'].isin([alteration_0]))]
+                    ((df_sensitive['Gene'] == name_list[1]) & (df_sensitive['VarLabel'].isin([alteration_0])))
+                    | ((df_sensitive['Gene'] == name_list[1]) & (df_sensitive['VarLabel'].str.contains(alteration_0))
+                       & (df_sensitive['VarLabel'].str.contains(name_list[0]))
+                       & (df_sensitive['VarLabel'].str.contains(name_list[1])))]
                 df_result = pd.concat([df_result_0, df_result_1])
                 # print(name_list, alteration_0)
                 # print(df_result)
@@ -881,28 +961,43 @@ class Q110():
                 name = ele[0]
                 alteration_0 = '扩增'
                 df_result = df_sensitive[
-                    (df_sensitive['Gene'] == name) & (df_sensitive['VarLabel'].isin([alteration_0]))]
+                    (df_sensitive['Gene'] == name) & (df_sensitive['VarLabel'].str.contains(alteration_0))]
                 # print(name,alteration_0)
                 # print(df_result)
             elif re.findall(r'野生型', Genetic_variation) != []:
-                name = ele[0]
-                alteration_0 = '野生型'
-                df_result = df_sensitive[
-                    (df_sensitive['Gene'] == name) & (df_sensitive['VarLabel'].isin([alteration_0]))]
+                print('进入野生型专区')
+                if re.findall(r'肠', self.cancer) != []:
+                    print('进入肠癌专区')
+                    name = ele[0]
+                    alteration_0 = '野生型'
+                    df_result = df_sensitive[
+                        (df_sensitive['Gene'] == name) & (df_sensitive['VarLabel'].str.contains(alteration_0))]  # 这里改动。
+                if re.findall(r'肺', self.cancer) != []:
+                    print('进入肺癌专区')
+                    if not self.BC17_meta[self.BC17_meta['clinname'].str.contains('鳞癌')].empty:
+                        alteration_0 = '野生型鳞癌'
+                    else:
+                        alteration_0 = '野生型腺癌'
+                    name = ele[0]
+                    df_result = df_sensitive[
+                        (df_sensitive['Gene'] == name) & (
+                            df_sensitive['VarLabel'].str.contains(alteration_0))]  # 这里改动。
+
+            print('检查点---> ', 'df_result 是 \n', df_result, 'alteration_0 是 \n', alteration_0)
             # df_result = df_result[df_result['Sensitivity'] == '敏感']
             # print(df_result)
             drug_list_raw = df_result['Drug'].tolist()
             drug_list = []
             for items in drug_list_raw: drug_list.extend(
                 items.split(','))  # ['奥希替尼', '伏美替尼', '厄洛替尼+贝伐珠单抗', '纳武单抗+厄洛替尼']
-            drug_list = list(set(drug_list))
+            drug_list = list(set(drug_list))  # 这样的去重 会改变原油顺序。
             # print(drug_list)
             self_drug, other_drug, Clinical_drugs, resistance_Drug = '/', '/', '/', '/'
             for i, row in df_result.iterrows():
                 # print(row)
                 for drug in row['Drug'].split(','):
                     # print(drug)
-                    # 临床药物
+                    # 临床药物 不在推荐表中；
                     if self.DrugApproval[self.DrugApproval['DrugName'].isin([drug])].empty:
                         if row['Sensitivity'] == '敏感': Clinical_drugs += drug + ','
                         # print('临床药物: ',Clinical_drugs)
@@ -942,6 +1037,7 @@ class Q110():
                 list(set(Clinical_drugs.strip('/').strip(',').split(','))))
             if len(resistance_Drug) > 1: resistance_Drug = '\n'.join(
                 list(set(resistance_Drug.strip('/').strip(',').split(','))))
+            print('本癌药物 ', self_drug, '临床药物', Clinical_drugs)
             # 注意:
             # 以下为 是否生成 中间文件，可选。(第一次运行的时候要记得打开，生成的中间文件后续会用上。)
             if not os.path.isfile(f'./{self.sample}药物注释匹配表.csv'):
@@ -961,10 +1057,39 @@ class Q110():
                 with open(f'./{self.sample}注释匹配表.csv', 'a+')as f:
                     f.write(Genetic_variation.replace('\n', ' ') + ':' + ','.join(citation_list) + '\n')
             # print('self_drug:', self_drug, 'other_drug:', other_drug, 'Clinical_drugs:', Clinical_drugs,'resistance_Drug: ', resistance_Drug)
+            # 切分成列表
+            self_drug_list = self_drug.split("\n")
+            other_drug_list = other_drug.split("\n")
+            Clinical_drugs_list = Clinical_drugs.split("\n")
+            resistance_Drug_list = resistance_Drug.split("\n")
+            # 删除重复元素
+            resistance_Drug_list = [item for item in resistance_Drug_list if
+                                    item != "/" and item not in self_drug_list and item not in other_drug_list and item not in Clinical_drugs_list]
+            Clinical_drugs_list = [item for item in Clinical_drugs_list if
+                                   item != "/" and item not in self_drug_list and item not in other_drug_list]
+            other_drug_list = [item for item in other_drug_list if item != "/" and item not in self_drug_list]
+
+            # 指定顺序排序。
+            def custom_key(x, order_list=self.Drug_order):
+                try:
+                    return order_list.index(x)
+                except ValueError:
+                    return len(order_list) + order_list.count(x)  # 对于 Order_list 中没有的值，就都放后面。
+
+            self_drug_list = sorted(self_drug_list, key=custom_key)
+            other_drug = sorted(other_drug, key=custom_key)
+            Clinical_drugs = sorted(Clinical_drugs, key=custom_key)
+            resistance_Drug = sorted(resistance_Drug, key=custom_key)
+            # 复原回str
+            self_drug = "\n".join(self_drug_list)
+            other_drug = "\n".join(other_drug_list)
+            Clinical_drugs = "\n".join(Clinical_drugs_list)
+            resistance_Drug = "\n".join(resistance_Drug_list)
+
             return self_drug, other_drug, Clinical_drugs, resistance_Drug
 
         @Tools_Decorator(tool='move_table_after', paragraph_end_with="靶向治疗提示")
-        @Tools_Decorator(tool='format_Table', col_width=[3, 3, 3.92, 3, 3])
+        @Tools_Decorator(tool='format_Table', col_width=[2.7, 3.3, 3.92, 3, 3])
         @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
         def have_targeted_Therapy_Tips(position=[]):
             # 建立表。
@@ -975,7 +1100,7 @@ class Q110():
             header = ['基因变异', '推荐本癌种药物', '推荐其他癌种药物', '临床试验药物', '潜在耐药药物']
             for i in range(len(header)):
                 table.cell(0, i).paragraphs[0].text = header[i]
-            for index,ele in enumerate(self.cell):
+            for index, ele in enumerate(self.cell):
                 # print(row.cells[5].text,re.findall(r'基因融合',row.cells[5].text)==[])
                 # if i > 0:
                 #     if re.findall(r'基因融合', row.cells[5].text) == [] and re.findall(r'基因扩增', row.cells[5].text) == []:
@@ -983,24 +1108,28 @@ class Q110():
                 #     elif re.findall(r'基因融合', row.cells[5].text) != [] or re.findall(r'基因扩增', row.cells[5].text) != []:
                 #         Genetic_variation = str(row.cells[0].text) + '\n' + str(row.cells[5].text)
                 #     table.cell(i, 0).text = Genetic_variation  # "EML4-ALK 基因融合" or "EGFR p.L747_E749del" or "MET 基因扩增"
-                if ele.variant_type=='基因融合' or ele.variant_type=='基因扩增':
-                    Genetic_variation = ele.gene + '\n' + ele.variant_type
+                if ele.variant_type == '基因融合' or ele.variant_type == '基因扩增' or ele.variant_type == '野生型':
+                    Genetic_variation = ele.gene + '\n' + ele.variant_type + '\n' + 'exon未知'
                 else:
-                    Genetic_variation = ele.gene + '\n' + ele.amino_acid
-                self_drug, other_drug, Clinical_drugs, resistance_Drug = build_Rules(Genetic_variation,ele.variant_type)
-                table.cell(index+1, 0).text = ele.gene+'\n'+ele.amino_acid if ele.variant_type not in ['基因融合','基因扩增','野生型'] else ele.gene+'\n'+ele.variant_type
-                table.cell(index+1, 1).text = self_drug
-                table.cell(index+1, 2).text = other_drug
-                table.cell(index+1, 3).text = Clinical_drugs
-                table.cell(index+1, 4).text = resistance_Drug
+                    Genetic_variation = ele.gene + '\n' + ele.amino_acid + '\n' + ele.exon
+                self_drug, other_drug, Clinical_drugs, resistance_Drug = build_Rules(Genetic_variation,
+                                                                                     ele.variant_type)
+                table.cell(index + 1, 0).text = ele.gene + '\n' + ele.amino_acid if ele.variant_type not in ['基因融合',
+                                                                                                             '基因扩增',
+                                                                                                             '野生型'] else ele.gene + '\n' + ele.variant_type
+                table.cell(index + 1, 1).text = self_drug
+                table.cell(index + 1, 2).text = other_drug
+                table.cell(index + 1, 3).text = Clinical_drugs
+                table.cell(index + 1, 4).text = resistance_Drug
                 # temp_df = self.DrugApproval.loc[self.DrugApproval['ApprovedContent'].apply(lambda x: re.compile(genename).search(x) is not None)]
                 # temp = '\n'.join(temp_df.drop_duplicates(subset=['DrugName'], keep='first')['DrugName'].tolist())
                 # table.cell(j, 1).paragraphs[0].text = temp if temp != '' else '/'
-            self.Drug_Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}药物注释匹配表.csv',sep=',')
-            self.Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}注释匹配表.csv', sep=':',header=None,names=['Genetic_variation','Citations'])
-            print(f'{self.sample}药物注释匹配表 is :',self.Drug_Annotation_Matching_Table_df)
-            print(f'{self.sample}注释匹配表 is :', self.Annotation_Matching_Table_df)
-            for file_path in [f'./{self.sample}药物注释匹配表.csv',f'./{self.sample}注释匹配表.csv']:
+            self.Drug_Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}药物注释匹配表.csv', sep=',')
+            self.Annotation_Matching_Table_df = pd.read_csv(f'./{self.sample}注释匹配表.csv', sep=':', header=None,
+                                                            names=['Genetic_variation', 'Citations'])
+            # print(f'{self.sample}药物注释匹配表 is :', self.Drug_Annotation_Matching_Table_df)
+            # print(f'{self.sample}注释匹配表 is :', self.Annotation_Matching_Table_df)
+            for file_path in [f'./{self.sample}药物注释匹配表.csv', f'./{self.sample}注释匹配表.csv']:
                 if os.path.exists(file_path):
                     os.remove(file_path)
             temp_position = [(i, j) for i in range(len(table.rows)) for j in range(len(table.columns))]
@@ -1014,7 +1143,7 @@ class Q110():
             return self.doc
 
         @Tools_Decorator(tool='move_table_after', paragraph_end_with="靶向治疗提示")
-        @Tools_Decorator(tool='format_Table', col_width=[3.92, 3, 3, 3, 3],Border=[1])
+        @Tools_Decorator(tool='format_Table', col_width=[3.92, 3, 3, 3, 3], Border=[1])
         @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
         def not_have_targeted_Therapy_Tips(position=[]):
             # 建立表。
@@ -1073,7 +1202,7 @@ class Q110():
                 # print('citation is :',citation)
                 # 注意，可能出现 citation 从 citation表中找不到的情况，此时 会找到 空的 Series([], Name: Description, dtype: object)
                 if self.Citation[self.Citation['Citation'].astype(str) == citation.strip(' ')]['Description'].empty:
-                    print('出现 citation 从 citation表中找不到的情况,跳过。')
+                    # print('出现 citation 从 citation表中找不到的情况,跳过。')
                     continue
 
                 # print(self.Citation[self.Citation['Citation'].astype(str) == citation.strip(' ')]['Description'])
@@ -1082,7 +1211,7 @@ class Q110():
                     options = {('KRAS'): 'G12C'}
                     return options.get((gene), mutation) != mutation, options.get((gene), mutation)
 
-                [gene, mutation] = df_temp['Genetic_variation'].iloc[row_index].split(' ')
+                [gene, mutation,exon] = df_temp['Genetic_variation'].iloc[row_index].split(' ')
                 mutation = mutation.replace('p.', '')
                 if citation_Patches(gene, mutation)[0]:  # 打补丁,就是跳过特定description 的添加。
                     description = str(
@@ -1348,6 +1477,93 @@ class Q110():
         position.extend(temp_position)
         return self.doc
 
+    # def machining_table_1(self, num_th=1):
+    #     table = self.doc.tables[num_th]
+    #     if len(self.cell)!=1 :
+    #         variance_num = len(self.cell)
+    #     elif self.cell[0].variant_type!='野生型':
+    #         variance_num = len(self.cell)
+    #     else:
+    #         variance_num = 0
+    #     text = f'检出 {variance_num} 个 Ⅰ 类致病/ Ⅱ 类可能致病突变， {len(self.cell_S3S4g3g4)} 个Ⅲ类临床意义不明突变。'
+    #     cell = table.cell(2, 1)
+    #     cell.text = ''
+    #     text = text.split(' ')  # 给指定的 部分一个单独的run 结构，这个单独的run 结构我们给它标红。
+    #     for i in range(len(text)):
+    #         run = cell.paragraphs[0].add_run(text[i])
+    #         if i == 1:
+    #             run.font.color.rgb = RGBColor(255, 0, 0)
+    #     cell = table.cell(3, 1)
+    #     cell.text = ''
+    #     # print(self.cell)
+    #     main_reslut = [ele.gene + ' ' + (ele.amino_acid if ele.variant_type not in ['野生型','基因融合','基因扩增'] else ele.variant_type) for ele in self.cell]
+    #     # print('main_reslut',main_reslut)
+    #     for i, ele in enumerate(main_reslut):
+    #         main_reslut[i] = chr(9312 + i) + ' ' + main_reslut[i]
+    #     # print(main_reslut)
+    #     result = ''.join([item + '\n' if (i + 1) % 3 == 0 else item + '  ' for i, item in enumerate(main_reslut)])
+    #     cell.text = result.strip('\n') if (result := result.strip('\n')) else '未检出靶药相关基因突变，考虑免疫药等其他治疗方案'# '  '.join(main_reslut) if main_reslut!=[] else '无' # 110 80 也要改。
+    #     # cell.text = ' ' + cell.text
+    #     # 通过匹配table的表头来定位table。
+    #     for temp_table in self.doc.tables:
+    #         if len(temp_table.columns) == 5 and temp_table.cell(0, 0).paragraphs[0].text == '基因变异' and \
+    #                 temp_table.cell(0, 1).paragraphs[0].text == '推荐本癌种药物':
+    #             target_table = temp_table
+    #     A_drug, C_drug, D_drug, Drug_resistance = [], [], [], []
+    #     for i in range(1, len(target_table.rows)):
+    #         A_drug.extend(target_table.cell(i, 1).text.split('\n'))
+    #         C_drug.extend(target_table.cell(i, 2).text.split('\n'))
+    #         D_drug.extend(target_table.cell(i, 3).text.split('\n'))
+    #         Drug_resistance.extend(target_table.cell(i, 4).text.split('\n'))
+    #     eles = [A_drug, C_drug, D_drug, Drug_resistance]
+    #     for i, ele in enumerate(eles):  # 注意，在Python中，filter()函数返回的是一个迭代器，而不是一个列表。当你对一个可变对象进行操作时，它会改变原对象的值。但是，当你对一个可变对象进行过滤时，它会返回一个新的迭代器，而不是改变原对象的值。
+    #         ele = list(filter(lambda x: x != '/', list(set(ele))))
+    #         ele = list(map(lambda x:'-' if '未检出' in x else x,ele)) # 110 80 也要改
+    #         if i == 0: A_drug = list(map(lambda x: x + '【A级】' if '-' not in x else '', ele))
+    #         if i == 1: C_drug = list(map(lambda x: x + '【C级】' if '-' not in x else '', ele))
+    #         if i == 2: D_drug = list(map(lambda x: x + '【D级】' if '-' not in x else '', ele))
+    #         if i == 3: Drug_resistance = ele
+    #     # print(A_drug,C_drug,D_drug,Drug_resistance)
+    #     temp = A_drug + C_drug + D_drug
+    #     temp = list(filter(lambda x: x != "", temp))
+    #     table.cell(4, 2).text = '、'.join(temp) if temp != [] and cell.text!='无' else '无'
+    #     table.cell(5, 2).text = '、'.join(Drug_resistance) if Drug_resistance != [] and Drug_resistance != ['-'] else '无'
+    #
+    #     # # 改字体。
+    #     def format_Cell(table, position, size=10, color=RGBColor(0, 0, 0), left=False,no_center_num=None):  # doxc 中 table 和 table 中的cell 都是可变对象。
+    #         for (row, column) in position:
+    #             cell = table.cell(row, column)
+    #             for paragraph in cell.paragraphs:  # 遍历单元格中的段落
+    #                 for run in cell.paragraphs[0].runs:
+    #                     # run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
+    #                     font = run.font  # 获取字体对象
+    #                     font.name = "Microsoft YaHei"  # 设置字体名称为宋体
+    #                     font.size = Pt(size)  # 设置字体大小为12号
+    #                     font.color.rgb = color  # 设置字体颜色为黑色
+    #                     if left == False:
+    #                         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 设置段落水平居中
+    #                     elif left == True:
+    #                         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    #                     from docx.oxml.ns import qn  # 中文字体。
+    #                     run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
+    #             cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER  # 设置单元格垂直居中
+    #
+    #         # 设置除了 第 column_index 列 ，从第二行起非居中对齐。
+    #         def set_column_alignment(table, column_index):
+    #             for i, row in enumerate(table.rows):
+    #                 if i > 0:
+    #                     cell = row.cells[column_index]
+    #                     for paragraph in cell.paragraphs:
+    #                         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    #         set_column_alignment(table, no_center_num) if no_center_num != None else print('')
+    #         return table
+    #     format_Cell(table, position=[(2, 1), (3, 1), (4, 2), (5, 2)], size=10, left=True)
+    #     table.cell(2, 1).paragraphs[0].runs[0].text = table.cell(2, 1).paragraphs[0].runs[0].text
+    #     table.cell(2, 1).paragraphs[0].runs[2].font.color.rgb = RGBColor(255, 0, 0)  # 由于前面被集体调整格式了，这里需要重新标红一下。
+    #     table.cell(2, 1).paragraphs[0].paragraph_format.left_indent = Cm(0.2)
+    #     table.cell(3, 1).paragraphs[0].paragraph_format.left_indent = Cm(0.2)
+    #     return self.doc
+
     def machining_table_1(self, num_th=1):
         table = self.doc.tables[num_th]
         if len(self.cell)!=1 :
@@ -1373,8 +1589,9 @@ class Q110():
             main_reslut[i] = chr(9312 + i) + ' ' + main_reslut[i]
         # print(main_reslut)
         result = ''.join([item + '\n' if (i + 1) % 3 == 0 else item + '  ' for i, item in enumerate(main_reslut)])
-        cell.text = result.strip('\n') if (result := result.strip('\n')) else '未检出靶药相关基因突变，考虑免疫药等其他治疗方案'# '  '.join(main_reslut) if main_reslut!=[] else '无' # 110 80 也要改。
+        cell.text = result.strip('\n') if (result := result.strip('\n')) else '未检出靶药相关基因突变，考虑免疫药等其他治疗方案' # '  '.join(main_reslut) if main_reslut!=[] else '无' # 110 80 也要改。
         # cell.text = ' ' + cell.text
+
         # 通过匹配table的表头来定位table。
         for temp_table in self.doc.tables:
             if len(temp_table.columns) == 5 and temp_table.cell(0, 0).paragraphs[0].text == '基因变异' and \
@@ -1386,19 +1603,41 @@ class Q110():
             C_drug.extend(target_table.cell(i, 2).text.split('\n'))
             D_drug.extend(target_table.cell(i, 3).text.split('\n'))
             Drug_resistance.extend(target_table.cell(i, 4).text.split('\n'))
+        # 把list按照给定的list的顺序排序。
+        print('检查点 self.Drug_order 是 ：',self.Drug_order)
+        def custom_key(x,order_list=self.Drug_order):
+            try:
+                return order_list.index(x)
+            except ValueError:
+                return len(order_list) + order_list.count(x) # 对于 Order_list 中没有的值，就都放后面。
+        # sorted_list = sorted(my_list, key=custom_key)
+        A_drug = sorted(A_drug, key=custom_key)
+        C_drug = sorted(C_drug, key=custom_key)
+        D_drug = sorted(D_drug, key=custom_key)
+        Drug_resistance = sorted(Drug_resistance, key=custom_key)
+        print('检查点 A_drug is ',A_drug)
+        print('检查点 C_drug is ', C_drug)
+        print('检查点 D_drug is ', D_drug)
+        print('检查点 Drug_resistance is ', Drug_resistance)
+
         eles = [A_drug, C_drug, D_drug, Drug_resistance]
+        from collections import OrderedDict
+        def remove_duplicates(seq):
+            # 使用OrderedDict去除重复元素并保持顺序
+            return list(OrderedDict.fromkeys(seq))
         for i, ele in enumerate(eles):  # 注意，在Python中，filter()函数返回的是一个迭代器，而不是一个列表。当你对一个可变对象进行操作时，它会改变原对象的值。但是，当你对一个可变对象进行过滤时，它会返回一个新的迭代器，而不是改变原对象的值。
-            ele = list(filter(lambda x: x != '/', list(set(ele))))
+            ele = list(filter(lambda x: x != '/', remove_duplicates(ele)))
             ele = list(map(lambda x:'-' if '未检出' in x else x,ele)) # 110 80 也要改
-            if i == 0: A_drug = list(map(lambda x: x + '【A级】' if '-' not in x else '', ele))
-            if i == 1: C_drug = list(map(lambda x: x + '【C级】' if '-' not in x else '', ele))
-            if i == 2: D_drug = list(map(lambda x: x + '【D级】' if '-' not in x else '', ele))
-            if i == 3: Drug_resistance = ele
+            if i == 0: A_drug = list(map(lambda x: x + '【A级】' if x!='-' else '【A级】', ele))
+            if i == 1: C_drug = list(map(lambda x: x + '【C级】' if x!='-' else '【C级】', ele))
+            if i == 2: D_drug = list(map(lambda x: x + '【D级】' if x!='-' else '【D级】', ele))
+            if i == 3: Drug_resistance =  [x for x in ele if x != ""]
         # print(A_drug,C_drug,D_drug,Drug_resistance)
         temp = A_drug + C_drug + D_drug
-        temp = list(filter(lambda x: x != "", temp))
+        temp = list(filter(lambda x: x not in ['【A级】','【C级】','【D级】'], temp))
+        print('检查点 A_drug + C_drug + D_drug is ', temp)
         table.cell(4, 2).text = '、'.join(temp) if temp != [] and cell.text!='无' else '无'
-        table.cell(5, 2).text = '、'.join(Drug_resistance) if Drug_resistance != [] and Drug_resistance != ['-'] else '无'
+        table.cell(5, 2).text = '、'.join(Drug_resistance) if Drug_resistance != [] and Drug_resistance != ['-'] and Drug_resistance != [''] else '无'
 
         # # 改字体。
         def format_Cell(table, position, size=10, color=RGBColor(0, 0, 0), left=False,no_center_num=None):  # doxc 中 table 和 table 中的cell 都是可变对象。
@@ -1440,22 +1679,23 @@ class Q110():
     @Tools_Decorator(tool='format_Cell',position=position, size=10, color=RGBColor(0, 0, 0),no_center_num=2)
     @Tools_Decorator(tool='Merge_cells_by_first_column', column_index=0)  # 指定合并单元格的列号。
     @Tools_Decorator(tool='format_Table', col_width=[3,3,9.92],First_column_colore=False, header_size=11,Border_all=True)
-    def Targeted_drug_annotations(self,position=[]):
+    def Targeted_drug_annotations(self, position=[]):
         # (读前面的靶向药物提示那张表)
-        print(self.targeted_Therapy_Tips_df)
+        # print(self.targeted_Therapy_Tips_df)
         own = self.targeted_Therapy_Tips_df['推荐本癌种药物'].tolist()
         other = self.targeted_Therapy_Tips_df['推荐其他癌种药物'].tolist()
         cli = self.targeted_Therapy_Tips_df['临床试验药物'].tolist()
         telerence = self.targeted_Therapy_Tips_df['潜在耐药药物'].tolist()
-        PotentialBeneficialDrugs_list = [ ele for ele in own+other+cli if ele!='/']
-        Potentialdrugresistance_list  = [ ele for ele in telerence if ele!='/']
-        print(own,other,cli)
-        print(PotentialBeneficialDrugs_list)
+        print('own\n', own, 'other\n', other, 'cli\n', cli, 'telerence\n', telerence)
+        PotentialBeneficialDrugs_list = [ele for ele in own + other if ele != '/']
+        Potentialdrugresistance_list = [ele for ele in telerence if ele != '/']
+        # print(own,other,cli)
+        print('PotentialBeneficialDrugs_list\n', PotentialBeneficialDrugs_list)
         temp = []
         for ele in PotentialBeneficialDrugs_list:
             temp += (ele.split('\n'))
         PotentialBeneficialDrugs_list = temp
-        print(PotentialBeneficialDrugs_list)
+        # print(PotentialBeneficialDrugs_list)
         temp = []
         for ele in Potentialdrugresistance_list:
             temp += (ele.split('\n'))
@@ -1468,18 +1708,31 @@ class Q110():
         #     ApprovedContent = ''.join(ApprovedContent)
         df_ = pd.DataFrame(columns=['药物敏感性', '药物名称', '用药解析'])
         df_.loc[0] = ['潜在获益药物', '无相关药物', '无']
+        # 检查 cli 列表是否包含非空元素
+        temp = []
+        for ele in cli:
+            temp += (ele.split('\n'))
+        cli = temp
+        print('cli 是 \n', cli, '\n')
+        if any(cli):
+            # 在 df 中添加数行数据
+            for x in cli:
+                if x != '':
+                    useful_df.loc[len(useful_df)] = ['', x, '~', '~', '', '', '', '']
         df_1 = pd.DataFrame(columns=['药物敏感性', '药物名称', '用药解析'])
         df_1.loc[0] = ['潜在耐药药物', '无相关药物', '无']
-        df_merged = useful_df.groupby('DrugName')['ApprovedContent'].apply(' '.join).reset_index() if not useful_df.empty else df_
-        df_merged_1 = useful_df_1.groupby('DrugName')['ApprovedContent'].apply(' '.join).reset_index() if not useful_df_1.empty else df_1
+        df_merged = useful_df.groupby('DrugName')['ApprovedContent'].apply(
+            ' '.join).reset_index() if not useful_df.empty else df_
+        df_merged_1 = useful_df_1.groupby('DrugName')['ApprovedContent'].apply(
+            ' '.join).reset_index() if not useful_df_1.empty else df_1
         df_merged['药物敏感性'] = '潜在获益药物'
         df_merged_1['药物敏感性'] = '潜在耐药药物'
-        df_merged = df_merged[['药物敏感性','DrugName','ApprovedContent']] if not useful_df.empty else df_
-        df_merged.columns = ['药物敏感性','药物名称','用药解析']
-        df_merged_1 = df_merged_1[['药物敏感性','DrugName','ApprovedContent']] if not useful_df_1.empty else df_1
-        df_merged_1.columns = ['药物敏感性','药物名称','用药解析']
-        df_merged = pd.concat([df_merged,df_merged_1])
-        print(df_merged)
+        df_merged = df_merged[['药物敏感性', 'DrugName', 'ApprovedContent']] if not useful_df.empty else df_
+        df_merged.columns = ['药物敏感性', '药物名称', '用药解析']
+        df_merged_1 = df_merged_1[['药物敏感性', 'DrugName', 'ApprovedContent']] if not useful_df_1.empty else df_1
+        df_merged_1.columns = ['药物敏感性', '药物名称', '用药解析']
+        df_merged = pd.concat([df_merged, df_merged_1])
+        print('df_merged', df_merged)
         # 添加一个表格
         table = self.doc.add_table(rows=1, cols=3)
         # 设置表头
@@ -1497,7 +1750,7 @@ class Q110():
         #     merge_start_index = 0
         #     for i in range(1, len(first_column.cells)):
         #         current_text = first_column.cells[i].text
-        #         if current_text != previous_text :
+        #         if current_text != previous_text:
         #             # 合并单元格，并将第一个单元格设置为保留的值
         #             table.cell(merge_start_index, column_index).merge(table.cell(i - 1, column_index))
         #             table.cell(merge_start_index, column_index).text = previous_text
@@ -1542,25 +1795,25 @@ class Q110():
         for i, drug in enumerate(drug_list):
             drug_df = grouped.get_group(drug)
             highest_level=custom_sort(drug_df['证据等级'].tolist())[0]
-            print('这种药物的最高证据等级为：',drug,highest_level)
+            # print('这种药物的最高证据等级为：',drug,highest_level)
             drug_df['是否是最高证据等级'] = False
             drug_df.loc[drug_df['证据等级'] == highest_level, '是否是最高证据等级'] = True
             drug_df.loc[drug_df['证据等级'] != highest_level, '是否是最高证据等级'] = False
-            print(drug_df[drug_df['证据等级']==highest_level])
+            # print(drug_df[drug_df['证据等级']==highest_level])
             # 解决冲突(疗效和毒性分开处理)
             drug_high_df = drug_df[(drug_df['类别'].str.contains('疗效'))&(drug_df['是否是最高证据等级']==True)]
-            print(drug_high_df)
+            # print(drug_high_df)
             matching_strings = drug_high_df['用药提示'].str.extract('(疗效[\u4e00-\u9fff]{2})', expand=False)
-            print(matching_strings)
+            # print(matching_strings)
             is_unique = len(matching_strings.value_counts()) == 1
             if not drug_high_df.empty and is_unique==True:
                 # 去掉疗效 冲突的行。
-                print('最高等级 疗效 是唯一的。')
+                # print('最高等级 疗效 是唯一的。')
                 # 如果要删除的 行不存在，就不用处理。
                 drug_df = drug_df[~((drug_df['是否是最高证据等级'] == False) & (drug_df['类别'].str.contains('疗效')) & ~(drug_df['用药提示'].str.contains(drug_high_df['用药提示'].iloc[0])))]
             elif not drug_high_df.empty and is_unique==False:
                 # 先统一疗效\毒性 ，再 去掉 低等级冲突的行。
-                print('最高等级 疗效不是唯一的，先统一疗效，再去掉低等级冲突的行。')
+                # print('最高等级 疗效不是唯一的，先统一疗效，再去掉低等级冲突的行。')
                 drug_high_df['用药提示'] = drug_high_df['用药提示'].str.replace('疗效[\u4e00-\u9fff]{2}', '疗效减弱', regex=True)
                 drug_df.loc[(drug_df['是否是最高证据等级'] == True) & (drug_df['类别'].str.contains('疗效')), '用药提示'] \
                     = drug_df.loc[(drug_df['是否是最高证据等级'] == True) & (drug_df['类别'].str.contains('疗效')), '用药提示'].str.replace('疗效([\u4e00-\u9fff]{2})', '疗效减弱', regex=True)
@@ -1569,7 +1822,7 @@ class Q110():
             is_unique = len(matching_strings.value_counts()) == 1
             if not drug_high_df.empty and is_unique==True:
                 # 去掉毒性 冲突的行。
-                print('最高等级 毒性 是唯一的。')
+                # print('最高等级 毒性 是唯一的。')
                 drug_df = drug_df[~((drug_df['是否是最高证据等级'] == False) & (drug_df['类别'].str.contains('毒性')) & ~(drug_df['用药提示'].str.contains(drug_high_df['用药提示'].iloc[0])))]
             elif not drug_high_df.empty and is_unique==False:
                 # 先统一疗效\毒性 ，再 去掉 低等级冲突的行。
@@ -1608,7 +1861,7 @@ class Q110():
             # 使用OrderedDict去除重复元素并保持顺序
             return list(OrderedDict.fromkeys(seq))
         drug_list = remove_duplicates(self.Q80_chemo['药物名称'].tolist())
-        print(drug_list)
+        # print(drug_list)
         # 这个由 《◆化疗药物检测结果详情及解读》 到 《化疗药物指标及提示》 的逻辑一定要讲清楚：
         # 先在 化药表 中 加一列标注出 是否是最高证据等级。
         # 毒性和 疗效先分两条路 判断，再 联系起来综合判断；
@@ -1825,10 +2078,10 @@ class Q110():
     @Tools_Decorator(tool='Merge_cells_by_first_column', column_index=0)  # 指定合并单元格的列号。
     @Tools_Decorator(tool='format_Table', col_width=[1.2, 4.32, 4, 1.2, 4, 1.2], First_column_colore=False,Border_all=True,no_colore_column=[0,1])
     def DrugCombinedPlan_func(self,position=[]):
-        print(self.cancer,'是癌症种类。')
+        # print(self.cancer,'是癌症种类。')
         df = self.DrugCombinedPlan[self.DrugCombinedPlan['癌种'].apply(lambda x: x in self.cancer)]
         # print(df)
-        print('突变过滤后数量是 ',len(self.cell),[(ele.gene,ele.amino_acid) for ele in self.cell])
+        # print('突变过滤后数量是 ',len(self.cell),[(ele.gene,ele.amino_acid) for ele in self.cell])
         def judge_wheter_optional(List_: List[str])-> str:
             if List_ == ['']:
                 return '可选'
@@ -1838,11 +2091,11 @@ class Q110():
                     if obj in self.danger_chemo_drug_list:
                         return '慎选'
                     if hasattr(self, 'MSI_result'):
-                        print("变量 self.MSI_result 存在，现在看检测结果。")
+                        # print("变量 self.MSI_result 存在，现在看检测结果。")
                         if 'MSI-H' in self.MSI_result and obj == 'MSI-H':
                             return '慎选'
                     if hasattr(self, 'MMR_result'):
-                        print("变量 self.MMR_result 存在，现在看检测结果。")
+                        # print("变量 self.MMR_result 存在，现在看检测结果。")
                         if self.MMR_result!='未检出' and obj == 'dMMR':
                             return '慎选'
                     if obj in mutation_gene_str:
@@ -1851,11 +2104,11 @@ class Q110():
         df.fillna('', inplace=True)
         df['评估结果'] = ''
         for index,row in df.iterrows():
-            print(type(row['评估内容']),row['评估内容'])
+            # print(type(row['评估内容']),row['评估内容'])
             Evaluation_Content_List = re.split(r"[,.;，/]",row['评估内容'])
-            print(Evaluation_Content_List)
+            # print(Evaluation_Content_List)
             df.at[index, '评估结果'] = judge_wheter_optional(Evaluation_Content_List)
-        print(df)
+        # print(df)
         # 添加一个表格
         table = self.doc.add_table(rows=1, cols=6)
         # 设置表头
@@ -1912,7 +2165,7 @@ class Q110():
                 if target!=None:
                     self.class_Tools.delete_paragraph(target)
             except:
-                print('无此段落。')
+                # print('无此段落。')
                 continue
         return self.doc
 

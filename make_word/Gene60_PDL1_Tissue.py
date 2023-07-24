@@ -217,7 +217,7 @@ class Tools():
         set_column_alignment(table, no_center_num) if no_center_num!=None else print('')
         return doc
 
-    def format_Table(self, doc,table_index=-1, header_size=10,First_column_colore=True,col_width=[1, 1], header_color=RGBColor(0, 0, 0), Border=[],
+    def format_Table(self, doc,table_index=-1, header_size=11,First_column_colore=True,col_width=[1, 1], header_color=RGBColor(0, 0, 0), Border=[],
                      Border_all=False,no_colore_column=[]):
         tables = doc.tables
         table = tables[table_index]  # 默认处理doc 中的最后一个table。
@@ -226,7 +226,7 @@ class Tools():
             # 获取每一行的所有单元格
             cells = row.cells
             # 遍历每个单元格
-            row.height = Cm(1)  # 统一行高
+            row.height = Cm(0.9)  # 统一行高
             for index,cell in enumerate(cells):
                 # 获取单元格的段落对象
                 paragraph = cell.paragraphs[0]
@@ -238,9 +238,9 @@ class Tools():
                     run = paragraph.runs[0]
                     run.font.bold = True
                     run.font.size = Pt(header_size)
-                    run.font.color.rgb = RGBColor(0, 0, 0)
-                    table.rows[0].height = Cm(1)
-                    self.Set_Background_Color(cell, "CFDAE6")
+                    run.font.color.rgb = RGBColor(255, 255, 255)
+                    table.rows[0].height = Cm(0.9)
+                    self.Set_Background_Color(cell, "2F549F")
                 # 如果是奇数行，设置背景色为浅蓝色,且第一列不变色。 First_column_colore 来控制第一列是否变色。
                 elif i % 2 != 1 and First_column_colore==True:  # and cell !=cells[0]:
                     if no_colore_column==[]: # 没有 no_colore_column 参数时 就按照原逻辑来，有no_colore_column参数，优先考虑no_colore_column参数。
@@ -345,7 +345,6 @@ class Tools():
                         insideH={"val": "dotted", "color": "#CFDAE6", "space": "0"},
                         end={"val": "dotted", "color": "#CFDAE6", "space": "0"}
                     )
-        # table.autofit = True
         # 统一给第一行相邻单元格之间加 竖直白色边框。
         for i in range(len(table.rows[0].cells) - 1):
             cell = table.rows[0].cells[i]
@@ -358,6 +357,7 @@ class Tools():
                 next_cell,
                 left={"val": "single", "color": "#FFFFFF", "space": "0"}
             )
+        # table.autofit = True
         return doc
 
     # 像 指定 table_index 一样，修改的 target_paragraph 需要指定好是哪一个。
@@ -540,10 +540,9 @@ def Tools_Decorator(tool: str, *tool_args, **tool_kwargs):
     return tools_decorator
 
 
-
 class Q80():
     def __init__(self, input_file):
-        self.doc = Document('/refhub/ref/masterplate/解码80基因报告母版.2023v1的副本.docx')
+        self.doc = Document('/refhub/ref/masterplate/60基因检测报告+PDL1检测_组织版.docx')
         self.input_file = input_file
         self.sample = self.input_file.split('/')[-1].replace('.summary.xlsx', '')
         print(self.sample, 'input_file is : ', input_file)
@@ -555,13 +554,12 @@ class Q80():
         # 以下为 出报告用到的参考表；
         df = pd.read_excel('/refhub/ref/drug/DrugCombinedPlan.xlsx',sheet_name=None)
         self.DrugCombinedPlan = df['Sheet1'].dropna(subset=['癌种'],how='any')
-        # 拆分包含斜杠的字符串并扩展成多行
-        self.DrugCombinedPlan = self.DrugCombinedPlan.assign(癌种=self.DrugCombinedPlan['癌种'].str.split('/')).explode('癌种')
         df = pd.read_excel('/refhub/ref/drug/DrugApproval.xlsx', sheet_name=None)
         self.DrugApproval = df['药物获批情况表'].dropna(subset=['ApprovedContent'], how='any')
-        df = pd.read_excel('/refhub/ref/gene/GeneInfo.xlsx', sheet_name=None)
         # 拆分包含斜杠的字符串并扩展成多行
         self.DrugApproval = self.DrugApproval.assign(DrugName=self.DrugApproval['DrugName'].str.split('/')).explode('DrugName')
+        print('检查点：',self.DrugApproval[self.DrugApproval['DrugName']=='拉帕替尼'])
+        df = pd.read_excel('/refhub/ref/gene/GeneInfo.xlsx', sheet_name=None)
         self.GeneIndo = df['Genename_table'].dropna(subset=['Genename'], how='any')
         df = pd.read_excel("/refhub/ref/citation/Citation.xlsx", sheet_name=None)
         self.Citation = df['citation']
@@ -748,7 +746,7 @@ class Q80():
                 table.cell(i, 2).paragraphs[0].text = cell[f'cell_{i}'][2].strip('\n')
                 position.append((i, 2))
         # 改字体。
-        temp_position = [(i, j) for i in range(len(table.rows)) for j in range(len(table.columns))]
+        temp_position = [(i, j) for i in range(1,len(table.rows)) for j in range(len(table.columns))]
         position_1.extend(temp_position)
         # self.format_Cell(table, position=position_1, size=10, color=RGBColor(0, 0, 0))
         # self.format_Cell(table, position=position, size=10, color=RGBColor(255, 0, 0))
@@ -784,7 +782,7 @@ class Q80():
             self.cell.append(ele)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with='具有明确临床意义的变异位点【Ⅰ类/Ⅱ类】')
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with='致病或可能致病的变异位点【Ⅰ类/Ⅱ类】')
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     @Tools_Decorator(tool='fill_empty_cells_with_slash')
@@ -822,7 +820,7 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with="具有潜在临床意义的变异位点【Ⅲ类】")
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with="临床意义不明确的变异位点【Ⅲ类】")
     @Tools_Decorator(tool='format_Table', col_width=[1.8, 2.8, 2.8, 2.8, 1.64, 2.38, 1.7],Border_all=False)
     @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
     def Somatic_variation_results_1(self,position=[]):
@@ -1143,7 +1141,7 @@ class Q80():
             self.targeted_Therapy_Tips_df = pd.DataFrame(data[1:], columns=data[0])
             return self.doc
 
-        @Tools_Decorator(tool='move_table_after', paragraph_end_with="靶向治疗提示")
+        @Tools_Decorator(tool='move_table_after', paragraph_end_with="靶向治疗提")
         @Tools_Decorator(tool='format_Table', col_width=[3.92, 3, 3, 3, 3], Border=[1])
         @Tools_Decorator(tool='format_Cell', position=position, size=10, color=RGBColor(0, 0, 0))
         def not_have_targeted_Therapy_Tips(position=[]):
@@ -1327,7 +1325,7 @@ class Q80():
                 next_paragraph = self.class_Tools.fixed_position(self.doc,End_character='靶向药物注释')
                 # print(next_paragraph)
                 paging_paragraph = next_paragraph.insert_paragraph_before(
-                    '')  # (f"{address[1]}'")  # 分页符段落没法定位，所以只能在插入的时候赶紧完成后续操作。
+                    '')  # (f"{address[1]}'")  # 分页符没法定位，所以只能在插入的时候赶紧完成后续操作。
                 run = paging_paragraph.add_run()
                 run.add_break(WD_BREAK.PAGE)
                 self.class_Tools.move_table_after_supplement(paging_paragraph)
@@ -1849,7 +1847,7 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
-    @Tools_Decorator(tool='move_table_after', paragraph_end_with="chemotable")
+    @Tools_Decorator(tool='move_table_after', paragraph_end_with="Chemotable")
     @Tools_Decorator(tool='format_Table', col_width=[2,3,2.96],First_column_colore=False, Border_all=True)
     @Tools_Decorator(tool='Specify_cell_color_change', search_text='推荐选用', color=RGBColor(0, 176, 80))
     @Tools_Decorator(tool='Specify_cell_color_change', search_text='谨慎选用',color=RGBColor(255, 0, 0) )
@@ -2055,17 +2053,36 @@ class Q80():
         position.extend(temp_position)
         return self.doc
 
+    # def add_header(self, manual_Date=None):  # 改页眉。
+    #     section = self.doc.sections[1]
+    #     header = section.header
+    #     header.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 居中显示
+    #     # header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
+    #     data_ = f'{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else manual_Date
+    #     sample_id, sample_name = self.BC17_meta['id'].iloc[0], self.BC17_meta['name'].iloc[0]
+    #     header.tables[0].cell(0, 1).paragraphs[0].text = sample_id.replace('-T', '').replace('-N','') + ' | ' + sample_name + ' | ' + data_
+    #     header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
+    #     header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
+    #     return self.doc
     def add_header(self, manual_Date=None):  # 改页眉。
         section = self.doc.sections[1]
         header = section.header
-        header.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 居中显示
-        header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
+        # 设置节的页面布局为奇偶页不同
+        section.different_first_page_header_footer = False
+        section.different_odd_and_even_pages = True
+        # 获取奇数页的页眉， 在奇数页的页眉中添加内容
+        odd_page_header = section.header
+        # odd_page_header.text = "奇数页页眉"
+        # header.tables[0].cell(0, 0).paragraphs[0].text = '上海解码医学检验所'  # '清港泉生物科技有限公司 '
         data_ = f'{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else manual_Date
         sample_id, sample_name = self.BC17_meta['id'].iloc[0], self.BC17_meta['name'].iloc[0]
-        header.tables[0].cell(0, 1).paragraphs[0].text = sample_id.replace('-T', '').replace('-N',
-                                                                                             '') + ' | ' + sample_name + ' | ' + data_
-        header.tables[0].cell(0, 0).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
-        header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(53, 105, 155)
+        odd_page_header.tables[0].cell(0, 0).paragraphs[0].text = sample_id.replace('-T', '').replace('-N','') + ' | ' + sample_name + ' | ' + data_
+        # 获取偶数页的页眉，在偶数页的页眉中添加内容
+        even_page_header = section.even_page_header
+        # even_page_header.text = "偶数页页眉"
+        even_page_header.tables[0].cell(0, 1).paragraphs[0].text = sample_id.replace('-T', '').replace('-N','') + ' | ' + sample_name + ' | ' + data_
+        even_page_header.tables[0].cell(0, 1).paragraphs[0].runs[0].font.color.rgb = RGBColor(47, 83, 149)
+        header.tables[0].cell(0,0).paragraphs[0].runs[0].font.color.rgb = RGBColor(47, 83, 149)
         return self.doc
 
     def add_date(self, manual_Date=None):
@@ -2074,20 +2091,23 @@ class Q80():
             if len(table.columns) == 2 and table.cell(0, 0).paragraphs[0].text == '检测人：' and \
                     table.cell(0, 1).paragraphs[0].text == '复核人：':
                 target_table = table
-        target_table.cell(1,
-                          0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(1,0).text = f'报告日期：{datetime.datetime.now().date().strftime("%Y-%m-%d")}' if manual_Date == None else f'报告日期：{manual_Date}'
+        target_table.cell(0, 0).text = '检测人：陈宇韶'
+        target_table.cell(0, 1).text = '复核人：顾嘉琦\n'
         from docx.oxml.ns import qn  # 中文字体。
-        cell = target_table.cell(1, 0)
-        for paragraph in cell.paragraphs:  # 遍历单元格中的段落
-            run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
-            font = run.font  # 获取字体对象
-            font.name = "Microsoft YaHei"  # 设置字体名称
-            from docx.oxml.ns import qn  # 中文字体。
-            run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
+        cells = [target_table.cell(1, 0),target_table.cell(0, 0),target_table.cell(0, 1)]
+        for cell in cells:
+            for paragraph in cell.paragraphs:  # 遍历单元格中的段落
+                run = cell.paragraphs[0].runs[0]  # 注意：添加一个新的文本块 add_run() 是不对的，我们这里是修改已有的cell。
+                font = run.font  # 获取字体对象
+                font.name = "Microsoft YaHei"  # 设置字体名称
+                font.size = Pt(11)  # 设置字体大小为11磅
+                from docx.oxml.ns import qn  # 中文字体。
+                run._element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
         return self.doc
 
     def delete_rubbish(self):
-        for ele in ['chemotable','Somatic_variation_results_table','drugtable','pathogenictable','unknowntable','msitable','chemodetailtable']:
+        for ele in ['chemotable','Chemotable','Somatic_variation_results_table','drugtable','pathogenictable','unknowntable','msitable','chemodetailtable']:
             try:
                 target = self.class_Tools.fixed_position(self.doc, End_character=ele)
                 if target!=None:
@@ -2114,12 +2134,15 @@ if __name__ == '__main__':
     doc = q80.Analysis_of_Somatic_Variant_Genes_and_Loci(position=[])
     doc = q80.quality_Control_Results(position=[])
     doc = q80.machining_table_1()
+
     doc = q80.Chemotherapy_drug_testing_1(position=[])
     doc = q80.Chemotherapy_drug_testing_0(position=[])
     doc = q80.Evaluation_of_therapeutic_effect_of_chemotherapy_drugs( position=[])
-    doc = q80.MSI_detection(position=[])
-    doc = q80.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
+    # doc = q80.MSI_detection(position=[])
+    # doc = q80.Evaluation_of_the_therapeutic_effect_of_immunotherapy(position=[])
+
     doc = q80.Targeted_drug_annotations(position=[])
+
     doc = q80.DrugCombinedPlan_func(position=[])
 
     doc = q80.add_header()
