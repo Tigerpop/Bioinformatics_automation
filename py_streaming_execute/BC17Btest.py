@@ -199,10 +199,18 @@ if __name__ == '__main__':
               conda activate cnv_factera_delly  && \
               python factera.py {sample} {sample_path} {generate_location} {ref_fasta} && \
               conda deactivate"
+    command['msi'] = \
+              f'folder="{generate_location}/{sample_path}/msi_generate" \n \
+              if [ ! -d "$folder" ]; then \n \
+              mkdir "$folder" \n \
+              fi && \
+              python msi_detect.py --tool msisensor-pro --gene {bed_key} \
+              {generate_location}/{sample_path}/{sample}.markdup.bam \
+              {generate_location}/{sample_path}/msi_generate/msi_result'
     command['collect'] = \
               f"python collect.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {sample_monitor} {bed}"
     # 流程list
-    execution_order_list = ['annovar','process_anno_filter','panelcn_map_bam','factera','collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
+    execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','msi','collect']# ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','collect']
     for command_key in execution_order_list:
         queue_0,queue_1,queue_2 = multiprocessing.Queue(),multiprocessing.Queue(),multiprocessing.Queue()
         p = multiprocessing.Process(target=run_command, args=(command,command_key,log_path,queue_0,queue_1,queue_2)) # command以dict形式传递，用到的是value，key用于自定义输出。

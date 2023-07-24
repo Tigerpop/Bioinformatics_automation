@@ -5,6 +5,7 @@ from pandas import DataFrame
 from datetime import date
 from openpyxl import load_workbook
 import openpyxl, functools
+import automatic_Labeling as aL
 from typing import Dict, List, Union
 import calculate_total_length_of_bed as ctlb
 import warnings
@@ -17,6 +18,7 @@ generate_location = sys.argv[4]
 bed_key = sys.argv[5]
 sample_monitor = sys.argv[6]
 bed = sys.argv[7]
+# vip_monitor = '/home/chenyushao/py_streaming_generate/vip_monitor'
 
 if  bed_key in ['Q120T','Q120B','SLC80T','SLC80B','SD160T','SD160B']:
     collect_list = ['meta','somatic','germline','fusion','cnv','msi','chemo','qc']
@@ -53,15 +55,52 @@ def generate_summary():
             with open('/received/main/received.csv', 'rb') as f0: # 确认编码类型。
                 encoding_stype = chardet.detect(f0.read())
             df_receive = pd.read_csv(f'/received/main/received.csv',sep=',',header=1,encoding=encoding_stype['encoding'])
-            if determine_sample_type(sample)=="解码":
-                sample_TN = sample.replace('-T','-N') if '-T' in sample else sample.replace('-N','-T')
-                # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
-            elif determine_sample_type(sample)=="睿明":
-                sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
-            elif determine_sample_type(sample)=="融享":
-                sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
-                
-            if bed_key in ['BCP650','NBC650'] and sample_TN in os.listdir(f'{sample_monitor}'):
+
+            # if determine_sample_type(sample)=="解码":
+            #     sample_TN = sample.replace('-T','-N') if '-T' in sample else sample.replace('-N','-T')
+            #     # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+            # elif determine_sample_type(sample)=="睿明":
+            #     sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
+            # elif determine_sample_type(sample)=="融享":
+            #     sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
+            #     sample_TN = sample_TN.replace('1G','4G') if '1G' in sample_TN else sample_TN.replace('4G', '1G')
+
+            def find_sampe_TN():
+                if determine_sample_type(sample) == "解码":
+                    sample_TN = sample_path.replace('-T', '-N') if '-T' in sample_path else sample_path.replace(
+                        '-N', '-T')
+                    # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+                elif determine_sample_type(sample) == "睿明":
+                    sample_TN = sample_path.replace('CL', 'L') if 'CL' in sample_path else sample_path.replace('L',
+                                                                                                                    'CL')
+                elif determine_sample_type(sample) == "融享":
+                    sample_TN = sample.replace('DZ', '') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + \
+                                                                                     sample.rsplit('-', 1)[1]
+                    temp_G = ['-' + str(i) + 'G' for i in range(1, 41)]
+                    combined_files = os.listdir(sample_monitor)  # + os.listdir(vip_monitor)
+                    for capacity in temp_G:
+                        if capacity in sample_TN:
+                            print('进入有capacity的环节。capacity是',capacity)
+                            other_ele_list = [x for x in temp_G if x != capacity]
+                            for ele in other_ele_list:
+                                temp_sample_TN = sample_TN.replace(capacity, ele)
+                                if temp_sample_TN in combined_files:
+                                    sample_TN = temp_sample_TN
+                                    print('这一步返回的 对照样本是：',sample_TN)
+                                    return sample_TN
+                            temp_sample_TN = sample_TN.replace(capacity, '-')
+                            print('直接去掉 capacity的值是',temp_sample_TN)
+                            if temp_sample_TN in combined_files:
+                                sample_TN = temp_sample_TN
+                                print('在子 中确认的 对照样本是 ：',sample_TN)
+                                return sample_TN
+                else:
+                    sample_TN = sample_path
+                return sample_TN
+            sample_TN = find_sampe_TN()
+            print('对照样本是：', sample_TN)
+
+            if bed_key in ['BCP650','NBC650','HRD'] and sample_TN in os.listdir(f'{sample_monitor}'):
                 df_mate = df_receive[df_receive['样本编号*']==sample]
                 df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]
                 df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
@@ -81,11 +120,14 @@ def generate_summary():
             # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
             df_mate = df_mate.tail(1)
             DataFrame(df_mate).to_excel(writer,sheet_name='meta',index=False,header=True)
-            
+
+
             # snpindel 
             file = f'{generate_location}/{sample_path}/{sample}.process.hg19_multiprocess.txt'
             df_snpindel = pd.read_csv(file,sep='\t')
             df_snpindel['review'] = None
+            T = aL.tools(input_df=df_snpindel,bed_key=bed_key) # 打标签 S1...
+            df_snpindel = T.method_somatic()                   # 打标签 S1...
             DataFrame(df_snpindel).to_excel(writer,sheet_name='snpindel',index=False,header=True)
 
             # snpindel_germline 
@@ -100,6 +142,9 @@ def generate_summary():
             head = ['Est_Type','Region1','Region2','Break1','Break2','Break_support1','Break_support2','Break_offset','Orientation','Order1','Order2','Break_depth','Proper_pair_support','Unmapped_support','Improper_pair_support','Paired_end_depth','Total_depth','Fusion_seq','<>','Non-templated_seq','-']
             df_fusion = pd.read_csv(file,sep='\t',header=None,names=head,skiprows=1)
             df_fusion['review'] = None
+            if not df_fusion.empty:
+                T = aL.tools(input_df=df_fusion,bed_key=bed_key) # 打标签 S1...
+                df_fusion = T.method_fusion()                    # 打标签 S1...
             DataFrame(df_fusion).to_excel(writer,sheet_name='fusion',index=False)
             
             # cnv
@@ -122,6 +167,8 @@ def generate_summary():
                 df_cnv = pd.read_csv(file,sep='\t')
                 df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int)*2/df_cnv['medRC.norm'].astype(int)).round() # .astype(int)
                 df_cnv['review'] = None
+                T = aL.tools(input_df=df_cnv, bed_key=bed_key)  # 打标签 S1...
+                df_cnv = T.method_cnv()                         # 打标签 S1...
                 DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             
             # msi 和 chemo
@@ -527,7 +574,7 @@ if __name__=='__main__':
     # add_review_lable()
 
     add_color_rename_resort()
-    
+
     file_path = f'{generate_location}/{sample_path}/{sample}.summary.xlsx'
     sheet_order = ['meta','snpindel','germline','fusion','cnv','msi','chemo','qc']  if bed_key not in['BC17T','BC17B'] else ['meta','snpindel','germline','','fusion','cnv','qc']
     adjust_sheet_order_and_change_sheet_name(file_path, sheet_order)

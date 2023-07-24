@@ -254,7 +254,7 @@ if __name__ == '__main__':
     command['collect_Custom'] = \
               f"python collect_Custom.py {sample} {sample_path} {log_path} {generate_location} {bed_key} {collect_list_str} {collect_Alternative_items} {sample_monitor} {bed}"              
     # 流程list
-    execution_order_list = ['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','collect_Custom']
+    execution_order_list = ['collect_Custom']#['TN_similarity_qc','fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','HLA','antigen_vcf','neoantigen','collect_Custom']
     # if bed_key not in['G2T','G2B','BRCAT','BRCAG']:
     #     execution_order_list = ['fastp_extract','extract_qc','bwa_mapping','picard_markdup','dedup_markdup_pc','split_callMutation_merge','pollution_filter','annovar','process_anno_filter','panelcn_map_bam','factera','chemo','msi','collect_Custom']
     # else:

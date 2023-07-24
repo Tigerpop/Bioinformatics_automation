@@ -96,7 +96,7 @@ if __name__ == '__main__':
     annovar_out_prefix = f'{generate_location}/{sample_path}/{sample}.anno'
     annover_txt = f'{generate_location}/{sample_path}/{sample}.anno.hg19_multianno.txt'
     process_anno_filter_txt = f'{generate_location}/{sample_path}/{sample}.process.hg19_multiprocess.txt'
-    collect_list_str = sys.argv[4] # 这样的格式 'meta,somatic,germline,fusion,cnv,msi,chemo,hrd,qc'
+    collect_list_str = sys.argv[4] # 这样的格式 'meta,somatic,germline,hrd,qc'
     output_file = sys.argv[3]
     collect_Alternative_items = output_file
     

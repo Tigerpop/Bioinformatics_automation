@@ -207,6 +207,10 @@ NBC650 <- function(sample) {
   # 获取计数窗
   bed <- "/refhub/hg19/target/NBC650/panelcn.bed"
   countWindows <- getWindows(bed)
+  # 下面这个是临时新加的。
+  # 将 countWindows 中的染色体名称添加 "chr" 前缀
+  # countWindows$chromosome <- paste0("chr", countWindows$chromosome)
+  
   # 获取read counts
   testbam <- sprintf("/home/chenyushao/py_streaming_generate/%s/%s.bwa_mem.bam", sample,sample)
   cat("testbam is :", testbam, "\n")

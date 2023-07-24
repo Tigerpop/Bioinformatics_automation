@@ -1,0 +1,25 @@
+/opt/miniconda3/lib/R/bin/exec/R: /opt/miniconda3/lib/R/bin/exec/../../lib/../.././libtinfo.so.6: no version information available (required by /opt/miniconda3/lib/R/bin/exec/../../lib/../../libreadline.so.8)
+
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> output_corr_matrix <- read.delim("/home/chenyushao/py_streaming_generate/2022WSSW005728-T/log/quality_control/output_corr_matrix.txt")
+> data = output_corr_matrix
+> d3 <- as.dist((1 - data[,-1]))
+> clust3 <- hclust(d3, method = "average")
+Error in hclust(d3, method = "average") : 
+  must have n >= 2 objects to cluster
+Execution halted

@@ -326,6 +326,13 @@ def process_output_base_num():
     df_result1 = df_result1.rename(columns={'vaf': 'VAF'})
     df_result1.to_csv(f'{generate_location}/{sample_path}/1p19q_generate/process_output_base_num.txt',sep='\t',index=None)
     df_result2 = df_result1[['REF','POS','rs','VAF']]
+    address_df = pd.read_csv('/refhub/hg19/toolbox_and_RefFile/chemo/shenghuifeng_rs_address.txt',header=None,sep='\t',\
+        names=['chr','start','rs','variant1','variant2','unkown0','unkown1','comprehensive'])
+    if df_result2.empty:  # 如果是空的，就用 默认的 一套list 来填满它。
+        df_result2['REF'], df_result2['POS'], df_result2['rs'] = address_df['chr'], address_df['start'], address_df['rs']
+        df_result2['VAF'] = 0
+        df_result2['REF'] = df_result2['REF'].astype(int)
+        df_result2.columns = ['chr','pos','rs','VAF']
     df_result2.to_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t',index=None,header=['chr','pos','rs','VAF'])
     
 def drop_duplicate():
@@ -452,7 +459,7 @@ def plot_pic0():
     df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
     # print(df[df['chr']=='chr19']['pos','VAF'])
     df['VAF'] =df['VAF']*100
-    x,y = df[df['chr']=='chr19']['pos'].tolist(),df[df['chr']=='chr19']['VAF'].tolist()
+    x,y = df[(df['chr']=='chr19')|(df['chr']==19)]['pos'].tolist(),df[(df['chr']=='chr19')|(df['chr']==19)]['VAF'].tolist()
     # x = [47112648, 48833800,56030428]  # 横坐标
     # y = [25.00, 36.59,29.63]  # 纵坐标
     plt.scatter(x, y)
@@ -496,7 +503,7 @@ def plot_pic1():
     # 填写数据
     df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
     df['VAF'] =df['VAF']*100
-    x,y = df[df['chr']=='chr1']['pos'].tolist(),df[df['chr']=='chr1']['VAF'].tolist()
+    x,y = df[(df['chr']=='chr1')|(df['chr']==1)]['pos'].tolist(),df[(df['chr']=='chr1')|(df['chr']==1)]['VAF'].tolist()
     # x = [47112648, 48833800,56030428]  # 横坐标
     # y = [25.00, 36.59,29.63]  # 纵坐标
     plt.scatter(x, y)
@@ -574,8 +581,11 @@ def concat_plot():
         # line_deccor(plt)
         plt.subplot(1, 2, 1)
         df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
+        print(df)
         df['VAF'] =df['VAF']*100
-        x,y = df[df['chr']=='chr1']['pos'].tolist(),df[df['chr']=='chr1']['VAF'].tolist()
+        x,y = df[(df['chr']=='chr1')|(df['chr']==1)]['pos'].tolist(),df[(df['chr']=='chr1')|(df['chr']==1)]['VAF'].tolist()
+        # print(df[df['pos']==115110683])
+        print('x 是：',x,'y 是：',y)
         plt.scatter(x, y,color=(41/255, 84/255, 117/255), zorder=10)
         # 添加辅助线
         plt.axhline(y=100, color=(41/255, 84/255, 117/255), linestyle='-')
@@ -626,7 +636,7 @@ def concat_plot():
         plt.subplot(1, 2, 2)
         df = pd.read_csv(f'{generate_location}/{sample_path}/1p19q_generate/1p19q_process_output_base_num.txt',sep='\t')
         df['VAF'] =df['VAF']*100
-        x,y = df[df['chr']=='chr19']['pos'].tolist(),df[df['chr']=='chr19']['VAF'].tolist()
+        x,y = df[(df['chr']=='chr19')|(df['chr']==19)]['pos'].tolist(),df[(df['chr']=='chr19')|(df['chr']==19)]['VAF'].tolist()
         plt.scatter(x, y,color=(41/255, 84/255, 117/255), zorder=10)
         # 设置图表标题和坐标轴标签
         plt.title('Chromosome 19q')

@@ -26,11 +26,11 @@ if __name__=='__main__':
         extracted1,extracted2 = "_1.extract.fq.gz","_2.extract.fq.gz"
         
         
-        razers3_pool = 'razers3 -i 95 -m 1 -dr 0'
+        razers3_pool = '/opt/optitype/razers3 -i 95 -m 1 -dr 0'
         razers3_reffa = '/refhub/hg19/toolbox_and_RefFile/hla_reference_dna.fasta' # config['razers3']['reffa']
         optitype_tool = '/opt/optitype/OptiTypePipeline.py' # config['optitype']['tools']
         optitype_pool = '--dna -v -p fished' # config['optitype']['optitype_pool']
-        input_fq1 = generate_location+'/'+sample_path +'/'+sample+extracted1 
+        input_fq1 = generate_location+'/'+sample_path +'/'+sample+extracted1
         input_fq2 = generate_location+'/'+sample_path +'/'+sample+extracted2
         out_razers3_1 = '-o '+generate_location+'/'+sample_path +'/'+ "optitype_generate"+'/'+'fished_1.bam'
         out_razers3_2 = '-o '+generate_location+'/'+sample_path +'/'+ "optitype_generate"+'/'+'fished_2.bam'
@@ -48,10 +48,14 @@ if __name__=='__main__':
         cmd4 = "samtools fastq fished_2.bam > sample_2_fished.fastq"
         for i in range(1,5):
             cmd = "cmd"+str(i)
-            p = subprocess.Popen(locals()[cmd],shell=True)
+            print(i)
+            # p = subprocess.Popen(locals()[cmd],shell=True)
+            p = subprocess.Popen(eval(cmd), shell=True)
             p.communicate()
             if p.returncode != 0:
                 exit('razers3 is false!')
+            else:
+                print('razers3 is success!')
         cmd = "python {optitype_tool} \
               -i sample_1_fished.fastq sample_2_fished.fastq \
               {optitype_pool} \

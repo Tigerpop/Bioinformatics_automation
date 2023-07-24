@@ -20,8 +20,13 @@ class tool():
                         base_quality = re.findall('\((.*?)\)',v3)[0]
                         print('base_quality: ',base_quality)
                         i += 1
-                if lines[:-5] == 'Insert size peak (evaluated by paired-end reads):':
-                    inser_size_peak = lines[-5:-1]
+                if 'Insert size peak (evaluated by paired-end reads):' in lines:
+                    # inser_size_peak = lines[-5:-1]
+                    pattern = r"Insert size peak \(evaluated by paired-end reads\): (\d+)"
+                    match = re.search(pattern, lines)
+                    if match:
+                        # print('匹配到了 inser_size_peak 行。')
+                        inser_size_peak = match.group(1)
                     print('inser_size_peak: ',inser_size_peak)
                 if lines[:17] == 'Duplication rate:':
                     duplication_rate = lines[18:]
@@ -83,18 +88,50 @@ class tool():
             def determine_sample_type(sample):
                 pattern1 = r'.*(-T|-N|-T-1|-N-1)$'  # 样本类型1的正则表达式模式
                 pattern2 = r'^\d{8}C?L\d{3}$'  # 样本类型2和3的正则表达式模式
+                pattern3 = r'^\w+-\w+-\w+-\w+$'
                 if re.match(pattern1, sample):
                     print('这是 解码的样本')
                     return "解码"
                 elif re.match(pattern2, sample):
                     print('这是 睿明的样本')
                     return "睿明"
+                elif re.match(pattern3, sample):
+                    print('这是 融享的样本')
+                    return "融享"
                 else:
                     return "未知样本类型"
-            if determine_sample_type(sample)=="解码":
-                sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
-            elif determine_sample_type(sample)=="睿明":
-                sample_path_TN = sample_path.replace('CL','L') if 'CL' in sample_path else sample_path.replace('L','CL')
+
+            def find_sampe_TN():
+                # vip_monitor = '/home/chenyushao/py_streaming_generate/vip_monitor'
+                if determine_sample_type(sample) == "解码":
+                    sample_path_TN = sample_path.replace('-T', '-N') if '-T' in sample_path else sample_path.replace(
+                        '-N', '-T')
+                    # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+                elif determine_sample_type(sample) == "睿明":
+                    sample_path_TN = sample_path.replace('CL', 'L') if 'CL' in sample_path else sample_path.replace('L',
+                                                                                                                    'CL')
+                elif determine_sample_type(sample) == "融享":
+                    sample_path_TN = sample.replace('DZ', '') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + \
+                                                                                     sample.rsplit('-', 1)[1]
+                    temp_G = ['-' + str(i) + 'G' for i in range(1, 41)]
+                    combined_files = os.listdir(sample_dir)# + os.listdir(vip_monitor)
+                    for capacity in temp_G:
+                        if capacity in sample_path_TN:
+                            other_ele_list = [x for x in temp_G if x != capacity]
+                            for ele in other_ele_list:
+                                temp_sample_path_TN = sample_path_TN.replace(capacity, ele)
+                                if temp_sample_path_TN in combined_files:
+                                    sample_path_TN = temp_sample_path_TN
+                                    return sample_path_TN
+                            temp_sample_path_TN = sample_path_TN.replace(capacity, '-')
+                            if temp_sample_path_TN in combined_files:
+                                sample_path_TN = temp_sample_path_TN
+                                return sample_path_TN
+                else:
+                    sample_path_TN = sample_path
+                return sample_path_TN
+            sample_path_TN = find_sampe_TN()
+
             # sample_TN = sample_path_TN.split("/")[-1]
             [fq_1] = [ ele for ele in os.listdir(f'{sample_dir}/{sample_path}') if re.search('_1.fq',ele)!=None ]
             [fq_2] = [ ele for ele in os.listdir(f'{sample_dir}/{sample_path}') if re.search('_2.fq',ele)!=None ]

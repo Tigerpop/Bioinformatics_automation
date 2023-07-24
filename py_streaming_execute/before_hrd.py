@@ -174,6 +174,7 @@ if __name__ == '__main__':
                   -I {fa_gz_2} \
                   -O {out_extract_2} \
                   -w 8 \
+                  -f 1 -F 1 -t 1 -T 1 -3 -M 25 \
                   -l 30 && \
               conda deactivate "
     command['extract_qc'] = \
@@ -183,6 +184,7 @@ if __name__ == '__main__':
               conda activate no_umitools_py  && \
               bwa mem -t 16 \
               -Y \
+              -k 32 -B 4 -U 9 -v 3 -M \
               {human_genome_index} \
               {out_extract_1} \
               {out_extract_2} \

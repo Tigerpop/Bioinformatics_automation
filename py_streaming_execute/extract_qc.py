@@ -9,6 +9,7 @@ generate_location = sys.argv[3]
 
 QC = qc.tool()
 base_quality,inser_size_peak,duplication_rate = QC.process_fastp_log(sample,log_path,generate_location)     # 质量控制。
+print(inser_size_peak)
 if int(inser_size_peak) < 60:
     with open(f'{log_path}/quality_control/Quality_Control.txt','a+')as f0:                      # 不符合条件，就停止后续流程。
         f0.write('fastp 结果质控不合格！！'+"\n")

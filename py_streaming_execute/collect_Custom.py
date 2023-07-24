@@ -5,6 +5,7 @@ from pandas import DataFrame
 from datetime import date
 from openpyxl import load_workbook
 import openpyxl, functools
+import automatic_Labeling as aL
 from typing import Dict, List, Union
 import calculate_total_length_of_bed as ctlb
 import warnings
@@ -19,6 +20,7 @@ collect_list_str = sys.argv[6]
 collect_list = collect_list_str.split(",")
 sample_monitor = sys.argv[8]
 bed = sys.argv[9]
+# vip_monitor = '/home/chenyushao/py_streaming_generate/vip_monitor'
 
 def generate_summary():
     # 实现多个sheet 写入一个exel。
@@ -44,31 +46,71 @@ def generate_summary():
             with open('/received/main/received.csv', 'rb') as f0: # 确认编码类型。
                 encoding_stype = chardet.detect(f0.read())
             df_receive = pd.read_csv(f'/received/main/received.csv',sep=',',header=1,encoding=encoding_stype['encoding'])
-            if determine_sample_type(sample)=="解码":
-                sample_TN = sample.replace('-T','-N') if '-T' in sample else sample.replace('-N','-T')
-                # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
-            elif determine_sample_type(sample)=="睿明":
-                sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
-            elif determine_sample_type(sample)=="融享":
-                sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
-                
-            if bed_key in ['BCP650','NBC650'] and sample_TN in os.listdir(f'{sample_monitor}'):
-                df_mate = df_receive[df_receive['样本编号*']==sample]
-                df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]
-                df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
-                = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
-                df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
-                df_mate['对照样本类型'] = df_mate_TN['样本类型*'].iloc[0]
-                df_mate['对照样本编号'] = df_mate_TN['样本编号*'].iloc[0]
-                Tool = ctlb.tool(sample,sample_path,generate_location,bed) 
-                df_mate['bp_num(non-repeated)'] = Tool.main()
+
+            # if determine_sample_type(sample)=="解码":
+            #     sample_TN = sample.replace('-T','-N') if '-T' in sample else sample.replace('-N','-T')
+            #     # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+            # elif determine_sample_type(sample)=="睿明":
+            #     sample_TN = sample.replace('CL','L') if 'CL' in sample else sample.replace('L','CL')
+            # elif determine_sample_type(sample)=="融享":
+            #     sample_TN = sample.replace('DZ','') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + sample.rsplit('-', 1)[1]
+            #     sample_TN = sample_TN.replace('1G', '4G') if '1G' in sample_TN else sample_TN.replace('4G', '1G')
+
+            def find_sampe_TN():
+                if determine_sample_type(sample) == "解码":
+                    sample_TN = sample_path.replace('-T', '-N') if '-T' in sample_path else sample_path.replace(
+                        '-N', '-T')
+                    # sample_path_TN = sample_path[:-1]+'N' if sample_path[-1] == 'T' else sample_path[:-1]+'T'
+                elif determine_sample_type(sample) == "睿明":
+                    sample_TN = sample_path.replace('CL', 'L') if 'CL' in sample_path else sample_path.replace('L',
+                                                                                                                    'CL')
+                elif determine_sample_type(sample) == "融享":
+                    sample_TN = sample.replace('DZ', '') if 'DZ' in sample else sample.rsplit('-', 1)[0] + 'DZ-' + \
+                                                                                     sample.rsplit('-', 1)[1]
+                    temp_G = ['-' + str(i) + 'G' for i in range(1, 41)]
+                    combined_files = os.listdir(sample_monitor)  # + os.listdir(vip_monitor)
+                    for capacity in temp_G:
+                        if capacity in sample_TN:
+                            other_ele_list = [x for x in temp_G if x != capacity]
+                            for ele in other_ele_list:
+                                temp_sample_TN = sample_TN.replace(capacity, ele)
+                                if temp_sample_TN in combined_files:
+                                    sample_TN = temp_sample_TN
+                                    return sample_TN
+                            temp_sample_TN = sample_TN.replace(capacity, '-')
+                            if temp_sample_TN in combined_files:
+                                sample_TN = temp_sample_TN
+                                return sample_TN
+                else:
+                    sample_TN = sample_path
+                return sample_TN
+            sample_TN = find_sampe_TN()
+
+            if bed_key in ['BCP650','NBC650','HRD'] and sample_TN in os.listdir(f'{sample_monitor}'):
+                if not df_receive[df_receive['样本编号*'].str.contains(sample)].empty:
+                    df_mate = df_receive[df_receive['样本编号*']==sample]
+                    df_mate_TN = df_receive[df_receive['样本编号*']==sample_TN]
+                    df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
+                    = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
+                    df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
+                    df_mate['对照样本类型'] = df_mate_TN['样本类型*'].iloc[0]
+                    df_mate['对照样本编号'] = df_mate_TN['样本编号*'].iloc[0]
+                    Tool = ctlb.tool(sample,sample_path,generate_location,bed)
+                    df_mate['bp_num(non-repeated)'] = Tool.main()
+                else:
+                    sample_list = [sample]
+                    df_mate = pd.DataFrame({'样本编号*':sample_list})
             else:
-                df_mate = df_receive[df_receive['样本编号*']==sample]
-                df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
-                = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
-                df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
-                Tool = ctlb.tool(sample,sample_path,generate_location,bed)
-                df_mate['bp_num(non-repeated)'] = Tool.main()
+                if not df_receive[df_receive['样本编号*'].str.contains(sample)].empty:
+                    df_mate = df_receive[df_receive['样本编号*']==sample]
+                    df_mate[['id','name','gender','age','cancer','clinname','送检医院','panel','projectname','报告模版','样本类型*','到样日期*']] \
+                    = df_mate[['样本编号*','姓名*','性别','年龄','肿瘤类型*','临床诊断*','送检医院','探针*','检测项目*','报告模板*','样本类型*','到样日期*']]
+                    df_mate = df_mate[['id','name','gender','age','cancer','clinname','送检医院','到样日期*','样本类型*','panel','projectname','报告模版']]
+                    Tool = ctlb.tool(sample,sample_path,generate_location,bed)
+                    df_mate['bp_num(non-repeated)'] = Tool.main()
+                else:
+                    sample_list = [sample]
+                    df_mate = pd.DataFrame({'样本编号*':sample_list})
             # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
             df_mate = df_mate.tail(1)
             DataFrame(df_mate).to_excel(writer,sheet_name='meta',index=False,header=True)
@@ -82,27 +124,41 @@ def generate_summary():
             # # df_mate['id'] = df_mate['id'].apply(lambda x: x[:-2])
             # df_mate = df_mate.tail(1)
             # DataFrame(df_mate).to_excel(writer,sheet_name='meta',index=False,header=True)
-            
+
             # snpindel 
             file = f'{generate_location}/{sample_path}/{sample}.process.hg19_multiprocess.txt'
-            df_snpindel = pd.read_csv(file,sep='\t')
+            df_snpindel = pd.read_csv(file, sep='\t')
             df_snpindel['review'] = None
-            DataFrame(df_snpindel).to_excel(writer,sheet_name='snpindel',index=False,header=True)
+            T = aL.tools(input_df=df_snpindel, bed_key=bed_key)  # 打标签 S1...
+            df_snpindel = T.method_somatic()  # 打标签 S1...
+            DataFrame(df_snpindel).to_excel(writer, sheet_name='snpindel', index=False, header=True)
 
-            # snpindel_germline 
+            # snpindel_germline
             file = f'{generate_location}/{sample_path}/{sample}.germline.hg19_multigermline.txt'
-            df_germline = pd.read_csv(file,sep='\t')
+            df_germline = pd.read_csv(file, sep='\t')
             df_germline['review'] = None
-            DataFrame(df_germline).to_excel(writer,sheet_name='germline',index=False,header=True)
-            
-            
+            DataFrame(df_germline).to_excel(writer, sheet_name='germline', index=False, header=True)
+
             # fusion
             file = f"{generate_location}/{sample_path}/factera_generate/{sample}.bwa_mem.factera.fusions.txt"
-            head = ['Est_Type','Region1','Region2','Break1','Break2','Break_support1','Break_support2','Break_offset','Orientation','Order1','Order2','Break_depth','Proper_pair_support','Unmapped_support','Improper_pair_support','Paired_end_depth','Total_depth','Fusion_seq','<>','Non-templated_seq','-']
-            df_fusion = pd.read_csv(file,sep='\t',header=None,names=head,skiprows=1)
+            file_addresss = f"{generate_location}/{sample_path}/factera_generate"
+            if not os.path.exists(file_addresss):
+                # 文件不存在，创建一个新文件
+                os.mkdir(file_addresss)
+                open(file, 'w').close()
+            if not os.path.exists(file):
+                open(file, 'w').close()
+            head = ['Est_Type', 'Region1', 'Region2', 'Break1', 'Break2', 'Break_support1', 'Break_support2',
+                    'Break_offset', 'Orientation', 'Order1', 'Order2', 'Break_depth', 'Proper_pair_support',
+                    'Unmapped_support', 'Improper_pair_support', 'Paired_end_depth', 'Total_depth', 'Fusion_seq', '<>',
+                    'Non-templated_seq', '-']
+            df_fusion = pd.read_csv(file, sep='\t', header=None, names=head, skiprows=1)
             df_fusion['review'] = None
-            DataFrame(df_fusion).to_excel(writer,sheet_name='fusion',index=False)
-            
+            if not df_fusion.empty:
+                T = aL.tools(input_df=df_fusion, bed_key=bed_key)  # 打标签 S1...
+                df_fusion = T.method_fusion()  # 打标签 S1...
+            DataFrame(df_fusion).to_excel(writer, sheet_name='fusion', index=False)
+
             # cnv
             # file = f'{generate_location}/{sample_path}/decon_generate/DECoNtestCalls_all.txt'
             # if not os.path.exists(file):
@@ -111,22 +167,26 @@ def generate_summary():
             #     DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             # else:
             #     df_cnv = pd.read_csv(file,sep='\t')
-            #     df_cnv['cnv.number'] = df_cnv['Reads.ratio']*2 
+            #     df_cnv['cnv.number'] = df_cnv['Reads.ratio']*2
             #     df_cnv['review'] = None
             #     DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
             file = f'{generate_location}/{sample_path}/panelcn_generate/panelcn_output.txt'
             if not os.path.exists(file):
-                head = ['Sample','Chr','Gene','Exon','Start','End','RC','medRC','RC.norm','medRC.norm','lowQual','CN','CNN','review']
+                head = ['Sample', 'Chr', 'Gene', 'Exon', 'Start', 'End', 'RC', 'medRC', 'RC.norm', 'medRC.norm',
+                        'lowQual', 'CN', 'CNN', 'review']
                 df_cnv = pd.DataFrame(columns=head)
-                DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
+                DataFrame(df_cnv).to_excel(writer, sheet_name='cnv', index=False, header=True)
             else:
-                df_cnv = pd.read_csv(file,sep='\t')
-                df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int)*2/df_cnv['medRC.norm'].astype(int)).round() # .astype(int)
+                df_cnv = pd.read_csv(file, sep='\t')
+                df_cnv['CNN'] = (df_cnv['RC.norm'].astype(int) * 2 / df_cnv['medRC.norm'].astype(
+                    int)).round()  # .astype(int)
                 df_cnv['review'] = None
-                DataFrame(df_cnv).to_excel(writer,sheet_name='cnv',index=False,header=True)
+                T = aL.tools(input_df=df_cnv, bed_key=bed_key)  # 打标签 S1...
+                df_cnv = T.method_cnv()  # 打标签 S1...
+                DataFrame(df_cnv).to_excel(writer, sheet_name='cnv', index=False, header=True)
             
             # msi 和 chemo
-            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B','G2T','G2B','BRCAT','BRCAG']: 
+            if bed_key in ['Q120T','SD160T','NBC650','BCP650','Q120B','SD160B','G2T','G2B','BRCAT','BRCAG','SLC80T','SLC80B']:
                 file1 = f"{generate_location}/{sample_path}/msi_generate/msi_result"
                 file2 = f"{generate_location}/{sample_path}/msi_generate/msi_result_unstable"
                 file = f"{generate_location}/{sample_path}/msi_generate/to_summery_smi"

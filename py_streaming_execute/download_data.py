@@ -135,6 +135,9 @@ def read_received_vip_table():
             cmd = f'cp -r {temp_download}/{RawData}/{sample}/ /fastq_data/{sample}/'
             p = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
             p.communicate()
+            # 写入vip记录文件夹 不包括文件
+            src, dst = f'{temp_download}/{RawData}/{sample}/', f'/home/chenyushao/py_streaming_generate/vip_monitor/{sample}/'
+            shutil.copytree(src, dst, ignore=shutil.ignore_patterns('*.fq.gz', '*.fq'))
             # 删除 临时下载文件夹的文件。
             shutil.rmtree(f'{temp_download}/{RawData}/{sample}/')
     # received_vip 全部遍历完毕，没有出错，就把received_vip扔进历史记录中，提示操作人员可以上传新的received_vip了。

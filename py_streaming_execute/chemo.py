@@ -191,7 +191,10 @@ def process_output_base_num():
             alt_list = address_df[ address_df['rs']==rs]['variant2'].iloc[0].split(',')
             alt = alt_list[0]
             for ele in alt_list:
-                if new_call_mutation_df[ele].iloc[i] >= new_call_mutation_df[alt].iloc[i]:
+                print('检查点： ele ,alt 分别是',ele,alt)
+                # print(new_call_mutation_df)
+                # {ele, alt} <= {'A', 'T', 'C', 'G'} and
+                if {ele, alt} <= {'A', 'T', 'C', 'G'} and new_call_mutation_df[ele].iloc[i] >= new_call_mutation_df[alt].iloc[i]:
                     alt = ele
             new_call_mutation_df['Genetype'].iloc[i] = address_df[ address_df['rs']==rs]['variant1'].iloc[0]+alt
     new_call_mutation_df = new_call_mutation_df[['rs','REF','POS','COV','A','C','G','T','Genetype']]
@@ -280,7 +283,8 @@ def Make_chemo_csv_Prepare_for_summery():
     raw_df.to_csv(f'{generate_location}/{sample_path}/chemo_generate/process_output_base_num.txt',sep='\t',index=None,header=['药物名称','检测基因','检测位点','基因型','类别','证据等级','用药提示'])
     raw_df = pd.read_csv(f'{generate_location}/{sample_path}/chemo_generate/process_output_base_num.txt',sep='\t')
     
-    # 按照指定顺序排序； 
+    # 按照指定顺序排序；
+    # 当 ordered=True 时，未知的值会被视为最大值，因此会在排序结果的末尾。
     raw_df['sort'] = raw_df['检测位点']+raw_df['药物名称']
     df1['sort'] = df1['Variant/Haplotypes']+df1['Drug(s)']
     order_list = df1['sort'].tolist()
