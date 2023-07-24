@@ -1,6 +1,6 @@
 # coding=utf8
 import pandas as pd
-import functools, chardet, sys
+import functools, chardet, sys,os
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -46,6 +46,11 @@ def build_pollution_warehouse(input_file: str):
     bed_key, sample = meta['panel'].iloc[0], meta['id'].iloc[0]
 
     pollution_warehouse = f'/refhub/hg19/toolbox_and_RefFile/{bed_key}_pollution_storehouse.txt'
+    if not os.path.exists(pollution_warehouse):
+        # 如果文件不存在，则创建文件并写入首行
+        with open(pollution_warehouse, 'w') as file:
+            file.write("chr_pos_ref_alt\tchr\tpos\tref\talt\targ_VAF\tnum\n")
+
     somatic, germline = df['somatic'], df['germline']
     df_snpindel = pd.concat([somatic, germline])
     # print(df_snpindel)
